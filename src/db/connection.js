@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const url = process.env.DB_URL;
 
 const connectToMongo = () => {
   mongoose.connect(url, { useNewUrlParser: true });
 
-  db = mongoose.connection;
+  const db = mongoose.connection;
 
-  db.once("open", () => {
-    console.log("Database connected: ", url);
+  db.once('open', () => {
+    console.log('Database connected: ', url);
   });
 
-  db.on("error", (err) => {
-    console.error("Database connection error: ", err);
+  db.on('error', (err) => {
+    console.error('Database connection error: ', err);
   });
-}
+};
 
 module.exports = connectToMongo;

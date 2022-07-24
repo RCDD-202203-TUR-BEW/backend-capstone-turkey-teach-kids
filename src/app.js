@@ -1,9 +1,9 @@
 const express = require('express');
 require('express-async-errors');
-require("dotenv").config();
+const connectToMongo = require('./db/connection');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/error');
-const connectToMongo = require("./db/connection");
+
 const app = express();
 
 const port = process.env.PORT || 3000;
