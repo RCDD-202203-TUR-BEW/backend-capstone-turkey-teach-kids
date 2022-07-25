@@ -3,6 +3,7 @@ require('express-async-errors');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/error');
 const logger = require('./utils/logger');
+require('dotenv').config();
 
 const app = express();
 
