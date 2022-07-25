@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const volunteer = new mongoose.Schema(
+const volunteerSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -12,7 +12,6 @@ const volunteer = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -48,11 +47,8 @@ const volunteer = new mongoose.Schema(
     },
   },
   {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+    timestamps: true,
   }
 );
 
-module.exports = mongoose.model('Volunteer', volunteer);
+module.exports = mongoose.model('Volunteer', volunteerSchema);
