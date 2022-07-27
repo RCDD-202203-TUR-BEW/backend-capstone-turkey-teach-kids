@@ -15,13 +15,13 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
+    launchDate: {
       type: Date,
       required: true,
     },
     ngo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'NGO',
+      ref: 'Ngo',
     },
     pendingApplicants: [
       {
