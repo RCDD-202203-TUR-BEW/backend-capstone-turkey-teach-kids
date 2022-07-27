@@ -4,15 +4,17 @@ require('dotenv').config();
 const connectToMongo = require('./db/connection');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/error');
+const logger = require('./utils/logger');
+require('dotenv').config();
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.NODE_LOCAL_PORT || 3000;
 
 app.use('/api', routes);
 
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log('listening on port 3000');
+  logger.info(`listening on port ${port}`);
 });
