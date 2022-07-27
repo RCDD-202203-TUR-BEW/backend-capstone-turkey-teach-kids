@@ -1,0 +1,54 @@
+const mongoose = require('mongoose');
+
+const eventSchema = new mongoose.Schema(
+  {
+    avatar: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      min: [120, 'Description should be longer'],
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+    ngo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'NGO',
+    },
+    pendingApplicants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Volunteer',
+      },
+    ],
+    approvedApplicants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Volunteer',
+      },
+    ],
+    declinedApplicants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Volunteer',
+      },
+    ],
+    topic: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model('Event', eventSchema);
