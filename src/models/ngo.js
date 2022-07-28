@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const ngoSchema = new mongoose.Schema({
-  ngoName: {
+  name: {
     type: String,
     required: true,
   },
-  webSite: {
+  website: {
     type: String,
     required: true,
   },
@@ -23,10 +23,6 @@ const ngoSchema = new mongoose.Schema({
       ref: 'Event',
     },
   ],
-  password: {
-    type: String,
-    required: true,
-  },
   avatar: {
     type: String,
   },
@@ -46,4 +42,4 @@ const ngoSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('ngo', ngoSchema);
+module.exports = mongoose.model('Ngo', ngoSchema);
