@@ -1,8 +1,6 @@
 const request = require('supertest');
 const app = require('../../app');
 
-jest.setTimeout(4500);
-
 const events = [
   {
     _id: 'ObjectId(1)',
