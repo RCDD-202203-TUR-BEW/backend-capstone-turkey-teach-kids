@@ -1,4 +1,5 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
 const app = require('../../app');
 
 jest.setTimeout(10000);
@@ -33,6 +34,7 @@ beforeAll((done) => {
 });
 
 afterAll((done) => {
+  mongoose.connection.close();
   done();
 });
 
