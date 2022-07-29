@@ -1,6 +1,8 @@
 const request = require('supertest');
 const app = require('../../app');
 
+jest.setTimeout(10000);
+
 const events = [
   {
     _id: 'ObjectId(1)',
@@ -25,6 +27,14 @@ const events = [
     topic: 'English',
   },
 ];
+
+beforeAll((done) => {
+  done();
+});
+
+afterAll((done) => {
+  done();
+});
 
 describe("Testing events for routes doesn't require auth controls", () => {
   it('GET /api/events should retrieve all the post items', (done) => {
