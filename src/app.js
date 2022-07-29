@@ -19,3 +19,5 @@ app.listen(port, () => {
   logger.info(`listening on port ${port}`);
   connectToMongo();
 });
+
+module.exports = app;
