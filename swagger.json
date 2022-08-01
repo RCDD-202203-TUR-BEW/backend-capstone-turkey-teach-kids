@@ -19,5 +19,72 @@
   ],
   "schemes": ["http"],
   "consumes": ["application/json"],
-  "produces": ["application/json"]
+  "produces": ["application/json"],
+  "paths": {
+    "/events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "List all events",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "pendingApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "approvedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "declinedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "$ref": "#/definitions/Event"
+    }
+  }
 }
