@@ -1,16 +1,19 @@
 const express = require('express');
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
+require('dotenv').config();
+
 const routes = require('./routes');
 const errorHandler = require('./middlewares/error');
+const connectToMongo = require('./db/connection');
 const logger = require('./utils/logger');
 const swaggerDocument = require('../swagger.json');
 
-require('dotenv').config();
+connectToMongo();
 
 const app = express();
 
-const port = process.env.NODE_LOCAL_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use('/api', routes);
 
