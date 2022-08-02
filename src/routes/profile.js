@@ -3,6 +3,6 @@ const ErrorResponse = require('../utils/errorResponse');
 
 const profileController = require('../controllers/profile');
 
-router.get('/profile', profileController.getProfile);
+router.get('/', profileController.getProfile);
 
 module.exports = router;
