@@ -116,7 +116,7 @@
       "delete": {
         "tags": ["Events"],
         "summary": "Delete single event item based on the id",
-        "operationId": "delete event by id",
+        "operationId": "deleteEvent",
         "parameters": [
           {
             "name": "id",
