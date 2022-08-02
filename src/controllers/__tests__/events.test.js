@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../../app');
 
-jest.setTimeout(10000);
+jest.setTimeout(5000);
 
 const events = [
   {

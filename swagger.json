@@ -25,11 +25,166 @@
       "get": {
         "tags": ["Events"],
         "summary": "List all events",
+        "operationId": "getEvents",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Events"],
+        "summary": "Post a new event item",
+        "operationId": "addEvent",
+        "parameters": [
+          {
+            "name": "event",
+            "in": "body",
+            "description": "Event to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewEvent"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/event/{id}": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve single event item based on the id",
+        "operationId": "getEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to fetch",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Events"],
+        "summary": "Delete single event item based on the id",
+        "operationId": "delete event by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to delete",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "403": {
+            "description": "Unauthorized process",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/events/{id}/apply": {
+      "post": {
+        "tags": ["Events"],
+        "summary": "Volunteer applies for an event",
+        "operationId": "applyToEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to apply",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -38,6 +193,7 @@
   },
   "definitions": {
     "Event": {
+      "type": "object",
       "required": ["avatar", "description", "location", "launchDate", "topic"],
       "properties": {
         "_id": {
@@ -85,6 +241,47 @@
     "Events": {
       "type": "object",
       "$ref": "#/definitions/Event"
+    },
+    "NewEvent": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }
