@@ -25,6 +25,7 @@ const validatorSchema = [
     })
     .withMessage('passwords do not match'),
   body('username')
+    .optional()
     .isLength({ min: 4 })
     .withMessage('Username must be at least 4 characters long')
     .not()
