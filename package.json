@@ -21,6 +21,7 @@
     "winston": "^3.8.1",
     "yarn-upgrade-all": "^0.6.1",
     "mongoose": "^6.4.6",
+
     "swagger-ui-express": "^4.5.0",
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.6.0",
