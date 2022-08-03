@@ -6,15 +6,22 @@ const app = require('../../app');
 const user1 = {
   email: 'user1@hotmail.com',
   username: 'user1',
-  password: '123456',
-  password2: '123456',
+  password: 'Aa12345678',
+  password2: 'Aa12345678',
 };
 
 const user2 = {
   email: 'user2@hotmail.com',
   username: 'user2',
-  password: '123456',
-  password2: '123456',
+  password: 'Aa12345678',
+  password2: 'Aa12345678',
+};
+
+const wrongUser = {
+  email: 'wrongmail@hotmail.com',
+  username: 'wronguser',
+  password: 'Aa12345678',
+  password2: 'Aa12345678',
 };
 
 describe('POST /auth', () => {
@@ -64,9 +71,7 @@ describe('POST /auth', () => {
   });
 
   it('should return an error if the email is not found', async () => {
-    const response = await request(app)
-      .post('/api/auth/login')
-      .send({ email: 'wrongmail@hotmail.com', password: '123456' });
+    const response = await request(app).post('/api/auth/login').send(wrongUser);
     expect(response.status).toBe(404);
     expect(response.body.success).toBe(false);
     expect(response.body.error).toBe('User not found');
