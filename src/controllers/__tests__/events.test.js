@@ -43,18 +43,9 @@ describe("Testing events for routes doesn't require auth controls", () => {
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) {
-          expect(res.statusCode).toBe(422);
           done();
           return err;
         }
-<<<<<<< HEAD
-        if (!res.body) {
-          expect(res.statusCode).toBe(404);
-          done();
-          return res.json('No events found');
-        }
-=======
->>>>>>> d87c179 (controller and swagger updated)
         expect(res.body).toEqual([]);
         expect(Array.isArray(res.body)).toBe(true);
         done();
