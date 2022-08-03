@@ -3,13 +3,12 @@ const { SECRET_KEY } = require('../middlewares/validation');
 require('../middlewares/passport');
 
 exports.authenticationCookie = async (req, res) => {
-  const { name, email, providerId, profilePicture, _id } = req.user;
+  const { name, email, providerId, _id } = req.user;
   const userInToken = {
     id: _id,
     name,
     email,
     providerId: `google-${providerId}`,
-    avatar: profilePicture,
   };
 
   const token = jwt.sign(userInToken, SECRET_KEY, {
