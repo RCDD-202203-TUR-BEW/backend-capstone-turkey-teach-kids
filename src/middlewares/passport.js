@@ -39,5 +39,3 @@ passport.deserializeUser((id, cb) => {
     cb(null, user);
   });
 });
-// Implement google authentication
-// Fixes #10
