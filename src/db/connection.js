@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../utils/logger');
 
 const url = process.env.DB_URL;
 
@@ -8,13 +9,16 @@ const connectToMongo = () => {
   const db = mongoose.connection;
 
   db.once('open', () => {
-    // eslint-disable-next-line no-console
     console.log('Database connected: ', url);
   });
 
   db.on('error', (err) => {
-    // eslint-disable-next-line no-console
     console.error('Database connection error: ', err);
+    logger.info(`Database connection established`);
+  });
+
+  db.on('error', (err) => {
+    logger.error(`Database connection error`, err);
   });
 };
 
