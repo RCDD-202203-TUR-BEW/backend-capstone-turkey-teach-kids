@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 const validateSignup = [
   body('email')
@@ -15,15 +15,6 @@ const validateSignup = [
     .withMessage('Password must contain a number, uppercase and lowercase')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
-  body('password2')
-    .optional()
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Passwords do not match');
-      }
-      return true;
-    })
-    .withMessage('passwords do not match'),
   body('username')
     .optional()
     .isLength({ min: 4 })
@@ -33,6 +24,11 @@ const validateSignup = [
     .withMessage('Username should not be empty')
     .custom((value) => !/\s/.test(value))
     .withMessage('Username should not include spaces'),
+  check('type')
+    .isIn(['volunteer', 'ngo'])
+    .withMessage('Invalid user type')
+    .exists()
+    .withMessage('User type is required'),
 ];
 
 const validateSignin = [
