@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const validatorSchema = [
+const validateSignup = [
   body('email')
     .isEmail()
     .withMessage('not a valid email address')
@@ -34,4 +34,15 @@ const validatorSchema = [
     .custom((value) => !/\s/.test(value))
     .withMessage('Username should not include spaces'),
 ];
-module.exports = validatorSchema;
+
+const validateSignin = [
+  body('email')
+    .isEmail()
+    .withMessage('not a valid email address')
+    .not()
+    .isEmpty()
+    .withMessage('Email should not be empty'),
+  body('password').not().isEmpty().withMessage('Password should not be empty'),
+];
+
+module.exports = { validateSignup, validateSignin };

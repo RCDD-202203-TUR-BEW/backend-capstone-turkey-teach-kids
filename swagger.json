@@ -56,13 +56,13 @@
                 "password": {
                   "type": "string",
                   "description": "password of user",
-                  "example": "123456",
+                  "example": "Aa123456",
                   "format": "password"
                 },
                 "confirmPassword": {
                   "type": "string",
                   "description": "confirm password of user",
-                  "example": "123456",
+                  "example": "Aa123456",
                   "format": "password"
                 },
                 "username": {
@@ -179,7 +179,7 @@
                 "password": {
                   "type": "string",
                   "description": "password of user",
-                  "example": "123456",
+                  "example": "Aa123456",
                   "format": "password"
                 }
               }
