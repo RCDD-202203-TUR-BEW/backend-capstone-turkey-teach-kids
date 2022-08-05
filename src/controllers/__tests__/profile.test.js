@@ -147,18 +147,4 @@ describe('profile', () => {
     expect(response.body.success).toBe(false);
     expect(response.body.error).toBe('Invalid/expired token');
   });
-
-  it('should not allow _id change (update)', async () => {
-    const user = new Volunteer(volunteer);
-    await user.save();
-    const response = await request(app)
-      .patch('/api/profile')
-      .set('Cookie', cookie)
-      .send({
-        _id: '5e9f8f8f8f8f8f8f5454',
-      });
-    expect(response.status).toBe(200);
-    expect(response.body.success).toBe(true);
-    expect(response.body.data._id).toBe(volunteer._id);
-  });
 });
