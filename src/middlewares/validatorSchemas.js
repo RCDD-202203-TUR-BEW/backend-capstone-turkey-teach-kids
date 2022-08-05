@@ -41,4 +41,17 @@ const validateSignin = [
   body('password').not().isEmpty().withMessage('Password should not be empty'),
 ];
 
-module.exports = { validateSignup, validateSignin };
+const validateAddEvent = [
+  body('avatar').not().isEmpty().withMessage('Avatar should not be empty'),
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .isLength({ min: 120 })
+    .withMessage('Description must be at least 120 characters long'),
+  body('location').not().isEmpty().withMessage('Location should not be empty'),
+  body('launchDate').not().isEmpty().withMessage('Date should not be empty'),
+  body('topic').not().isEmpty().withMessage('Topic should not be empty'),
+];
+
+module.exports = { validateSignup, validateSignin, validateAddEvent };

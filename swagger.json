@@ -266,6 +266,131 @@
           }
         }
       }
+    },
+    "/events": {
+      "post": {
+        "tags": ["Events"],
+        "summary": "Post a new event item",
+        "operationId": "addEvent",
+        "parameters": [
+          {
+            "name": "event",
+            "in": "body",
+            "description": "Event to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewEvent"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "pendingApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "approvedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "declinedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "$ref": "#/definitions/Event"
+    },
+    "NewEvent": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }

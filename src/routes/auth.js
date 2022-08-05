@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const ErrorResponse = require('../utils/errorResponse');
 const { validate } = require('../middlewares/bodyValidator');
 const authController = require('../controllers/auth');
 const {
