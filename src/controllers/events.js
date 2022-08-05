@@ -21,7 +21,7 @@ exports.addEvent = async (req, res, next) => {
   newEvent.description = req.body.description;
   newEvent.location = req.body.location;
   newEvent.launchDate = req.body.launchDate;
-  newEvent.ngo = req.user.id;
+  newEvent.ngo = req.user._id;
   newEvent.topic = req.body.topic;
   if (req.body.pendingApplicantsId)
     newEvent.pendingApplicants.push(req.body.pendingApplicantsId);
