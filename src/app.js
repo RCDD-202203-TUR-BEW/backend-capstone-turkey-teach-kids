@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require('express');
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
