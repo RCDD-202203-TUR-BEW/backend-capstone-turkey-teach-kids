@@ -22,7 +22,6 @@ exports.signup = async (req, res, next) => {
       username,
     });
     await user.save();
-    res.setHeader('user', JSON.stringify(user));
     return res.status(201).json({
       success: true,
       data: user,
@@ -40,7 +39,6 @@ exports.signup = async (req, res, next) => {
       username,
     });
     await user.save();
-    res.setHeader('user', JSON.stringify(user));
     return res.status(201).json({
       success: true,
       data: user,

@@ -15,7 +15,7 @@ const isAuth = (req, res, next) => {
       return next(new ErrorResponse('Invalid/expired token', 401));
     }
   }
-  return next(new ErrorResponse('No token provided', 401));
+  return next();
 };
 
 module.exports = { isAuth };

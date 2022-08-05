@@ -92,13 +92,12 @@ describe('Testing events for routes require auth controls', () => {
       .set('Content-Type', 'application/json')
       .send(events[0])
       .expect('Content-Type', /json/)
-      .expect(req.user.id)
-      .toBe(ngos.id)
       .expect(201, (err, res) => {
         if (err) {
           done();
           return err;
         }
+        expect(req.user.id).toBe(ngos.id);
         expect(res.body.data.avatar).toEqual(events[0].avatar);
         expect(res.body.data.description).toEqual(events[0].description);
         expect(res.body.data.location).toEqual(events[0].location);
@@ -114,10 +113,18 @@ describe('Testing events for routes require auth controls', () => {
     const req = {};
     request(app)
       .post('/api/events/')
-      .expect(403)
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect({
         message: 'You need to sign in to add an event',
+      })
+      .expect(403, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(req.user.id).not.toBe(ngos.id);
+        done();
+        return events[0];
       });
     done();
   });
@@ -132,8 +139,6 @@ describe('Testing events for routes require auth controls', () => {
       .post('/api/events/')
       .expect(403)
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(req.user.id)
-      .not.toBe(ngos.id)
       .expect({
         message: 'You are not authorized to delete this event',
       });

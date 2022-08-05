@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Event = require('../models/event');
 const Ngo = require('../models/ngo');
 const ErrorResponse = require('../utils/errorResponse');
@@ -8,7 +9,7 @@ exports.addEvent = async (req, res, next) => {
     return next(new ErrorResponse('You need to sign in to add an event', 403));
   }
   //  Check if the logged in user in an ngo
-  const ngo = await Ngo.findById(req.user.id);
+  const ngo = await Ngo.findById(req.user._id);
   if (!ngo) {
     return next(
       new ErrorResponse('You are not authorized to add an event', 403)
@@ -30,7 +31,7 @@ exports.addEvent = async (req, res, next) => {
     newEvent.declinedApplicants.push(req.body.declinedApplicantsId);
   await newEvent.save();
   //  Add event to the ngo
-  //  ngo.publishedEvents.push(newEvent._id);
-  ngo.publishedEvents.push(newEvent.id);
+  ngo.publishedEvents.push(newEvent._id);
+  await ngo.save();
   return res.status(201).json({ success: true, data: newEvent });
 };
