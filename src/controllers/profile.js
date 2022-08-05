@@ -8,12 +8,12 @@ exports.getProfile = async (req, res, next) => {
       (await Volunteer.findOne(
         // eslint-disable-next-line no-underscore-dangle
         { _id: req.user._id },
-        { password: 0, createdAt: 0, updatedAt: 0, _id: 0 }
+        { password: 0, createdAt: 0, updatedAt: 0, _id: 0, __v: 0 }
       )) ||
       (await Ngo.findOne(
         // eslint-disable-next-line no-underscore-dangle
         { _id: req.user._id },
-        { password: 0, createdAt: 0, updatedAt: 0, _id: 0 }
+        { password: 0, createdAt: 0, updatedAt: 0, _id: 0, __v: 0 }
       ));
     return res.status(200).json({
       success: true,

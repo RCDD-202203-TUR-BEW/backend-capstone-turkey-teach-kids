@@ -127,7 +127,7 @@ describe('profile', () => {
     expect(response.body.data).toHaveProperty('email');
   });
 
-  it('should not be able to update a volunteer profile with a wrong token', async () => {
+  it('should not be able to update a volunteer profile with invalid token', async () => {
     const user = new Volunteer(volunteer);
     await user.save();
     const response = await request(app)
@@ -139,7 +139,7 @@ describe('profile', () => {
     expect(response.body.error).toBe('Invalid/expired token');
   });
 
-  it('should not be able to update a ngo profile with a wrong token', async () => {
+  it('should not be able to update a ngo profile with invalid token', async () => {
     const user = new Ngo(ngo);
     await user.save();
     const response = await request(app)

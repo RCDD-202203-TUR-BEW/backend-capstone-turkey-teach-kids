@@ -23,6 +23,7 @@ app.use('/api', routes);
 app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     logger.info(`listening on port ${port}`);
