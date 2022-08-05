@@ -1,0 +1,168 @@
+const request = require('supertest');
+const jwt = require('jsonwebtoken');
+const Volunteer = require('../../models/volunteer');
+const Ngo = require('../../models/ngo');
+const app = require('../../app');
+
+const volunteer = {
+  _id: '5e9f8f8f8f8f8f8f8f8f8f8f',
+  email: 'volunteer@hotmail.com',
+  username: 'anyuser',
+  password: 'Aa12345678',
+  areaOfExp: 'anyarea',
+  cv: 'anycv',
+  description: 'anydescription',
+  firstName: 'anyfirstname',
+  lastName: 'anylastname',
+  location: 'anylocation',
+  phone: '5444444444',
+};
+
+const updatedVolunteer = {
+  email: 'newmail@hotmail.com',
+  username: 'newusername',
+  firstName: 'newfirstname',
+  lastName: 'newlastname',
+  phone: '5555555555',
+  location: 'newlocation',
+  description: 'newdescription',
+  cv: 'newcv',
+  areaOfExp: 'newarea',
+};
+
+const ngo = {
+  _id: '5e9f8f8f8f8f8f8f8f8f8f88',
+  name: 'anyname',
+  email: 'ngo@hotmail.com',
+  username: 'ngouser',
+  password: 'Aa12345678',
+  phone: '5543672',
+  avatar: 'anyavatar',
+  website: 'google.com',
+};
+
+const updatedNgo = {
+  name: 'newname',
+  email: 'newmail@hotmail.com',
+  username: 'newusername',
+  phone: '5555555555',
+  website: 'newwebsite',
+  avatar: 'newavatar',
+};
+
+const volunteerToken = jwt.sign(
+  // eslint-disable-next-line no-underscore-dangle
+  { _id: volunteer._id },
+  process.env.JWT_SECRET,
+  {
+    expiresIn: '1h',
+  }
+);
+const cookie = `token=${volunteerToken}`;
+
+// eslint-disable-next-line no-underscore-dangle
+const ngoToken = jwt.sign({ _id: ngo._id }, process.env.JWT_SECRET, {
+  expiresIn: '1h',
+});
+const ngoCookie = `token=${ngoToken}`;
+
+// eslint-disable-next-line no-underscore-dangle
+const wrongToken = jwt.sign({ email: ngo.email }, 'SECR', {
+  expiresIn: '1h',
+});
+const wrongCookie = `token=${wrongToken}`;
+
+describe('profile', () => {
+  beforeEach(async () => {
+    await Volunteer.deleteMany();
+    await Ngo.deleteMany();
+  });
+  afterAll(async () => {
+    await Volunteer.deleteMany();
+    await Ngo.deleteMany();
+  });
+  it('should fetch a volunteer profile', async () => {
+    const user = new Volunteer(volunteer);
+    await user.save();
+    const response = await request(app)
+      .get('/api/profile')
+      .set('Cookie', cookie);
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('email');
+  });
+
+  it('should fetch a ngo profile', async () => {
+    const user = new Ngo(ngo);
+    await user.save();
+    const response = await request(app)
+      .get('/api/profile')
+      .set('Cookie', ngoCookie);
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('email');
+  });
+
+  it('should update a volunteer profile accordingly', async () => {
+    const user = new Volunteer(volunteer);
+    await user.save();
+    const response = await request(app)
+      .patch('/api/profile')
+      .set('Cookie', cookie)
+      .send(updatedVolunteer);
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('email');
+  });
+
+  it('should update a ngo profile accordingly', async () => {
+    const user = new Ngo(ngo);
+    await user.save();
+    const response = await request(app)
+      .patch('/api/profile')
+      .set('Cookie', ngoCookie)
+      .send(updatedNgo);
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('email');
+  });
+
+  it('should not be able to update a volunteer profile with a wrong token', async () => {
+    const user = new Volunteer(volunteer);
+    await user.save();
+    const response = await request(app)
+      .patch('/api/profile')
+      .set('Cookie', wrongCookie)
+      .send(updatedVolunteer);
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBe(false);
+    expect(response.body.error).toBe('Invalid/expired token');
+  });
+
+  it('should not be able to update a ngo profile with a wrong token', async () => {
+    const user = new Ngo(ngo);
+    await user.save();
+    const response = await request(app)
+      .patch('/api/profile')
+      .set('Cookie', wrongCookie)
+      .send(updatedNgo);
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBe(false);
+    expect(response.body.error).toBe('Invalid/expired token');
+  });
+
+  it('should not allow _id change (update)', async () => {
+    const user = new Volunteer(volunteer);
+    await user.save();
+    const response = await request(app)
+      .patch('/api/profile')
+      .set('Cookie', cookie)
+      .send({
+        _id: '5e9f8f8f8f8f8f8f5454',
+      });
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    // eslint-disable-next-line no-underscore-dangle
+    expect(response.body.data._id).toBe(volunteer._id);
+  });
+});

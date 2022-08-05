@@ -34,7 +34,7 @@ describe('POST /auth', () => {
     const response = await request(app)
       .post('/api/auth/signup/volunteer')
       .send(user1);
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
     expect(response.body.data).toHaveProperty('email');
     expect(response.body.data).toHaveProperty('username');
@@ -45,7 +45,7 @@ describe('POST /auth', () => {
     const response = await request(app)
       .post('/api/auth/signup/ngo')
       .send(user2);
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
     expect(response.body.data).toHaveProperty('email');
     expect(response.body.data).toHaveProperty('password');
@@ -58,7 +58,7 @@ describe('POST /auth', () => {
       .send(user1);
     expect(response.status).toBe(400);
     expect(response.body.success).toBe(false);
-    expect(response.body.error).toBe('User already exist');
+    expect(response.body.error).toBe('User already exists');
   });
 
   it('should login a user successfully', async () => {
