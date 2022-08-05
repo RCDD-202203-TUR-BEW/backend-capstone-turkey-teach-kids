@@ -10,6 +10,7 @@ const volunteerSchema = new mongoose.Schema(
     },
     username: {
       type: String,
+      unique: true,
     },
     password: {
       type: String,
@@ -17,6 +18,7 @@ const volunteerSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     provider: {
       type: String,
