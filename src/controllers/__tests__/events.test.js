@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const app = require('../../app');
 
@@ -59,8 +60,8 @@ const ngos = [
     name: 'abc',
     website: 'abc.com',
     email: 'info@abc.com',
-    phone: '055646565564'
-  }
+    phone: '055646565564',
+  },
 ];
 
 const volunteers = [
@@ -68,8 +69,8 @@ const volunteers = [
     _id: '1',
     firstName: 'Dilara',
     lastName: 'Fırtına',
-    email: 'dilara_firtina@hotmail.com'
-  }
+    email: 'dilara_firtina@hotmail.com',
+  },
 ];
 
 beforeAll((done) => {
@@ -80,33 +81,11 @@ afterAll((done) => {
   done();
 });
 
-
-
 describe('Testing events for routes require auth controls', () => {
-  it('DELETE /api/events/:id should refuse to delete event without authentication', (done) => {
-    const req = {};
-    request(app)
-      .post('/api/events/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect({
-        message: 'You need to sign in to delete an event',
-      })
-      .expect(403, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-        expect(req.user).toBeUndefined();
-        done();
-        return events[0];
-      });
-    done();
-  });
-
   it('DELETE /api/events/:id should delete the related event', (done) => {
     request(app)
       .delete('/api/events/1')
-      .set('Cookie', `myApp-token=12345667, user=${user}`)
+      .set('Cookie', `myApp-token=12345667`)
       .expect(204, (err, res) => {
         if (err) {
           done();
@@ -143,5 +122,24 @@ describe('Testing events for routes require auth controls', () => {
       });
     done();
   });
-});
 
+  it('DELETE /api/events/:id should refuse to delete event without authentication', (done) => {
+    const req = {};
+    request(app)
+      .post('/api/events/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect({
+        message: 'You need to sign in to delete an event',
+      })
+      .expect(403, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(req.user).toBeUndefined();
+        done();
+        return events[0];
+      });
+    done();
+  });
+});

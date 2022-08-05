@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "swagger": "2.0",
   "info": {
@@ -267,7 +266,141 @@
           }
         }
       }
+    },
+    "/event/{id}": {
+      "delete": {
+        "tags": ["Events"],
+        "summary": "Delete single event item based on the id",
+        "operationId": "delete event by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to delete",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "403": {
+            "description": "Unauthorized process",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "pendingApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "approvedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "declinedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "$ref": "#/definitions/Event"
+    },
+    "NewEvent": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }
->>>>>>> main
