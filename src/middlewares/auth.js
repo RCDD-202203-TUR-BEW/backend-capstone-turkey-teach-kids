@@ -15,7 +15,10 @@ const isAuth = (req, res, next) => {
       return next(new ErrorResponse('Invalid/expired token', 401));
     }
   }
+<<<<<<< HEAD
   return next();
+=======
+>>>>>>> main
 };
 
 module.exports = { isAuth };
