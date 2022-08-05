@@ -400,6 +400,108 @@
           }
         }
       }
+    },
+    "/api/profile": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update profile of user",
+        "description": "Update profile of user",
+        "operationId": "updateProfile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email of user",
+                  "example": "anymail@hotmail.com",
+                  "format": "email"
+                },
+                "username": {
+                  "type": "string",
+                  "description": "username of user",
+                  "example": "anyusername",
+                  "format": "username"
+                },
+                "firstName": {
+                  "type": "string",
+                  "description": "first name of user",
+                  "example": "anyfirstName",
+                  "format": "firstName"
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "last name of user",
+                  "example": "anylastName",
+                  "format": "lastName"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "location of user",
+                  "example": "anylocation",
+                  "format": "location"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "phone of user",
+                  "example": "05446544533",
+                  "format": "phone"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "description of user",
+                  "example": "anydescription",
+                  "format": "description"
+                },
+                "cv": {
+                  "type": "string",
+                  "description": "cv of user",
+                  "example": "cv.pdf",
+                  "format": "cv"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "updated profile successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
