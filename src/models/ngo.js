@@ -6,6 +6,7 @@ const ngoSchema = new mongoose.Schema({
   },
   username: {
     type: String,
+    unique: true,
   },
   website: {
     type: String,
@@ -13,6 +14,7 @@ const ngoSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
