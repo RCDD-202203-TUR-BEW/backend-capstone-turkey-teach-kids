@@ -3,15 +3,18 @@ const app = require('../../app');
 
 jest.setTimeout(10000);
 
-const user = {
-  sub: '12345678',
-  name: 'John Doe',
-  given_name: 'John',
-  family_name: 'Doe',
-  picture: 'https://lh3.googleusercontent.com/a-/AOh1',
+const user1 = {
+  _id :'1',
+  name: 'JohnDoe',
   email: 'john.doe@gmail.com',
-  email_verified: true,
-  locale: 'en-GB',
+  type: 'ngo',
+};
+
+const user2 = {
+  _id :'2',
+  name: 'JaneDoe',
+  email: 'jane.doe@gmail.com',
+  type: 'volunteer',
 };
 
 const events = [
@@ -50,6 +53,25 @@ const events = [
   },
 ];
 
+const ngos = [
+  {
+    _id: '1',
+    name: 'abc',
+    website: 'abc.com',
+    email: 'info@abc.com',
+    phone: '055646565564'
+  }
+];
+
+const volunteers = [
+  {
+    _id: '1',
+    firstName: 'Dilara',
+    lastName: 'Fırtına',
+    email: 'dilara_firtina@hotmail.com'       
+  }
+];
+
 beforeAll((done) => {
   done();
 });
@@ -58,7 +80,7 @@ afterAll((done) => {
   done();
 });
 
-describe("Testing events for routes doesn't require auth controls", () => {
+describe("Testing events for routes doesn't require auth controls", () => {  
   it('GET /api/events/:id should retrieve a single event', (done) => {
     request(app)
       .get('/api/events/1/')
@@ -80,3 +102,4 @@ describe("Testing events for routes doesn't require auth controls", () => {
       });
   });
 });
+
