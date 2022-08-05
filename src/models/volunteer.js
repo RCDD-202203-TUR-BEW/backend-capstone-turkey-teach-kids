@@ -4,11 +4,13 @@ const volunteerSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
-      required: true,
+    },
+    username: {
+      type: String,
+      unique: true,
     },
     password: {
       type: String,
@@ -16,6 +18,7 @@ const volunteerSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     provider: {
       type: String,
