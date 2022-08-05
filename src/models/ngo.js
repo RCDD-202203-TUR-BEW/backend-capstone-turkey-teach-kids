@@ -1,21 +1,27 @@
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
 const ngoSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+  },
+  username: {
+    type: String,
+    unique: true,
   },
   website: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
   },
   phone: {
     type: Number,
-    required: true,
   },
   publishedEvents: [
     {
@@ -43,3 +49,55 @@ const ngoSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Ngo', ngoSchema);
+=======
+const mongoose = require('mongoose');
+
+const ngoSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  username: {
+    type: String,
+    unique: true,
+  },
+  website: {
+    type: String,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  phone: {
+    type: Number,
+  },
+  publishedEvents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+    },
+  ],
+  avatar: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  provider: {
+    type: String,
+  },
+  providerId: {
+    type: String,
+  },
+});
+
+module.exports = mongoose.model('Ngo', ngoSchema);
+>>>>>>> main

@@ -1,14 +1,17 @@
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
 const volunteerSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
-      required: true,
+    },
+    username: {
+      type: String,
+      unique: true,
     },
     password: {
       type: String,
@@ -16,6 +19,7 @@ const volunteerSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     provider: {
       type: String,
@@ -52,3 +56,62 @@ const volunteerSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Volunteer', volunteerSchema);
+=======
+const mongoose = require('mongoose');
+
+const volunteerSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    username: {
+      type: String,
+      unique: true,
+    },
+    password: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    provider: {
+      type: String,
+    },
+    phone: {
+      type: Number,
+    },
+    location: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    cv: {
+      type: String,
+    },
+    appliedEvents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
+      },
+    ],
+    areaOfExp: {
+      type: [String],
+      default: [],
+    },
+    providerId: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model('Volunteer', volunteerSchema);
+>>>>>>> main
