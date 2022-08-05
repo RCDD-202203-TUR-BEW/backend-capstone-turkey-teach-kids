@@ -3,66 +3,53 @@ const Ngo = require('../models/ngo');
 const Volunteer = require('../models/volunteer');
 
 exports.getProfile = async (req, res, next) => {
-  if (req.user) {
-    const user =
-      (await Volunteer.findOne(
-        // eslint-disable-next-line no-underscore-dangle
-        { _id: req.user._id },
-        { password: 0, createdAt: 0, updatedAt: 0, _id: 0, __v: 0 }
-      )) ||
-      (await Ngo.findOne(
-        // eslint-disable-next-line no-underscore-dangle
-        { _id: req.user._id },
-        { password: 0, createdAt: 0, updatedAt: 0, _id: 0, __v: 0 }
-      ));
-    return res.status(200).json({
-      success: true,
-      data: user,
-    });
-  }
-  return 'You are not logged in';
+  const volunteer = await Volunteer.findOne(
+    { _id: req.user._id },
+    { password: 0, updatedAt: 0 }
+  );
+  const ngo = await Ngo.findOne(
+    { _id: req.user._id },
+    { password: 0, updatedAt: 0 }
+  );
+  const user = volunteer || ngo;
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+  });
 };
 
 exports.updateProfile = async (req, res, next) => {
-  if (req.user) {
-    const user =
-      (await Volunteer.findOneAndUpdate(
-        // eslint-disable-next-line no-underscore-dangle
-        { _id: req.user._id },
-        {
-          $set: {
-            username: req.body.username,
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            phone: req.body.phone,
-            location: req.body.location,
-            description: req.body.description,
-            cv: req.body.cv,
-            areaOfExp: req.body.areaOfExp,
-          },
-        },
-        { new: true }
-      )) ||
-      (await Ngo.findOneAndUpdate(
-        // eslint-disable-next-line no-underscore-dangle
-        { _id: req.user._id },
-        {
-          $set: {
-            username: req.body.username,
-            email: req.body.email,
-            name: req.body.name,
-            phone: req.body.phone,
-            avatar: req.body.avatar,
-            website: req.body.website,
-          },
-        },
-        { new: true }
-      ));
-    return res.status(200).json({
-      success: true,
-      data: user,
-    });
+  const checkMail1 = await Volunteer.find({
+    $or: [{ email: req.body.email }, { username: req.body.username }],
+  });
+
+  const checkMail2 = await Ngo.find({
+    $or: [{ email: req.body.email }, { username: req.body.username }],
+  });
+
+  const checkMail = checkMail1.concat(checkMail2);
+  if (checkMail.length > 0) {
+    return next(new ErrorResponse('Email or username already taken', 400));
   }
-  return 'You are not logged in';
+  const volunteer = await Volunteer.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $set: req.body,
+    },
+    { new: true }
+  );
+  const ngo = await Ngo.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $set: req.body,
+    },
+    { new: true }
+  );
+  const user = volunteer || ngo;
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+  });
 };

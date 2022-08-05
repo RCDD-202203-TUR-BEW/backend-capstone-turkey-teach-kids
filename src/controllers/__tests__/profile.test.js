@@ -51,7 +51,6 @@ const updatedNgo = {
 };
 
 const volunteerToken = jwt.sign(
-  // eslint-disable-next-line no-underscore-dangle
   { _id: volunteer._id },
   process.env.JWT_SECRET,
   {
@@ -60,13 +59,11 @@ const volunteerToken = jwt.sign(
 );
 const cookie = `token=${volunteerToken}`;
 
-// eslint-disable-next-line no-underscore-dangle
 const ngoToken = jwt.sign({ _id: ngo._id }, process.env.JWT_SECRET, {
   expiresIn: '1h',
 });
 const ngoCookie = `token=${ngoToken}`;
 
-// eslint-disable-next-line no-underscore-dangle
 const wrongToken = jwt.sign({ email: ngo.email }, 'SECR', {
   expiresIn: '1h',
 });
@@ -162,7 +159,6 @@ describe('profile', () => {
       });
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
-    // eslint-disable-next-line no-underscore-dangle
     expect(response.body.data._id).toBe(volunteer._id);
   });
 });
