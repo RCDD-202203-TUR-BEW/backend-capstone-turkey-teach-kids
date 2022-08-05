@@ -1,4 +1,3 @@
-const mongoose = require('mongoose'); // This is for fake auth control, I'll delete it later
 const Event = require('../models/event');
 const ErrorResponse = require('../utils/errorResponse');
 
