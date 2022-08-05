@@ -4,14 +4,14 @@ const app = require('../../app');
 jest.setTimeout(10000);
 
 const user1 = {
-  _id :'1',
+  _id: '1',
   name: 'JohnDoe',
   email: 'john.doe@gmail.com',
   type: 'ngo',
 };
 
 const user2 = {
-  _id :'2',
+  _id: '2',
   name: 'JaneDoe',
   email: 'jane.doe@gmail.com',
   type: 'volunteer',
@@ -59,8 +59,8 @@ const ngos = [
     name: 'abc',
     website: 'abc.com',
     email: 'info@abc.com',
-    phone: '055646565564'
-  }
+    phone: '055646565564',
+  },
 ];
 
 const volunteers = [
@@ -68,8 +68,8 @@ const volunteers = [
     _id: '1',
     firstName: 'Dilara',
     lastName: 'Fırtına',
-    email: 'dilara_firtina@hotmail.com'       
-  }
+    email: 'dilara_firtina@hotmail.com',
+  },
 ];
 
 beforeAll((done) => {
