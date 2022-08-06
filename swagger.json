@@ -73,6 +73,273 @@
           }
         }
       }
+    },
+    "/api/auth/signup/{type}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Signup a new user",
+        "description": "Signup a new user",
+        "operationId": "signup",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "description": "type of user",
+            "required": true,
+            "type": "string",
+            "enum": ["volunteer", "ngo"]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["email", "password", "confirmPassword", "username"],
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email of user",
+                  "example": "anymail@hotmail.com",
+                  "format": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "password of user",
+                  "example": "Aa123456",
+                  "format": "password"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "description": "confirm password of user",
+                  "example": "Aa123456",
+                  "format": "password"
+                },
+                "username": {
+                  "type": "string",
+                  "description": "username of user",
+                  "example": "anyusername",
+                  "format": "username"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "User created successfully"
+                },
+                "user": {
+                  "type": "object",
+                  "description": "user object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id of user",
+                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "email of user",
+                      "example": "anymail@hotmail.com",
+                      "format": "email"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "username of user",
+                      "example": "anyusername",
+                      "format": "username"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "password of user",
+                      "example": "$2a$10$2M5ORDSG.lXG10tb9v1qduh9gHQoPW3dM5fmuIZefgHFPPVST638m",
+                      "format": "password"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "created at of user",
+                      "example": "2020-01-01T00:00:00.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "updated at of user",
+                      "example": "2020-01-01T00:00:00.000Z"
+                    }
+                  }
+                },
+                "200": {
+                  "description": "successful operation",
+                  "example": "ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "User already exists"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login a user",
+        "description": "Login a user",
+        "operationId": "login",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["email", "password"],
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email of user",
+                  "example": "anymail@hotmail.com",
+                  "format": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "password of user",
+                  "example": "Aa123456",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "User logged in successfully"
+                },
+                "user": {
+                  "type": "object",
+                  "description": "user object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id of user",
+                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "email of user",
+                      "example": "anymail@hotmail.com",
+                      "format": "email"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "username of user",
+                      "example": "anyusername",
+                      "format": "username"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "password of user",
+                      "example": "$2a$10$2M5ORDSG.lXG10tb9v1qduh9gHQoPW3dM5fmuIZefgHFPPVST638m",
+                      "format": "password"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "created at of user",
+                      "example": "2020-01-01T00:00:00.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "updated at of user",
+                      "example": "2020-01-01T00:00:00.000Z",
+                      "format": "date-time",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+                    },
+                    "cookie": {
+                      "type": "string",
+                      "description": "cookie of user",
+                      "example": "@LK343fdsalkj*nlkjcxdflkj@kmclnn$klnff",
+                      "format": "cookie"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "List all events",
+        "operationId": "getEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -94,6 +361,97 @@
     "Users": {
       "type": "array",
       "$ref": "#/definitions/User"
+    },
+  "Event": {
+    "type": "object",
+    "required": ["avatar", "description", "location", "launchDate", "topic"],
+    "properties": {
+      "_id": {
+        "type": "ObjectID",
+        "uniqueItems": true
+      },
+      "avatar": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "location": {
+        "type": "string"
+      },
+      "launchDate": {
+        "type": "date"
+      },
+      "ngo": {
+        "type": "ObjectId"
+      },
+      "pendingApplicants": {
+        "type": "array",
+        "items": {
+          "type": "ObjectId"
+        }
+      },
+      "approvedApplicants": {
+        "type": "array",
+        "items": {
+          "type": "ObjectId"
+        }
+      },
+      "declinedApplicants": {
+        "type": "array",
+        "items": {
+          "type": "ObjectId"
+        }
+      },
+      "topic": {
+        "type": "string"
+      }
+    }
+  },
+  "Events": {
+    "type": "object",
+    "$ref": "#/definitions/Event"
+  },
+  "NewEvent": {
+    "type": "object",
+    "required": ["avatar", "description", "location", "launchDate", "topic"],
+    "properties": {
+      "_id": {
+        "type": "ObjectID",
+        "uniqueItems": true
+      },
+      "avatar": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "location": {
+        "type": "string"
+      },
+      "launchDate": {
+        "type": "date"
+      },
+      "ngo": {
+        "type": "ObjectId"
+      },
+      "topic": {
+        "type": "string"
+      }
+    }
+  },
+  "Error": {
+    "type": "object",
+    "required": ["code", "message"],
+    "properties": {
+      "code": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string"
+      }
     }
   }
+}
 }
