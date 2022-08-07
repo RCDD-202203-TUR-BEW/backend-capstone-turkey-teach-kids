@@ -80,6 +80,23 @@ afterAll((done) => {
   done();
 });
 
+describe("Testing events for routes doesn't require auth controls", () => {
+  it('GET /api/events should retrieve all the events', (done) => {
+    request(app)
+      .get(`/api/events/`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(Array.isArray(res.body.data)).toBe(true);
+        done();
+        return events;
+      });
+  });
+});
+
 describe('Testing events for routes require auth controls', () => {
   test('POST /api/events should create a new event and return it in the response', (done) => {
     const req = {

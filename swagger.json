@@ -268,6 +268,25 @@
       }
     },
     "/events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "List all events",
+        "operationId": "getEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
       "post": {
         "tags": ["Events"],
         "summary": "Post a new event item",
