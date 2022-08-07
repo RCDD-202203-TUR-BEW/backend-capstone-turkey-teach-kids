@@ -82,6 +82,21 @@ afterAll((done) => {
 });
 
 describe('Testing events for routes require auth controls', () => {
+  it('GET /api/events should retrieve all the events', (done) => {
+    request(app)
+      .get(`/api/events/`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(Array.isArray(res.body.data)).toBe(true);
+        done();
+        return events;
+      });
+  });
+
   it('DELETE /api/events/:id should delete the related event', (done) => {
     request(app)
       .delete('/api/events/1')
