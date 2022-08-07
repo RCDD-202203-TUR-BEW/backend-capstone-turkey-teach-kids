@@ -266,6 +266,156 @@
           }
         }
       }
+    },
+    "/events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "List all events",
+        "operationId": "getEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/events/{id}/related-events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve all the related events",
+        "operationId": "getRelatedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to find the related events",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "pendingApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "approvedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "declinedApplicants": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "$ref": "#/definitions/Event"
+    },
+    "NewEvent": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "launchDate": {
+          "type": "date"
+        },
+        "ngo": {
+          "type": "ObjectId"
+        },
+        "topic": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }
