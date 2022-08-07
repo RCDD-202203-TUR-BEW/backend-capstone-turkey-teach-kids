@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const app = require('../../app');
 
@@ -28,6 +29,7 @@ const events = [
     launchDate: '2022-12-28T21:00:00.000Z',
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
+    pendingApplicants: ['2'],
   },
   {
     _id: '2',
@@ -69,6 +71,7 @@ const volunteers = [
     firstName: 'Dilara',
     lastName: 'Fırtına',
     email: 'dilara_firtina@hotmail.com',
+    appliedEvents: ['1'],
   },
 ];
 
@@ -94,5 +97,68 @@ describe("Testing events for routes doesn't require auth controls", () => {
         done();
         return events;
       });
+  });
+});
+
+describe('Testing events for routes require auth controls', () => {
+  it('POST /api/events/:id/apply should allow volunteers to apply an event', (done) => {
+    request(app)
+      .delete('/api/events/1/apply')
+      .set('Cookie', `myApp-token=12345667`)
+      .expect(204, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(res.header['set-cookie']).toBeDefined();
+        done();
+        return err;
+      })
+      .expect('Content-Type', 'application/json; charset=utf-8');
+    done();
+  });
+
+  it('POST /api/events/:id/apply should refuse to apply event without authorization', (done) => {
+    const req = {
+      user: {
+        _id: user1.id,
+      },
+    };
+    request(app)
+      .post('/api/events/1/apply')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect({
+        message: 'You are not authorized to apply this event',
+      })
+      .expect(403, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(req.user._id).not.toBe(volunteers.id);
+        done();
+        return events[0];
+      });
+    done();
+  });
+
+  it('POST /api/events/:id/apply should refuse to add event without authentication', (done) => {
+    const req = {};
+    request(app)
+      .post('/api/events/1/apply')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect({
+        message: 'You need to sign in to delete an event',
+      })
+      .expect(403, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(req.user).toBeUndefined();
+        done();
+        return events[0];
+      });
+    done();
   });
 });
