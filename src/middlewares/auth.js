@@ -10,7 +10,7 @@ const isAuth = (req, res, next) => {
     try {
       const user = jwt.verify(token, process.env.JWT_SECRET);
       req.user = user;
-      next();
+      return next();
     } catch (err) {
       return next(new ErrorResponse('Invalid/expired token', 401));
     }
