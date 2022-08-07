@@ -3,19 +3,24 @@ const mongoose = require('mongoose');
 const ngoSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+  },
+  username: {
+    type: String,
+    unique: true,
   },
   website: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
   },
   phone: {
     type: Number,
-    required: true,
   },
   publishedEvents: [
     {
