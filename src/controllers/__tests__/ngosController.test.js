@@ -37,8 +37,8 @@ afterAll((done) => {
 });
 
 describe("Testing ngos for routes doesn't require auth controls", () => {
-  it('GET /api/ngos should retrieve all the ngos', async (done) => {
-    await request(app)
+  it('GET /api/ngos should retrieve all the ngos', (done) => {
+    request(app)
       .get(`/api/ngos/`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {

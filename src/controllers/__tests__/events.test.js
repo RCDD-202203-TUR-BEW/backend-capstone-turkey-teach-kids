@@ -81,8 +81,8 @@ afterAll((done) => {
 });
 
 describe("Testing events for routes doesn't require auth controls", () => {
-  it('GET /api/events should retrieve all the events', async (done) => {
-    await request(app)
+  it('GET /api/events should retrieve all the events', (done) => {
+    request(app)
       .get(`/api/events/`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
