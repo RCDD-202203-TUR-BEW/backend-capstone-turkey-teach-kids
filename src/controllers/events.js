@@ -12,19 +12,9 @@ exports.getEvents = async (req, res) => {
 };
 
 exports.applyToEvent = async (req, res, next) => {
-  //  Check if there is a logged in user
-  console.log(req.user);
-  if (!req.user) {
-    return next(
-      new ErrorResponse('You need to sign in to apply an event', 403)
-    );
-  }
-  //  Check if the logged in user in a volunteer
   const volunteer = await Volunteer.findById(req.user._id);
   if (!volunteer) {
-    return next(
-      new ErrorResponse('You are not authorized to apply an event', 403)
-    );
+    return next(new ErrorResponse('No volunteer found', 404));
   }
   const event = await Event.findById({
     _id: req.params.id,
