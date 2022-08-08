@@ -11,16 +11,9 @@ exports.getEvents = async (req, res) => {
 };
 
 exports.addEvent = async (req, res, next) => {
-  //  Check if there is a logged in user
-  if (!req.user) {
-    return next(new ErrorResponse('You need to sign in to add an event', 403));
-  }
-  //  Check if the logged in user in an ngo
   const ngo = await Ngo.findById(req.user._id);
   if (!ngo) {
-    return next(
-      new ErrorResponse('You are not authorized to add an event', 403)
-    );
+    return next(new ErrorResponse('No NGO found', 404));
   }
   // Create new event
   const newEvent = new Event();
