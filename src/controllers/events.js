@@ -11,19 +11,7 @@ exports.getEvents = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res, next) => {
-  //  Check if there is a logged in user
-  if (!req.user) {
-    return next(
-      new ErrorResponse('You need to sign in to delete an event', 403)
-    );
-  }
-  //  Check if the logged in user in an ngo
-  const ngo = await Ngo.findById(req.user._id);
-  if (!ngo) {
-    return next(
-      new ErrorResponse('You are not authorized to delete an event', 403)
-    );
-  }
+  // auth checks will be added in the endpoints
   const event = await Event.findOne({
     _id: req.params.id,
   });
