@@ -17,4 +17,18 @@ const isAuth = (req, res, next) => {
   }
 };
 
-module.exports = { isAuth };
+const isNgo = (req, res, next) => {
+  if (req.user.type !== 'ngo') {
+    return next(new ErrorResponse('Invalid user type', 400));
+  }
+  return next();
+};
+
+const isVolunteer = (req, res, next) => {
+  if (req.user.type !== 'volunteer') {
+    return next(new ErrorResponse('Invalid user type', 400));
+  }
+  return next();
+};
+
+module.exports = { isAuth, isNgo, isVolunteer };
