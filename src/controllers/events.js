@@ -1,5 +1,5 @@
 const Event = require('../models/event');
-const Ngo = require('../models/ngo');
+const User = require('../models/user');
 
 exports.getEvents = async (req, res) => {
   const events = await Event.find()
