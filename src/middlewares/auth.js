@@ -18,14 +18,14 @@ const isAuth = (req, res, next) => {
 };
 
 const isNgo = (req, res, next) => {
-  if (req.user.type !== 'ngo') {
+  if (req.user.type !== 'Ngo') {
     return next(new ErrorResponse('Invalid user type', 400));
   }
   return next();
 };
 
 const isVolunteer = (req, res, next) => {
-  if (req.user.type !== 'volunteer') {
+  if (req.user.type !== 'Volunteer') {
     return next(new ErrorResponse('Invalid user type', 400));
   }
   return next();
