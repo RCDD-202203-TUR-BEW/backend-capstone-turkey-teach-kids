@@ -1,5 +1,5 @@
 const request = require('supertest');
-const User = require('../../models/user');
+const { User } = require('../../models/user');
 const app = require('../../app');
 
 const user1 = {
@@ -25,7 +25,6 @@ const wrongUser = {
 
 describe('POST /auth', () => {
   afterAll(async () => {
-    await User.deleteMany();
     await User.deleteMany();
   });
 

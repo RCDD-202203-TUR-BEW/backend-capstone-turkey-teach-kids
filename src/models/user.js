@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const baseOptions = {
+const options = {
   discriminatorKey: 'type',
-  collection: 'user',
+  collection: 'users',
 };
 const baseSchema = new mongoose.Schema(
   {
@@ -21,14 +21,6 @@ const baseSchema = new mongoose.Schema(
     phone: {
       type: Number,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
     provider: {
       type: String,
     },
@@ -36,11 +28,12 @@ const baseSchema = new mongoose.Schema(
       type: String,
     },
   },
-  baseOptions
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  { timestamps: true, ...options }
 );
 const User = mongoose.model('User', baseSchema);
 
-let volunteerSchema = new mongoose.Schema(
+const volunteerSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -68,12 +61,13 @@ let volunteerSchema = new mongoose.Schema(
       default: [],
     },
   },
-  baseOptions
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  { ...options }
 );
 
-volunteerSchema = User.discriminator('Volunteer', volunteerSchema);
+const Volunteer = User.discriminator('volunteer', volunteerSchema);
 
-let ngoSchema = new mongoose.Schema(
+const ngoSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -91,9 +85,10 @@ let ngoSchema = new mongoose.Schema(
       type: String,
     },
   },
-  baseOptions
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  { ...options }
 );
 
-ngoSchema = User.discriminator('Ngo', ngoSchema);
+const Ngo = User.discriminator('ngo', ngoSchema);
 
-module.exports = mongoose.model('User', baseSchema);
+module.exports = { User, Volunteer, Ngo };

@@ -1,6 +1,6 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const User = require('../../models/user');
+const { User } = require('../../models/user');
 const app = require('../../app');
 
 const volunteer = {
@@ -75,10 +75,8 @@ const wrongCookie = `token=${wrongToken}`;
 describe('profile', () => {
   beforeEach(async () => {
     await User.deleteMany();
-    await User.deleteMany();
   });
   afterAll(async () => {
-    await User.deleteMany();
     await User.deleteMany();
   });
   it('should fetch a volunteer profile', async () => {

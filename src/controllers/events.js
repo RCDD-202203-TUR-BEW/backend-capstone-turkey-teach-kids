@@ -1,5 +1,5 @@
 const Event = require('../models/event');
-const User = require('../models/user');
+const { User } = require('../models/user');
 
 exports.getEvents = async (req, res) => {
   const events = await Event.find()

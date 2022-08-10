@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const ErrorResponse = require('../utils/errorResponse');
-const User = require('../models/user');
+const { User } = require('../models/user');
 
 const isAuth = async (req, res, next) => {
   if (req.cookies) {
