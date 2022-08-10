@@ -4,7 +4,7 @@ const ErrorResponse = require('../utils/errorResponse');
 exports.getNgo = async (req, res, next) => {
   const ngo = await Ngo.findById(req.params.id);
 
-  if (ngo.length === 0) {
+  if (!ngo) {
     return next(
       new ErrorResponse('This Id dose not match any registered NGO ', 404)
     );
