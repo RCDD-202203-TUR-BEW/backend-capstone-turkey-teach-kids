@@ -62,7 +62,6 @@ exports.login = async (req, res, next) => {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
   const token = jwt.sign(
-    // eslint-disable-next-line no-underscore-dangle
     { _id: user._id.toHexString() },
     process.env.JWT_SECRET,
     {
