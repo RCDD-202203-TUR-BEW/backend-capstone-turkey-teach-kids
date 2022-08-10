@@ -77,3 +77,25 @@ exports.login = async (req, res, next) => {
   });
   return res.status(200).json({ success: true, data: user });
 };
+
+exports.authenticationCookie = async (req, res) => {
+  const { _id } = req.user;
+  const userInToken = { _id };
+
+  const token = jwt.sign(userInToken, process.env.JWT_SECRET, {
+    expiresIn: '14 days',
+  });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    signed: true,
+    maxAge: 14 * 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({ success: true, data: req.user });
+};
+
+exports.logout = (req, res, next) => {
+  res.clearCookie('token');
+  res.status(205).json({ success: true });
+};

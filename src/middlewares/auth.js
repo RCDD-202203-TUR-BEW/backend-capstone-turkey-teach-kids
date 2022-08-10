@@ -3,9 +3,9 @@ const ErrorResponse = require('../utils/errorResponse');
 
 const isAuth = (req, res, next) => {
   if (req.cookies) {
-    const { token } = req.cookies;
+    const token = req.signedCookies.token ?? req.cookies.token;
     if (!token) {
-      res.sendStatus(401);
+      return res.sendStatus(401);
     }
     try {
       const user = jwt.verify(token, process.env.JWT_SECRET);
