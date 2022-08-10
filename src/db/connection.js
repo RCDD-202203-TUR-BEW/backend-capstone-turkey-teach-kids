@@ -13,6 +13,11 @@ const connectToMongo = () => {
   });
 
   db.on('error', (err) => {
+    console.error('Database connection error: ', err);
+    logger.info(`Database connection established`);
+  });
+
+  db.on('error', (err) => {
     logger.error(`Database connection error`, err);
   });
 };
