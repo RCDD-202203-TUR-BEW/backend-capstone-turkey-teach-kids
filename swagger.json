@@ -21,6 +21,59 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/api/auth/google": {
+      "get": {
+        "tags": ["Google authentication"],
+        "summary": "redirect the user to google OAuth consent page",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/auth/google/callback": {
+      "get": {
+        "tags": ["Google authentication"],
+        "summary": "sets an authentication cookie that holds the user JWT",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Google authentication"],
+        "summary": "responds with a user object as specified in the user schema",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "tags": ["Google authentication"],
+        "summary": "clears the authentication cookie and log the user out",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
     "/api/auth/signup/{type}": {
       "post": {
         "tags": ["Users"],
@@ -267,6 +320,242 @@
         }
       }
     },
+    "/api/profile/": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get profile of user",
+        "description": "Get profile of user",
+        "operationId": "getProfile",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "fetched volunteer profile successfully"
+                },
+                "volunteer": {
+                  "type": "object",
+                  "description": "user object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "email of user",
+                      "example": "johndogh@hotmail.com",
+                      "format": "email"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "username of user",
+                      "example": "johny88",
+                      "format": "username"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "first name of user",
+                      "example": "John",
+                      "format": "firstName"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "last name of user",
+                      "example": "Dogh",
+                      "format": "lastName"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "location of user",
+                      "example": "istanbul",
+                      "format": "location"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "phone of user",
+                      "example": "05446544533",
+                      "format": "phone"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of user",
+                      "example": "this is one good volunteer",
+                      "format": "description"
+                    },
+                    "cv": {
+                      "type": "string",
+                      "description": "cv of user",
+                      "example": "cv.pdf",
+                      "format": "cv"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "fetched ngo profile successfully",
+                  "format": "message"
+                },
+                "ngo": {
+                  "type": "object",
+                  "description": "user object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "email of user",
+                      "example": "ngo@hotmail.com",
+                      "format": "email"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "username of user",
+                      "example": "ngo",
+                      "format": "username"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "name of user",
+                      "example": "ngo",
+                      "format": "name"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "phone of user",
+                      "example": "05446544533",
+                      "format": "phone"
+                    },
+                    "website": {
+                      "type": "string",
+                      "description": "website of user",
+                      "example": "www.ngo.com",
+                      "format": "website"
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "description": "avatar of user",
+                      "example": "avatar.png",
+                      "format": "avatar"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update profile of user",
+        "description": "Update profile of user",
+        "operationId": "updateProfile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email of user",
+                  "example": "anymail@hotmail.com",
+                  "format": "email"
+                },
+                "username": {
+                  "type": "string",
+                  "description": "username of user",
+                  "example": "anyusername",
+                  "format": "username"
+                },
+                "firstName": {
+                  "type": "string",
+                  "description": "first name of user",
+                  "example": "anyfirstName",
+                  "format": "firstName"
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "last name of user",
+                  "example": "anylastName",
+                  "format": "lastName"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "location of user",
+                  "example": "anylocation",
+                  "format": "location"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "phone of user",
+                  "example": "05446544533",
+                  "format": "phone"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "description of user",
+                  "example": "anydescription",
+                  "format": "description"
+                },
+                "cv": {
+                  "type": "string",
+                  "description": "cv of user",
+                  "example": "cv.pdf",
+                  "format": "cv"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "updated profile successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events": {
       "get": {
         "tags": ["Events"],
@@ -283,6 +572,93 @@
             "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/event/{id}": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve single event item based on the id",
+        "operationId": "getEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to fetch",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/api/ngos/:id": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Finds one NGO by id",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "There is one Ngo that matchs the requested id"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "The are no ngo that matchs the requested id"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
             }
           }
         }
@@ -326,6 +702,25 @@
     }
   },
   "definitions": {
+    "User": {
+      "required": ["name", "_id", "email", "providerId"],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    },
     "Event": {
       "type": "object",
       "required": ["avatar", "description", "location", "launchDate", "topic"],

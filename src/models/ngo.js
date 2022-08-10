@@ -6,7 +6,6 @@ const ngoSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    unique: true,
   },
   website: {
     type: String,

@@ -14,6 +14,20 @@ const user = {
   locale: 'en-GB',
 };
 
+const user1 = {
+  _id: '1',
+  name: 'JohnDoe',
+  email: 'john.doe@gmail.com',
+  type: 'ngo',
+};
+
+const user2 = {
+  _id: '2',
+  name: 'JaneDoe',
+  email: 'jane.doe@gmail.com',
+  type: 'volunteer',
+};
+
 const events = [
   {
     _id: '1',
@@ -50,6 +64,25 @@ const events = [
   },
 ];
 
+const ngos = [
+  {
+    _id: '1',
+    name: 'abc',
+    website: 'abc.com',
+    email: 'info@abc.com',
+    phone: '055646565564',
+  },
+];
+
+const volunteers = [
+  {
+    _id: '1',
+    firstName: 'Dilara',
+    lastName: 'Fırtına',
+    email: 'dilara_firtina@hotmail.com',
+  },
+];
+
 beforeAll((done) => {
   done();
 });
@@ -69,6 +102,27 @@ describe("Testing events for routes doesn't require auth controls", () => {
           return err;
         }
         expect(Array.isArray(res.body.data)).toBe(true);
+        done();
+        return events;
+      });
+  });
+
+  it('GET /api/events/:id should retrieve a single event', (done) => {
+    request(app)
+      .get('/api/events/1/')
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        if (!res.body) {
+          expect(res.statusCode).toBe(404);
+          done();
+          return res.json('No event found');
+        }
+        expect(res.body.data).toEqual(events[0]);
+        expect(typeof res.body).toEqual('object');
         done();
         return events;
       });
