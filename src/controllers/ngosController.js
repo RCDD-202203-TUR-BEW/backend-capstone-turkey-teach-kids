@@ -11,3 +11,8 @@ exports.getNgo = async (req, res, next) => {
   }
   return res.status(200).json({ success: true, data: ngo });
 };
+
+exports.getNgos = async (req, res, next) => {
+  const ngos = await Ngo.find();
+  return res.status(200).json({ success: true, data: ngos });
+};
