@@ -14,6 +14,7 @@ exports.deleteEvent = async (req, res, next) => {
   // auth checks will be added in the endpoints
   const event = await Event.findOne({
     _id: req.params.id,
+    ngo: req.user._id,
   });
   if (!event) {
     return next(new ErrorResponse('No event found', 404));
