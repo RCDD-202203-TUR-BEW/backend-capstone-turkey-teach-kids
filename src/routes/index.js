@@ -6,9 +6,9 @@ const profileRoutes = require('./profile');
 const eventsRoutes = require('./events');
 const ngoRoutes = require('./ngo');
 
-router.use('/events', eventsRoutes);
 router.use('/users', usersRoutes);
 router.use('/auth', authRoutes);
+router.use('/events', eventsRoutes);
 router.use('/profile', profileRoutes);
 router.use('/ngos', ngoRoutes);
 
