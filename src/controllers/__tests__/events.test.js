@@ -3,6 +3,17 @@ const app = require('../../app');
 
 jest.setTimeout(10000);
 
+const user = {
+  sub: '12345678',
+  name: 'John Doe',
+  given_name: 'John',
+  family_name: 'Doe',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh1',
+  email: 'john.doe@gmail.com',
+  email_verified: true,
+  locale: 'en-GB',
+};
+
 const user1 = {
   _id: '1',
   name: 'JohnDoe',
@@ -112,6 +123,29 @@ describe("Testing events for routes doesn't require auth controls", () => {
         }
         expect(res.body.data).toEqual(events[0]);
         expect(typeof res.body).toEqual('object');
+        done();
+        return events;
+      });
+  });
+
+  it('GET /api/events/:id/related-events should retrieve all the related events', (done) => {
+    request(app)
+      .get(`/api/events/1/related-events`)
+      .send(events[0])
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        if (!res.body) {
+          expect(res.statusCode).toBe(404);
+          done();
+          return res.json('No event found');
+        }
+        expect(res.body.data).toEqual([]);
+        expect(res.body.data.topic).toBe(events[0].topic);
+        expect(Array.isArray(res.body.data)).toBe(true);
         done();
         return events;
       });

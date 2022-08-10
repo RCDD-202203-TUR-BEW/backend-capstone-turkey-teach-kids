@@ -663,6 +663,42 @@
           }
         }
       }
+    },
+    "/events/{id}/related-events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve all the related events",
+        "operationId": "getRelatedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to find the related events",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
