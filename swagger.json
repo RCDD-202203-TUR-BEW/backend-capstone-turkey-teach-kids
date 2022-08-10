@@ -560,10 +560,10 @@
         }
       }
     },
-    "/api/ngos": {
+    "/api/ngos/:id": {
       "get": {
         "tags": ["Users"],
-        "summary": "Lists all Ngos",
+        "summary": "Finds one NGO by id",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
@@ -586,7 +586,7 @@
                 "message": {
                   "type": "string",
                   "description": "message of success",
-                  "example": "Listed Ngos"
+                  "example": "There is one Ngo that matchs the requested id"
                 }
               }
             }
@@ -599,7 +599,7 @@
                 "message": {
                   "type": "string",
                   "description": "message of error",
-                  "example": "The are no ngos to be found"
+                  "example": "The are no ngo that matchs the requested id"
                 },
                 "400": {
                   "description": "bad request",
