@@ -8,4 +8,9 @@ router.get('/:id', eventsControllers.getEvent);
 
 router.get('/:id/related-events', eventsControllers.getRelatedEvents);
 
+router.post(
+  '/:id/pending-applicants/:userId/approve',
+  eventsControllers.approveApplicant
+);
+
 module.exports = router;

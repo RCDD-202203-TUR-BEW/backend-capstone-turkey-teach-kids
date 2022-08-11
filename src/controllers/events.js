@@ -29,3 +29,17 @@ exports.getRelatedEvents = async (req, res, next) => {
     .populate('ngo', 'name');
   return res.status(200).json({ success: true, data: relatedEvents });
 };
+
+exports.approveApplicant = async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  const applicant = await Ngo.findById(req.params.userId);
+  if (!applicant) {
+    return next(new ErrorResponse('No user found', 404));
+  }
+  event.approvedApplicants.push(applicant);
+  await event.save();
+  return res.status(200).json({ success: true, data: event });
+};
