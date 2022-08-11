@@ -808,6 +808,62 @@
           }
         }
       }
+    },
+    "/events/:id/pending-applicants/:userId/decline": {
+      "patch": {
+        "tags": ["Events"],
+        "summary": "Decline an applicant",
+        "description": "Decline an applicant",
+        "operationId": "declineApplicant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to decline the applicant",
+            "required": true,
+            "type": "ObjectId"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to decline the applicant",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "declined applicant successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

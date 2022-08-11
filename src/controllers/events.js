@@ -57,3 +57,18 @@ exports.updateEvent = async (req, res, next) => {
   await event.save();
   return res.status(200).json({ success: true, data: event });
 };
+
+// POST /events/:id/pending-applicants/:userId/decline
+exports.declineApplicant = async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  const applicant = await Ngo.findById(req.params.userId);
+  if (!applicant) {
+    return next(new ErrorResponse('No user found', 404));
+  }
+  event.declinedApplicants.push(applicant);
+  await event.save();
+  return res.status(200).json({ success: true, data: event });
+};

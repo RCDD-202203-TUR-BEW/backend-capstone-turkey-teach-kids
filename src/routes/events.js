@@ -10,4 +10,9 @@ router.get('/:id/related-events', eventsControllers.getRelatedEvents);
 
 router.patch('/:id', eventsControllers.updateEvent);
 
+router.post(
+  '/:id/pending-applicants/:userId/decline',
+  eventsControllers.declineApplicant
+);
+
 module.exports = router;
