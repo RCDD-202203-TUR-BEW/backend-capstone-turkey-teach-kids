@@ -36,6 +36,24 @@ afterAll((done) => {
   done();
 });
 
+describe("Testing ngos for routes doesn't require auth controls", () => {
+  it('GET /api/ngos should retrieve all the ngos', (done) => {
+    request(app)
+      .get(`/api/ngos/`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(res.body).toEqual([]);
+        expect(Array.isArray(res.body)).toBe(true);
+        done();
+        return ngos;
+      });
+  });
+});
+
 describe("Testing ngo for routes doesn't require auth controls", () => {
   it('GET /api/ngos/:id should retrieve one ngo that match the requested id', (done) => {
     request(app)
