@@ -30,35 +30,6 @@ exports.getRelatedEvents = async (req, res, next) => {
   return res.status(200).json({ success: true, data: relatedEvents });
 };
 
-exports.updateEvent = async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
-  if (!event) {
-    return next(new ErrorResponse('No event found', 404));
-  }
-  const { avatar, description, location, launchDate, ngo, topic } = req.body;
-  if (avatar) {
-    event.avatar = avatar;
-  }
-  if (description) {
-    event.description = description;
-  }
-  if (location) {
-    event.location = location;
-  }
-  if (launchDate) {
-    event.launchDate = launchDate;
-  }
-  if (ngo) {
-    event.ngo = ngo;
-  }
-  if (topic) {
-    event.topic = topic;
-  }
-  await event.save();
-  return res.status(200).json({ success: true, data: event });
-};
-
-// POST /events/:id/pending-applicants/:userId/decline
 exports.declineApplicant = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
   if (!event) {

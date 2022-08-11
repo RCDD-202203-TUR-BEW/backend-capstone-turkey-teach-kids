@@ -151,28 +151,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
       });
   });
 
-  it('PATCH /api/events/:id should update an existing event', (done) => {
-    request(app)
-      .patch(`/api/events/1/`)
-      .send(events[0])
-      .expect('Content-Type', /json/)
-      .expect(200, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-        if (!res.body) {
-          expect(res.statusCode).toBe(404);
-          done();
-          return res.json('No event found');
-        }
-        expect(res.body.data).toEqual(events[0]);
-        expect(typeof res.body).toEqual('object');
-        done();
-        return events;
-      });
-  });
-
   it('POST /events/:id/pending-applicants/:userId/decline should decline an applicant', (done) => {
     request(app)
       .post(`/api/events/1/pending-applicants/1/decline`)
