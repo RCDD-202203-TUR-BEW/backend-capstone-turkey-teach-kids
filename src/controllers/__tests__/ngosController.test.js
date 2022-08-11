@@ -52,3 +52,19 @@ describe("Testing ngo for routes doesn't require auth controls", () => {
       });
   });
 });
+describe("Testing published events by a specific ngo for routes doesn't require auth controls", () => {
+  it('GET /api/ngos/:id/events should retrieve one ngo that match the requested id', (done) => {
+    request(app)
+      .get(`/api/ngos/${ngos[1]._id}/events`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) {
+          done();
+          return err;
+        }
+        expect(res.body).to.be.an('array');
+        expect(res.body).to.equal(['objectId(2)', 'objectId(3)']);
+        done();
+      });
+  });
+});
