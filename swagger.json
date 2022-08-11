@@ -664,6 +664,57 @@
         }
       }
     },
+    "/api/ngos/:id/events": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Finds  all the published events by the ngo associated with the requested id",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "Those are all  the events that published by this ngo."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "Ther are no results to show "
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events/{id}/related-events": {
       "get": {
         "tags": ["Events"],
