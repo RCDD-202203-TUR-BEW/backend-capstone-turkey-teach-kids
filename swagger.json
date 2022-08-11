@@ -750,6 +750,64 @@
           }
         }
       }
+    },
+    "events/{id}": {
+      "patch": {
+        "tags": ["Events"],
+        "summary": "Update an event",
+        "description": "Update an event",
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "ID of event to update",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "updated event successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
