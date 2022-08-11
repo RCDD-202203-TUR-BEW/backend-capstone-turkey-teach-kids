@@ -556,7 +556,7 @@
         }
       }
     },
-    "/events": {
+    "/api/events": {
       "get": {
         "tags": ["Events"],
         "summary": "List all events",
@@ -577,7 +577,7 @@
         }
       }
     },
-    "/event/{id}": {
+    "/api/event/{id}": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve single event item based on the id",
@@ -715,7 +715,7 @@
         }
       }
     },
-    "/events/{id}/related-events": {
+    "/api/events/{id}/related-events": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve all the related events",
