@@ -1,5 +1,5 @@
 const Event = require('../models/event');
-const Ngo = require('../models/ngo');
+const { Ngo } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 
 exports.getEvents = async (req, res) => {

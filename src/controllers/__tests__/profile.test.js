@@ -1,7 +1,6 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const Volunteer = require('../../models/volunteer');
-const Ngo = require('../../models/ngo');
+const { User } = require('../../models/user');
 const app = require('../../app');
 
 const volunteer = {
@@ -16,6 +15,7 @@ const volunteer = {
   lastName: 'anylastname',
   location: 'anylocation',
   phone: '5444444444',
+  type: 'Volunteer',
 };
 
 const updatedVolunteer = {
@@ -28,6 +28,7 @@ const updatedVolunteer = {
   description: 'newdescription',
   cv: 'newcv',
   areaOfExp: 'newarea',
+  type: 'Volunteer',
 };
 
 const ngo = {
@@ -39,6 +40,7 @@ const ngo = {
   phone: '5543672',
   avatar: 'anyavatar',
   website: 'google.com',
+  type: 'Ngo',
 };
 
 const updatedNgo = {
@@ -48,10 +50,11 @@ const updatedNgo = {
   phone: '5555555555',
   website: 'newwebsite',
   avatar: 'newavatar',
+  type: 'Ngo',
 };
 
 const volunteerToken = jwt.sign(
-  { _id: volunteer._id },
+  { _id: volunteer._id, type: 'Volunteer' },
   process.env.JWT_SECRET,
   {
     expiresIn: '1h',
@@ -71,15 +74,13 @@ const wrongCookie = `token=${wrongToken}`;
 
 describe('profile', () => {
   beforeEach(async () => {
-    await Volunteer.deleteMany();
-    await Ngo.deleteMany();
+    await User.deleteMany();
   });
   afterAll(async () => {
-    await Volunteer.deleteMany();
-    await Ngo.deleteMany();
+    await User.deleteMany();
   });
   it('should fetch a volunteer profile', async () => {
-    const user = new Volunteer(volunteer);
+    const user = new User(volunteer);
     await user.save();
     const response = await request(app)
       .get('/api/profile')
@@ -90,7 +91,7 @@ describe('profile', () => {
   });
 
   it('should fetch a ngo profile', async () => {
-    const user = new Ngo(ngo);
+    const user = new User(ngo);
     await user.save();
     const response = await request(app)
       .get('/api/profile')
@@ -101,7 +102,7 @@ describe('profile', () => {
   });
 
   it('should update a volunteer profile accordingly', async () => {
-    const user = new Volunteer(volunteer);
+    const user = new User(volunteer);
     await user.save();
     const response = await request(app)
       .patch('/api/profile')
@@ -113,7 +114,7 @@ describe('profile', () => {
   });
 
   it('should update a ngo profile accordingly', async () => {
-    const user = new Ngo(ngo);
+    const user = new User(ngo);
     await user.save();
     const response = await request(app)
       .patch('/api/profile')
@@ -125,7 +126,7 @@ describe('profile', () => {
   });
 
   it('should not be able to update a volunteer profile with invalid token', async () => {
-    const user = new Volunteer(volunteer);
+    const user = new User(volunteer);
     await user.save();
     const response = await request(app)
       .patch('/api/profile')
@@ -137,7 +138,7 @@ describe('profile', () => {
   });
 
   it('should not be able to update a ngo profile with invalid token', async () => {
-    const user = new Ngo(ngo);
+    const user = new User(ngo);
     await user.save();
     const response = await request(app)
       .patch('/api/profile')
