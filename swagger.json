@@ -1,8 +1,8 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Teach Kids API",
+    "title": "Reach API",
     "description": "connect ngos with teachers.",
     "license": {
       "name": "MIT",
@@ -123,7 +123,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful operation",
             "schema": {
               "type": "object",
@@ -131,27 +131,23 @@
                 "success": {
                   "type": "string",
                   "description": "message of success",
-                  "example": "User created successfully"
+                  "example": true
                 },
                 "data": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "id of user"
-                    },
                     "email": {
                       "type": "string",
-                      "description": "email of user",
-                      "example": "anymail@hotmail.com",
-                      "format": "email"
+                      "description": "email of user"
                     },
                     "username": {
                       "type": "string",
-                      "description": "username of user",
-                      "example": "anyusername",
-                      "format": "username"
+                      "description": "username of user"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "description": "id of user"
                     },
                     "type": {
                       "type": "string",
@@ -159,8 +155,11 @@
                     },
                     "createdAt": {
                       "type": "string",
-                      "description": "created at of user",
-                      "example": "2020-01-01T00:00:00.000Z"
+                      "description": "created at of user"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "updated at of user"
                     }
                   }
                 }
@@ -172,14 +171,14 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
                   "description": "message of error",
-                  "example": "User already exists"
+                  "example": false
                 },
-                "400": {
-                  "description": "bad request",
-                  "example": "bad request"
+                "error": {
+                  "type": "string",
+                  "description": "message of error"
                 }
               }
             }
@@ -227,55 +226,38 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
                   "description": "message of success",
-                  "example": "User logged in successfully"
+                  "example": true
                 },
-                "user": {
+                "data": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
-                    "id": {
+                    "_id": {
                       "type": "string",
-                      "description": "id of user",
-                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                      "description": "id of user"
                     },
                     "email": {
                       "type": "string",
-                      "description": "email of user",
-                      "example": "anymail@hotmail.com",
-                      "format": "email"
+                      "description": "email of user"
                     },
                     "username": {
                       "type": "string",
-                      "description": "username of user",
-                      "example": "anyusername",
-                      "format": "username"
+                      "description": "username of user"
                     },
-                    "password": {
+                    "type": {
                       "type": "string",
-                      "description": "password of user",
-                      "example": "$2a$10$2M5ORDSG.lXG10tb9v1qduh9gHQoPW3dM5fmuIZefgHFPPVST638m",
-                      "format": "password"
+                      "description": "type of user"
                     },
                     "createdAt": {
                       "type": "string",
-                      "description": "created at of user",
-                      "example": "2020-01-01T00:00:00.000Z"
+                      "description": "created at of user"
                     },
                     "updatedAt": {
                       "type": "string",
-                      "description": "updated at of user",
-                      "example": "2020-01-01T00:00:00.000Z",
-                      "format": "date-time",
-                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
-                    },
-                    "cookie": {
-                      "type": "string",
-                      "description": "cookie of user",
-                      "example": "@LK343fdsalkj*nlkjcxdflkj@kmclnn$klnff",
-                      "format": "cookie"
+                      "description": "updated at of user"
                     }
                   }
                 }
@@ -287,14 +269,14 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
                   "description": "message of error",
-                  "example": "incorrect credentials"
+                  "example": false
                 },
-                "400": {
-                  "description": "bad request",
-                  "example": "bad request"
+                "error": {
+                  "type": "string",
+                  "description": "message of error"
                 }
               }
             }
@@ -315,120 +297,53 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
                   "description": "message of success",
-                  "example": "fetched volunteer profile successfully"
+                  "example": true
                 },
-                "volunteer": {
+                "data": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "id of user"
+                    },
                     "email": {
                       "type": "string",
-                      "description": "email of user",
-                      "example": "johndogh@hotmail.com",
-                      "format": "email"
+                      "description": "email of user"
                     },
                     "username": {
                       "type": "string",
-                      "description": "username of user",
-                      "example": "johny88",
-                      "format": "username"
+                      "description": "username of user"
                     },
-                    "firstName": {
+                    "type": {
                       "type": "string",
-                      "description": "first name of user",
-                      "example": "John",
-                      "format": "firstName"
+                      "description": "type of user"
                     },
-                    "lastName": {
+                    "createdAt": {
                       "type": "string",
-                      "description": "last name of user",
-                      "example": "Dogh",
-                      "format": "lastName"
-                    },
-                    "location": {
-                      "type": "string",
-                      "description": "location of user",
-                      "example": "istanbul",
-                      "format": "location"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "description": "phone of user",
-                      "example": "05446544533",
-                      "format": "phone"
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "description of user",
-                      "example": "this is one good volunteer",
-                      "format": "description"
-                    },
-                    "cv": {
-                      "type": "string",
-                      "description": "cv of user",
-                      "example": "cv.pdf",
-                      "format": "cv"
+                      "description": "created at of user"
                     }
                   }
                 }
               }
             }
           },
-          "201": {
-            "description": "Successful operation",
+          "400": {
+            "description": "Bad Request",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
-                  "description": "message of success",
-                  "example": "fetched ngo profile successfully",
-                  "format": "message"
+                  "description": "message of error",
+                  "example": false
                 },
-                "ngo": {
-                  "type": "object",
-                  "description": "user object",
-                  "properties": {
-                    "email": {
-                      "type": "string",
-                      "description": "email of user",
-                      "example": "ngo@hotmail.com",
-                      "format": "email"
-                    },
-                    "username": {
-                      "type": "string",
-                      "description": "username of user",
-                      "example": "ngo",
-                      "format": "username"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "name of user",
-                      "example": "ngo",
-                      "format": "name"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "description": "phone of user",
-                      "example": "05446544533",
-                      "format": "phone"
-                    },
-                    "website": {
-                      "type": "string",
-                      "description": "website of user",
-                      "example": "www.ngo.com",
-                      "format": "website"
-                    },
-                    "avatar": {
-                      "type": "string",
-                      "description": "avatar of user",
-                      "example": "avatar.png",
-                      "format": "avatar"
-                    }
-                  }
+                "error": {
+                  "type": "string",
+                  "description": "message of error"
                 }
               }
             }
