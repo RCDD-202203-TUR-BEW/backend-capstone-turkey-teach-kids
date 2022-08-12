@@ -715,6 +715,57 @@
         }
       }
     },
+    "/api/events/{id}/pending-applicants/:userId/approve": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Finds one NGO by id",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "There is one Ngo that matchs the requested id"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "The are no ngo that matchs the requested id"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/events/{id}/related-events": {
       "get": {
         "tags": ["Events"],
