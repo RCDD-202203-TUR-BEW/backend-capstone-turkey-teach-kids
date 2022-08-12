@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Reach API",
+    "title": "Teach Kids API",
     "description": "connect ngos with teachers.",
     "license": {
       "name": "MIT",
@@ -98,7 +98,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["email", "password", "type", "username"],
+              "required": ["email", "password", "username"],
               "properties": {
                 "email": {
                   "type": "string",
@@ -128,24 +128,18 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "success": {
                   "type": "string",
                   "description": "message of success",
                   "example": "User created successfully"
                 },
-                "user": {
+                "data": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
                     "id": {
                       "type": "string",
-                      "description": "id of user",
-                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "type of user",
-                      "example": "volunteer"
+                      "description": "id of user"
                     },
                     "email": {
                       "type": "string",
@@ -159,27 +153,16 @@
                       "example": "anyusername",
                       "format": "username"
                     },
-                    "password": {
+                    "type": {
                       "type": "string",
-                      "description": "password of user",
-                      "example": "$2a$10$2M5ORDSG.lXG10tb9v1qduh9gHQoPW3dM5fmuIZefgHFPPVST638m",
-                      "format": "password"
+                      "description": "type of user"
                     },
                     "createdAt": {
                       "type": "string",
                       "description": "created at of user",
                       "example": "2020-01-01T00:00:00.000Z"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "description": "updated at of user",
-                      "example": "2020-01-01T00:00:00.000Z"
                     }
                   }
-                },
-                "200": {
-                  "description": "successful operation",
-                  "example": "ok"
                 }
               }
             }
@@ -264,11 +247,6 @@
                       "example": "anymail@hotmail.com",
                       "format": "email"
                     },
-                    "type": {
-                      "type": "string",
-                      "description": "type of user",
-                      "example": "ngo"
-                    },
                     "username": {
                       "type": "string",
                       "description": "username of user",
@@ -292,6 +270,12 @@
                       "example": "2020-01-01T00:00:00.000Z",
                       "format": "date-time",
                       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+                    },
+                    "cookie": {
+                      "type": "string",
+                      "description": "cookie of user",
+                      "example": "@LK343fdsalkj*nlkjcxdflkj@kmclnn$klnff",
+                      "format": "cookie"
                     }
                   }
                 }
@@ -336,19 +320,15 @@
                   "description": "message of success",
                   "example": "fetched volunteer profile successfully"
                 },
-                "user": {
+                "volunteer": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "id of user",
-                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
-                    },
                     "email": {
                       "type": "string",
                       "description": "email of user",
-                      "example": "volunteermail@hotmail.com"
+                      "example": "johndogh@hotmail.com",
+                      "format": "email"
                     },
                     "username": {
                       "type": "string",
@@ -356,25 +336,41 @@
                       "example": "johny88",
                       "format": "username"
                     },
-                    "type": {
+                    "firstName": {
                       "type": "string",
-                      "description": "type of user",
-                      "example": "volunteer"
+                      "description": "first name of user",
+                      "example": "John",
+                      "format": "firstName"
                     },
-                    "appliedEvents": {
-                      "type": "array",
-                      "description": "applied events of user",
-                      "default": []
-                    },
-                    "areaOfExp": {
-                      "type": "array",
-                      "description": "area of exp of user",
-                      "default": []
-                    },
-                    "createdAt": {
+                    "lastName": {
                       "type": "string",
-                      "description": "created at of user",
-                      "example": "2020-01-01T00:00:00.000Z"
+                      "description": "last name of user",
+                      "example": "Dogh",
+                      "format": "lastName"
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "location of user",
+                      "example": "istanbul",
+                      "format": "location"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "phone of user",
+                      "example": "05446544533",
+                      "format": "phone"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of user",
+                      "example": "this is one good volunteer",
+                      "format": "description"
+                    },
+                    "cv": {
+                      "type": "string",
+                      "description": "cv of user",
+                      "example": "cv.pdf",
+                      "format": "cv"
                     }
                   }
                 }
@@ -392,66 +388,47 @@
                   "example": "fetched ngo profile successfully",
                   "format": "message"
                 },
-                "user": {
+                "ngo": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "id of user",
-                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
-                    },
                     "email": {
                       "type": "string",
                       "description": "email of user",
-                      "example": "ngomail@hotmail.com",
+                      "example": "ngo@hotmail.com",
                       "format": "email"
                     },
                     "username": {
                       "type": "string",
                       "description": "username of user",
-                      "example": "redcross2000",
+                      "example": "ngo",
                       "format": "username"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "type of user",
-                      "example": "ngo"
                     },
                     "name": {
                       "type": "string",
                       "description": "name of user",
-                      "example": "Red Cross",
+                      "example": "ngo",
                       "format": "name"
                     },
-                    "publishedEvents": {
-                      "type": "array",
-                      "description": "published events of user",
-                      "default": []
-                    },
-                    "createdAt": {
+                    "phone": {
                       "type": "string",
-                      "description": "created at of user",
-                      "example": "2020-01-01T00:00:00.000Z"
+                      "description": "phone of user",
+                      "example": "05446544533",
+                      "format": "phone"
+                    },
+                    "website": {
+                      "type": "string",
+                      "description": "website of user",
+                      "example": "www.ngo.com",
+                      "format": "website"
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "description": "avatar of user",
+                      "example": "avatar.png",
+                      "format": "avatar"
                     }
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "message of error",
-                  "example": "unauthorized"
-                },
-                "400": {
-                  "description": "bad request",
-                  "example": "bad request"
                 }
               }
             }
@@ -565,7 +542,6 @@
       "get": {
         "tags": ["Events"],
         "summary": "List all events",
-        "operationId": "getEvents",
         "responses": {
           "200": {
             "description": "OK",
@@ -582,7 +558,7 @@
         }
       }
     },
-    "/api/event/{id}": {
+    "/api/events/{id}": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve single event item based on the id",
@@ -593,14 +569,14 @@
             "in": "path",
             "description": "ID of event to fetch",
             "required": true,
-            "type": "ObjectId"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Events"
+              "$ref": "#/definitions/Event"
             }
           },
           "404": {
@@ -613,57 +589,6 @@
             "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/api/ngos": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Lists all Ngos",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "user object",
-            "required": false,
-            "schema": {
-              "type": "object"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "message of success",
-                  "example": "Listed Ngos"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "message of error",
-                  "example": "The are no ngos to be found"
-                },
-                "400": {
-                  "description": "bad request",
-                  "example": "bad request"
-                }
-              }
             }
           }
         }
@@ -755,6 +680,42 @@
           }
         }
       }
+    },
+    "/api/volunteers/{id}/applied-events": {
+      "get": {
+        "tags": ["Volunteers"],
+        "summary": "Retrieve all the events that a volunteer applied for",
+        "operationId": "getAppliedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of volunteer to find the applied events of",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Volunteer"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -782,7 +743,7 @@
       "required": ["avatar", "description", "location", "launchDate", "topic"],
       "properties": {
         "_id": {
-          "type": "ObjectID",
+          "type": "string",
           "uniqueItems": true
         },
         "avatar": {
@@ -798,24 +759,24 @@
           "type": "date"
         },
         "ngo": {
-          "type": "ObjectId"
+          "type": "string"
         },
         "pendingApplicants": {
           "type": "array",
           "items": {
-            "type": "ObjectId"
+            "type": "string"
           }
         },
         "approvedApplicants": {
           "type": "array",
           "items": {
-            "type": "ObjectId"
+            "type": "string"
           }
         },
         "declinedApplicants": {
           "type": "array",
           "items": {
-            "type": "ObjectId"
+            "type": "string"
           }
         },
         "topic": {
@@ -857,13 +818,71 @@
     },
     "Error": {
       "type": "object",
-      "required": ["code", "message"],
+      "required": ["success", "error"],
       "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
+        "success": {
+          "type": "boolean",
+          "default": false
         },
-        "message": {
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "Volunteer": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "ObjectId",
+          "uniqueItems": true,
+          "required": true
+        },
+        "provider": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "integer"
+        },
+        "location": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "cv": {
+          "type": "string"
+        },
+        "appliedEvents": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "areaOfExp": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "providerId": {
           "type": "string"
         }
       }
