@@ -8,7 +8,7 @@ const isAuth = (req, res, next) => {
       return res.sendStatus(401);
     }
     try {
-      const user = jwt.verify(token, process.env.JWT_SECRET);
+      const user = jwt.verify(token, process.env.SECRET_KEY);
       req.user = user;
       return next();
     } catch (err) {

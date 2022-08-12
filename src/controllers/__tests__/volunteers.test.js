@@ -77,7 +77,7 @@ describe("Testing volunteers for routes doesn't require auth controls", () => {
         expect(res.body.data.appliedEvents).toBe(events[0]._id);
         expect(Array.isArray(res.body.data)).toBe(true);
         done();
-        return volunteers[0];
+        return volunteers[0].appliedEvents;
       });
   });
 });
