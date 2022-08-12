@@ -664,6 +664,60 @@
         }
       }
     },
+    "/api/volunteers/{id}": {
+      "get": {
+        "tags": ["volunteers"],
+        "summary": "Retrieve volunteer based on the id",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "operationId": "getvolunteer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "path",
+            "description": "ID of the volunteer",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "objec",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "found volunteer successful",
+                  "$ref": "#/definitions/volunteers"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "no volunteer that matchs the requested id"
+                }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+                }
+              }
+            }
+          }
+        }
+  },
     "/api/ngos/:id": {
       "get": {
         "tags": ["Users"],

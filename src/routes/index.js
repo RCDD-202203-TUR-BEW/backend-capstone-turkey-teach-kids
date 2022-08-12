@@ -11,5 +11,6 @@ router.use('/auth', authRoutes);
 router.use('/events', eventsRoutes);
 router.use('/profile', profileRoutes);
 router.use('/ngos', ngoRoutes);
+router.use('/volunteers', volunteersRoutes);
 
 module.exports = router;
