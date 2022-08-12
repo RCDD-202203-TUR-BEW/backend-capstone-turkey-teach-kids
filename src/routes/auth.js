@@ -34,7 +34,12 @@ router.get('/profile', isAuth, (req, res) => {
 // Authenticated only endpoint that clears the authentication cookie and log the user out.
 router.post('/logout', isAuth, authController.logout);
 
-router.post('/signup/:type', validateSignup, validate, authController.signup);
+router.post(
+  ['/signup/volunteer', '/signup/ngo'],
+  validateSignup,
+  validate,
+  authController.signup
+);
 
 router.post('/login', validateSignin, validate, authController.login);
 

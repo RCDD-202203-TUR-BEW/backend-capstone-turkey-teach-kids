@@ -19,6 +19,8 @@
     "no-process-exit": "off",
     "class-methods-use-this": "off",
     "consistent-return": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-param-reassign": "off",
+    "node/no-unsupported-features/es-syntax": "off"
   }
 }

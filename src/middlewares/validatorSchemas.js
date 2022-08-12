@@ -24,11 +24,6 @@ const validateSignup = [
     .withMessage('Username should not be empty')
     .custom((value) => !/\s/.test(value))
     .withMessage('Username should not include spaces'),
-  check('type')
-    .isIn(['volunteer', 'ngo'])
-    .withMessage('Invalid user type')
-    .exists()
-    .withMessage('User type is required'),
 ];
 
 const validateSignin = [

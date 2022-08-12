@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const options = {
   discriminatorKey: 'type',
   collection: 'users',
+  timestamps: true,
 };
+
 const baseSchema = new mongoose.Schema(
   {
     email: {
@@ -29,7 +31,17 @@ const baseSchema = new mongoose.Schema(
     },
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
-  { timestamps: true, ...options }
+  {
+    ...options,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.password;
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
+  }
 );
 const User = mongoose.model('User', baseSchema);
 
@@ -90,5 +102,10 @@ const ngoSchema = new mongoose.Schema(
 );
 
 const Ngo = User.discriminator('ngo', ngoSchema);
+
+User.getTypeFromReqPath = (req) => {
+  const path = req.path.split('/')[2];
+  return req.params.type === 'ngo' ? 'Ngo' : 'Volunteer';
+};
 
 module.exports = { User, Volunteer, Ngo };
