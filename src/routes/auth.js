@@ -11,7 +11,7 @@ const {
 } = require('../middlewares/validatorSchemas');
 
 require('../middlewares/passport');
-// It handle redirecting the user to google OAuth consent page.
+// It handles redirecting the user to google OAuth consent page.
 
 router.get(
   '/google',

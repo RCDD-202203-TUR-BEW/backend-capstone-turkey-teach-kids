@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Teach Kids API",
+    "title": "Reach API",
     "description": "connect ngos with teachers.",
     "license": {
       "name": "MIT",
@@ -98,7 +98,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["email", "password", "confirmPassword", "username"],
+              "required": ["email", "password", "type", "username"],
               "properties": {
                 "email": {
                   "type": "string",
@@ -109,12 +109,6 @@
                 "password": {
                   "type": "string",
                   "description": "password of user",
-                  "example": "Aa123456",
-                  "format": "password"
-                },
-                "confirmPassword": {
-                  "type": "string",
-                  "description": "confirm password of user",
                   "example": "Aa123456",
                   "format": "password"
                 },
@@ -147,6 +141,11 @@
                       "type": "string",
                       "description": "id of user",
                       "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "type of user",
+                      "example": "volunteer"
                     },
                     "email": {
                       "type": "string",
@@ -265,6 +264,11 @@
                       "example": "anymail@hotmail.com",
                       "format": "email"
                     },
+                    "type": {
+                      "type": "string",
+                      "description": "type of user",
+                      "example": "ngo"
+                    },
                     "username": {
                       "type": "string",
                       "description": "username of user",
@@ -288,12 +292,6 @@
                       "example": "2020-01-01T00:00:00.000Z",
                       "format": "date-time",
                       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
-                    },
-                    "cookie": {
-                      "type": "string",
-                      "description": "cookie of user",
-                      "example": "@LK343fdsalkj*nlkjcxdflkj@kmclnn$klnff",
-                      "format": "cookie"
                     }
                   }
                 }
@@ -338,15 +336,19 @@
                   "description": "message of success",
                   "example": "fetched volunteer profile successfully"
                 },
-                "volunteer": {
+                "user": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id of user",
+                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                    },
                     "email": {
                       "type": "string",
                       "description": "email of user",
-                      "example": "johndogh@hotmail.com",
-                      "format": "email"
+                      "example": "volunteermail@hotmail.com"
                     },
                     "username": {
                       "type": "string",
@@ -354,41 +356,25 @@
                       "example": "johny88",
                       "format": "username"
                     },
-                    "firstName": {
+                    "type": {
                       "type": "string",
-                      "description": "first name of user",
-                      "example": "John",
-                      "format": "firstName"
+                      "description": "type of user",
+                      "example": "volunteer"
                     },
-                    "lastName": {
-                      "type": "string",
-                      "description": "last name of user",
-                      "example": "Dogh",
-                      "format": "lastName"
+                    "appliedEvents": {
+                      "type": "array",
+                      "description": "applied events of user",
+                      "default": []
                     },
-                    "location": {
-                      "type": "string",
-                      "description": "location of user",
-                      "example": "istanbul",
-                      "format": "location"
+                    "areaOfExp": {
+                      "type": "array",
+                      "description": "area of exp of user",
+                      "default": []
                     },
-                    "phone": {
+                    "createdAt": {
                       "type": "string",
-                      "description": "phone of user",
-                      "example": "05446544533",
-                      "format": "phone"
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "description of user",
-                      "example": "this is one good volunteer",
-                      "format": "description"
-                    },
-                    "cv": {
-                      "type": "string",
-                      "description": "cv of user",
-                      "example": "cv.pdf",
-                      "format": "cv"
+                      "description": "created at of user",
+                      "example": "2020-01-01T00:00:00.000Z"
                     }
                   }
                 }
@@ -406,47 +392,66 @@
                   "example": "fetched ngo profile successfully",
                   "format": "message"
                 },
-                "ngo": {
+                "user": {
                   "type": "object",
                   "description": "user object",
                   "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id of user",
+                      "example": "5e9f8f8f8f8f8f8f8f8f8f8"
+                    },
                     "email": {
                       "type": "string",
                       "description": "email of user",
-                      "example": "ngo@hotmail.com",
+                      "example": "ngomail@hotmail.com",
                       "format": "email"
                     },
                     "username": {
                       "type": "string",
                       "description": "username of user",
-                      "example": "ngo",
+                      "example": "redcross2000",
                       "format": "username"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "type of user",
+                      "example": "ngo"
                     },
                     "name": {
                       "type": "string",
                       "description": "name of user",
-                      "example": "ngo",
+                      "example": "Red Cross",
                       "format": "name"
                     },
-                    "phone": {
-                      "type": "string",
-                      "description": "phone of user",
-                      "example": "05446544533",
-                      "format": "phone"
+                    "publishedEvents": {
+                      "type": "array",
+                      "description": "published events of user",
+                      "default": []
                     },
-                    "website": {
+                    "createdAt": {
                       "type": "string",
-                      "description": "website of user",
-                      "example": "www.ngo.com",
-                      "format": "website"
-                    },
-                    "avatar": {
-                      "type": "string",
-                      "description": "avatar of user",
-                      "example": "avatar.png",
-                      "format": "avatar"
+                      "description": "created at of user",
+                      "example": "2020-01-01T00:00:00.000Z"
                     }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "unauthorized"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
                 }
               }
             }
