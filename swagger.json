@@ -556,7 +556,7 @@
         }
       }
     },
-    "/events": {
+    "/api/events": {
       "get": {
         "tags": ["Events"],
         "summary": "List all events",
@@ -577,7 +577,7 @@
         }
       }
     },
-    "/event/{id}": {
+    "/api/event/{id}": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve single event item based on the id",
@@ -608,6 +608,57 @@
             "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/api/ngos": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Lists all Ngos",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user object",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "Listed Ngos"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "The are no ngos to be found"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
+                }
+              }
             }
           }
         }
@@ -715,7 +766,7 @@
         }
       }
     },
-    "/events/{id}/related-events": {
+    "/api/events/{id}/related-events": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve all the related events",

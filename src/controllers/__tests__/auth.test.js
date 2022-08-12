@@ -1,6 +1,5 @@
 const request = require('supertest');
-const Volunteer = require('../../models/volunteer');
-const Ngo = require('../../models/ngo');
+const { User } = require('../../models/user');
 const app = require('../../app');
 
 const user1 = {
@@ -26,8 +25,7 @@ const wrongUser = {
 
 describe('POST /auth', () => {
   afterAll(async () => {
-    await Volunteer.deleteMany();
-    await Ngo.deleteMany();
+    await User.deleteMany();
   });
 
   it('should successfully signup a volunteer', async () => {

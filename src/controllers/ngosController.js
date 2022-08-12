@@ -1,4 +1,4 @@
-const Ngo = require('../models/ngo');
+const { Ngo } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 
 exports.getNgo = async (req, res, next) => {
