@@ -29,3 +29,13 @@ exports.getRelatedEvents = async (req, res, next) => {
     .populate('ngo', 'name');
   return res.status(200).json({ success: true, data: relatedEvents });
 };
+
+exports.getPendingApplicants = async (req, res, next) => {
+  const event = await Event.findOne({ _id: req.params.id }).populate(
+    'pendingApplicants'
+  );
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  return res.status(200).json({ success: true, data: event.pendingApplicants });
+};

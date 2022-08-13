@@ -8,4 +8,6 @@ router.get('/:id', eventsControllers.getEvent);
 
 router.get('/:id/related-events', eventsControllers.getRelatedEvents);
 
+router.get('/:id/pending-applicants', eventsControllers.getPendingApplicants);
+
 module.exports = router;
