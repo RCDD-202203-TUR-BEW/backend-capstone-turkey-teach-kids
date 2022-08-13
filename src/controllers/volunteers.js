@@ -1,4 +1,4 @@
-const Volunteer = require('../models/volunteer');
+const { Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 
 exports.getAppliedEvents = async (req, res, next) => {
