@@ -750,6 +750,42 @@
           }
         }
       }
+    },
+    "/volunteers/{id}/applied-events": {
+      "get": {
+        "tags": ["Volunteers"],
+        "summary": "Retrieve all the events that a volunteer applied for",
+        "operationId": "getAppliedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of volunteer to find the applied events of",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Volunteer"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -859,6 +895,64 @@
           "format": "int32"
         },
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Volunteer": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "ObjectId",
+          "uniqueItems": true,
+          "required": true
+        },
+        "provider": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "integer"
+        },
+        "location": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "cv": {
+          "type": "string"
+        },
+        "appliedEvents": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "areaOfExp": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "providerId": {
           "type": "string"
         }
       }

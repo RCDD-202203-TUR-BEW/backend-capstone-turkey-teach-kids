@@ -9,8 +9,8 @@ const isAuth = async (req, res, next) => {
       return res.sendStatus(401);
     }
     try {
-      const user = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findOne({ _id: user._id });
+      const user = jwt.verify(token, process.env.SECRET_KEY);
+      req.user = user;
       return next();
     } catch (err) {
       return next(new ErrorResponse('Invalid/expired token', 401));
