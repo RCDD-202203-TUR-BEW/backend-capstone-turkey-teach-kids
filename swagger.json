@@ -750,6 +750,42 @@
           }
         }
       }
+    },
+    "/api/events/{id}/pending-applicants": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve all the pending applicants",
+        "operationId": "getPendingApplicants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to find the pending applicants",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "404": {
+            "description": "No events",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

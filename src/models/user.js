@@ -77,7 +77,7 @@ const volunteerSchema = new mongoose.Schema(
   { ...options }
 );
 
-const Volunteer = User.discriminator('volunteer', volunteerSchema);
+const Volunteer = User.discriminator('Volunteer', volunteerSchema);
 
 const ngoSchema = new mongoose.Schema(
   {
@@ -101,11 +101,16 @@ const ngoSchema = new mongoose.Schema(
   { ...options }
 );
 
-const Ngo = User.discriminator('ngo', ngoSchema);
+const Ngo = User.discriminator('Ngo', ngoSchema);
 
 User.getTypeFromReqPath = (req) => {
   const path = req.path.split('/')[2];
-  return req.params.type === 'ngo' ? 'Ngo' : 'Volunteer';
+  if (path === 'volunteer') {
+    return 'Volunteer';
+  }
+  if (path === 'ngo') {
+    return 'Ngo';
+  }
 };
 
 module.exports = { User, Volunteer, Ngo };
