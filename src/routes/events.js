@@ -10,8 +10,9 @@ router.get('/:id/related-events', eventsControllers.getRelatedEvents);
 
 router.post(
   '/:id/pending-applicants/:userId/approve',
-  isAuth,
-  isNgo,
+  // isAuth,
+
+  // isNgo,
   eventsControllers.approveApplicant
 );
 
