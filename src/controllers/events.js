@@ -52,21 +52,15 @@ exports.approveApplicant = async (req, res, next) => {
       new ErrorResponse('This Volunteer did not apply for this event', 400)
     );
   }
-  const updatedPendingApplicants = event.pendingApplicants.splice(
-    applicantIndex,
-    1
-  );
-  // const updatedApprovedApplicants = event.approvedApplicants.push(
-  //   applicant._id
-  // );
-  console.log(event);
+
   await Event.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
-    { pendingApplicants: updatedPendingApplicants }
+    { $push: { approvedApplicants: applicant._id } }
   );
-  // await Event.findOneAndUpdate(
-  //   { _id: mongoose.Types.ObjectId(req.params.id) },
-  //   { approvedApplicants: updatedApprovedApplicants }
-  // );
-  return res.status(200).json({ success: true, data: event });
+  await Event.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(req.params.id) },
+    { $pull: { pendingApplicants: applicant._id } }
+  );
+  const updatedEvent = await Event.findById(req.params.id);
+  return res.status(200).json({ success: true, data: updatedEvent });
 };
