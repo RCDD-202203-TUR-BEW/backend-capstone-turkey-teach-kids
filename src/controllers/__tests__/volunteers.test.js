@@ -45,7 +45,7 @@ afterAll((done) => {
 describe("Testing volunteer for routes doesn't require auth controls", () => {
   it('GET /api/volunteers/:id should retrieve one volunteer that match the requested id', (done) => {
     request(app)
-      .get(`/api/volunteers/${volunteers[(0, 1)]._id}`)
+      .get(`/api/volunteers/${volunteers[0]._id}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) {
@@ -53,18 +53,8 @@ describe("Testing volunteer for routes doesn't require auth controls", () => {
           return err;
         }
         expect(res.body).to.be.an('object');
-        expect(res.body.name).to.equal(volunteers[(0, 1)].name);
+        expect(res.body.name).to.equal(volunteers[0].name);
         done();
       });
   });
-});
-it('Get volunteer record which does not exists', (done) => {
-  const expectedResponse = { message: 'No volunteer found with given ID' };
-  request(app)
-    .get(`/api/vounteers/66}`)
-    .expect(400)
-    .end((err, res) => {
-      expect(res.body).toEqual(expectedResponse);
-      done();
-    });
 });

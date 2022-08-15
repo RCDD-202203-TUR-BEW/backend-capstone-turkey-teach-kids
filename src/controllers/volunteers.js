@@ -1,5 +1,5 @@
 const ErrorResponse = require('../utils/errorResponse');
-const Volunteer = require('../models/volunteer');
+const { Volunteer } = require('../models/user');
 
 exports.getVolunteer = async (req, res, next) => {
   const volunteer = await Volunteer.findById(req.params.id);
