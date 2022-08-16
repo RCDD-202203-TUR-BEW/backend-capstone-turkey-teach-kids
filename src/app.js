@@ -15,10 +15,9 @@ const swaggerDocument = require('../swagger.json');
 require('./middlewares/passport');
 
 connectToMongo();
-// eslint-disable-next-line no-use-before-define
-app.use(cors());
-const app = express();
 
+const app = express();
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
