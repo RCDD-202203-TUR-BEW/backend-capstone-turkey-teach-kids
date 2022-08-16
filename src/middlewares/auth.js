@@ -9,7 +9,7 @@ const isAuth = async (req, res, next) => {
       return res.sendStatus(401);
     }
     try {
-      const user = jwt.verify(token, process.env.JWT_SECRET);
+      const user = jwt.verify(token, process.env.SECRET_KEY);
       req.user = await User.findOne({ _id: user._id });
       return next();
     } catch (err) {

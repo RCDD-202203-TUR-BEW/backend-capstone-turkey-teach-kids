@@ -55,14 +55,14 @@ const updatedNgo = {
 
 const volunteerToken = jwt.sign(
   { _id: volunteer._id, type: 'Volunteer' },
-  process.env.JWT_SECRET,
+  process.env.SECRET_KEY,
   {
     expiresIn: '1h',
   }
 );
 const cookie = `token=${volunteerToken}`;
 
-const ngoToken = jwt.sign({ _id: ngo._id }, process.env.JWT_SECRET, {
+const ngoToken = jwt.sign({ _id: ngo._id }, process.env.SECRET_KEY, {
   expiresIn: '1h',
 });
 const ngoCookie = `token=${ngoToken}`;

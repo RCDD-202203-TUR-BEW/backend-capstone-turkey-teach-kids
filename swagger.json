@@ -575,6 +575,36 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": ["Events"],
+        "summary": "Post a new event item",
+        "operationId": "addEvent",
+        "parameters": [
+          {
+            "name": "event",
+            "in": "body",
+            "description": "Event to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewEvent"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     },
     "/api/event/{id}": {
