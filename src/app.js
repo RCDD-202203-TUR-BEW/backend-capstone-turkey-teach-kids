@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
@@ -14,7 +15,8 @@ const swaggerDocument = require('../swagger.json');
 require('./middlewares/passport');
 
 connectToMongo();
-
+// eslint-disable-next-line no-use-before-define
+app.use(cors());
 const app = express();
 
 const port = process.env.PORT || 3000;
