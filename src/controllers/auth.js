@@ -18,7 +18,7 @@ exports.signup = async (req, res, next) => {
     email,
     password: hashedPassword,
     username,
-    type: req.params.type,
+    type: User.getTypeFromReqPath(req),
   });
   await user.save();
   res.setHeader('user', JSON.stringify(user));

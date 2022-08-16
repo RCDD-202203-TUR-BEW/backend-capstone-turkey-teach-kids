@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
     "title": "Teach Kids API",
@@ -664,17 +664,18 @@
         }
       }
     },
-    "/api/ngos/:id": {
+    "/api/volunteers/{id}": {
       "get": {
-        "tags": ["Users"],
-        "summary": "Finds one NGO by id",
+        "tags": ["volunteers"],
+        "summary": "Retrieve volunteer based on the id",
         "consumes": ["application/json"],
         "produces": ["application/json"],
+        "operationId": "getvolunteer",
         "parameters": [
           {
             "name": "body",
-            "in": "body",
-            "description": "user object",
+            "in": "path",
+            "description": "ID of the volunteer",
             "required": false,
             "schema": {
               "type": "object"
@@ -683,14 +684,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "successful operation",
             "schema": {
-              "type": "object",
+              "type": "objec",
               "properties": {
                 "message": {
                   "type": "string",
                   "description": "message of success",
-                  "example": "There is one Ngo that matchs the requested id"
+                  "example": "found volunteer successful",
+                  "$ref": "#/definitions/volunteers"
                 }
               }
             }
@@ -703,12 +705,101 @@
                 "message": {
                   "type": "string",
                   "description": "message of error",
-                  "example": "The are no ngo that matchs the requested id"
-                },
-                "400": {
-                  "description": "bad request",
-                  "example": "bad request"
+                  "example": "no volunteer that matchs the requested id"
                 }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/ngos/:id": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Finds one NGO by id",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "description": "user object",
+              "required": false,
+              "schema": {
+                "type": "object"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "message of success",
+                    "example": "There is one Ngo that matchs the requested id"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "message of error",
+                    "example": "The are no ngo that matchs the requested id"
+                  },
+                  "400": {
+                    "description": "bad request",
+                    "example": "bad request"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/events/{id}/related-events": {
+        "get": {
+          "tags": ["Events"],
+          "summary": "Retrieve all the related events",
+          "operationId": "getRelatedEvents",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of event to find the related events",
+              "required": true,
+              "type": "ObjectId"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Events"
+              }
+            },
+            "404": {
+              "description": "No events",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            },
+            "default": {
+              "description": "Unexpected error",
+              "schema": {
+                "$ref": "#/definitions/Error"
               }
             }
           }
@@ -766,151 +857,127 @@
         }
       }
     },
-    "/api/events/{id}/related-events": {
-      "get": {
-        "tags": ["Events"],
-        "summary": "Retrieve all the related events",
-        "operationId": "getRelatedEvents",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of event to find the related events",
-            "required": true,
-            "type": "ObjectId"
+    "definitions": {
+      "User": {
+        "required": ["name", "_id", "email", "providerId"],
+        "properties": {
+          "_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
           }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "$ref": "#/definitions/User"
+      },
+      "Event": {
+        "type": "object",
+        "required": [
+          "avatar",
+          "description",
+          "location",
+          "launchDate",
+          "topic"
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Events"
+        "properties": {
+          "_id": {
+            "type": "ObjectID",
+            "uniqueItems": true
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "launchDate": {
+            "type": "date"
+          },
+          "ngo": {
+            "type": "ObjectId"
+          },
+          "pendingApplicants": {
+            "type": "array",
+            "items": {
+              "type": "ObjectId"
             }
           },
-          "404": {
-            "description": "No events",
-            "schema": {
-              "$ref": "#/definitions/Error"
+          "approvedApplicants": {
+            "type": "array",
+            "items": {
+              "type": "ObjectId"
             }
           },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+          "declinedApplicants": {
+            "type": "array",
+            "items": {
+              "type": "ObjectId"
             }
+          },
+          "topic": {
+            "type": "string"
           }
         }
-      }
-    }
-  },
-  "definitions": {
-    "User": {
-      "required": ["name", "_id", "email", "providerId"],
-      "properties": {
-        "_id": {
-          "type": "integer",
-          "uniqueItems": true
-        },
-        "isPublic": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "Users": {
-      "type": "array",
-      "$ref": "#/definitions/User"
-    },
-    "Event": {
-      "type": "object",
-      "required": ["avatar", "description", "location", "launchDate", "topic"],
-      "properties": {
-        "_id": {
-          "type": "ObjectID",
-          "uniqueItems": true
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "location": {
-          "type": "string"
-        },
-        "launchDate": {
-          "type": "date"
-        },
-        "ngo": {
-          "type": "ObjectId"
-        },
-        "pendingApplicants": {
-          "type": "array",
-          "items": {
+      },
+      "Events": {
+        "type": "object",
+        "$ref": "#/definitions/Event"
+      },
+      "NewEvent": {
+        "type": "object",
+        "required": [
+          "avatar",
+          "description",
+          "location",
+          "launchDate",
+          "topic"
+        ],
+        "properties": {
+          "_id": {
+            "type": "ObjectID",
+            "uniqueItems": true
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "launchDate": {
+            "type": "date"
+          },
+          "ngo": {
             "type": "ObjectId"
+          },
+          "topic": {
+            "type": "string"
           }
-        },
-        "approvedApplicants": {
-          "type": "array",
-          "items": {
-            "type": "ObjectId"
-          }
-        },
-        "declinedApplicants": {
-          "type": "array",
-          "items": {
-            "type": "ObjectId"
-          }
-        },
-        "topic": {
-          "type": "string"
         }
-      }
-    },
-    "Events": {
-      "type": "object",
-      "$ref": "#/definitions/Event"
-    },
-    "NewEvent": {
-      "type": "object",
-      "required": ["avatar", "description", "location", "launchDate", "topic"],
-      "properties": {
-        "_id": {
-          "type": "ObjectID",
-          "uniqueItems": true
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "location": {
-          "type": "string"
-        },
-        "launchDate": {
-          "type": "date"
-        },
-        "ngo": {
-          "type": "ObjectId"
-        },
-        "topic": {
-          "type": "string"
-        }
-      }
-    },
-    "Error": {
-      "type": "object",
-      "required": ["code", "message"],
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
+      },
+      "Error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
         }
       }
     }

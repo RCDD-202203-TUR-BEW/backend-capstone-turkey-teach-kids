@@ -36,7 +36,6 @@ describe('POST /auth', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data).toHaveProperty('email');
     expect(response.body.data).toHaveProperty('username');
-    expect(response.body.data).toHaveProperty('password');
   });
 
   it('should successfully signup an ngo', async () => {
@@ -46,7 +45,6 @@ describe('POST /auth', () => {
     expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
     expect(response.body.data).toHaveProperty('email');
-    expect(response.body.data).toHaveProperty('password');
     expect(response.body.data).toHaveProperty('username');
   });
 
@@ -65,7 +63,6 @@ describe('POST /auth', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data).toHaveProperty('email');
     expect(response.body.data).toHaveProperty('username');
-    expect(response.body.data).toHaveProperty('password');
   });
 
   it('should return an error if the email is not found', async () => {
