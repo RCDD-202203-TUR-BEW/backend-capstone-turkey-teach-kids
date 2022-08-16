@@ -41,7 +41,7 @@ exports.login = async (req, res, next) => {
   }
   const token = jwt.sign(
     { _id: user._id.toHexString() },
-    process.env.JWT_SECRET,
+    process.env.SECRET_KEY,
     {
       expiresIn: '14d',
     }
@@ -59,7 +59,7 @@ exports.authenticationCookie = async (req, res) => {
   const { _id } = req.user;
   const userInToken = { _id };
 
-  const token = jwt.sign(userInToken, process.env.JWT_SECRET, {
+  const token = jwt.sign(userInToken, process.env.SECRET_KEY, {
     expiresIn: '14 days',
   });
 
