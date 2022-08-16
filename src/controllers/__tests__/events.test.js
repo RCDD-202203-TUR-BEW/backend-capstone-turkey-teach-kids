@@ -32,6 +32,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
+    pendingApplicants: [],
   },
   {
     avatar:
@@ -42,6 +43,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'English',
+    pendingApplicants: [],
   },
   {
     avatar:
@@ -52,6 +54,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
+    pendingApplicants: [],
   },
 ];
 
