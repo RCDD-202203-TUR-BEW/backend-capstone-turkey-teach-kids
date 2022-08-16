@@ -8,7 +8,7 @@ const uploadHandler = multer({
     projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
     keyFilename: process.env.GOOGLE_CLOUD_KEYFILE,
     filename: (req, file, cb) => {
-      cb(null, `${uuidv4()}-${file.mimetype.split('/')[1]}`);
+      cb(null, `${uuidv4()}.${file.mimetype.split('/')[1]}`);
     },
   }),
   fileFilter: (req, file, cb) => {
