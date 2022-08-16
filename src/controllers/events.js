@@ -1,5 +1,5 @@
 const Event = require('../models/event');
-const { Ngo } = require('../models/user');
+const { Ngo, Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 
 exports.getEvents = async (req, res) => {
@@ -28,4 +28,19 @@ exports.getRelatedEvents = async (req, res, next) => {
     .select('-pendingApplicants -approvedApplicants -declinedApplicants')
     .populate('ngo', 'name');
   return res.status(200).json({ success: true, data: relatedEvents });
+};
+
+exports.applyToEvent = async (req, res, next) => {
+  const volunteer = await Volunteer.findById(req.user._id);
+  const event = await Event.findById(req.params.id);
+
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  event.pendingApplicants.push(req.user._id);
+  await event.save();
+
+  volunteer.appliedEvents.push(req.params.id);
+  await volunteer.save();
+  return res.status(200).json({ success: true, data: event });
 };
