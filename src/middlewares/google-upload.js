@@ -1,5 +1,6 @@
 const multer = require('multer');
 const multerGoogleCloudStorage = require('multer-google-storage');
+const { v4: uuidv4 } = require('uuid');
 
 const uploadHandler = multer({
   storage: multerGoogleCloudStorage.storageEngine({
@@ -7,7 +8,7 @@ const uploadHandler = multer({
     projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
     keyFilename: process.env.GOOGLE_CLOUD_KEYFILE,
     filename: (req, file, cb) => {
-      cb(null, `projectimages/${Date.now()}_${file.originalname}`);
+      cb(null, `${uuidv4()}-${file.mimetype.split('/')[1]}`);
     },
   }),
   fileFilter: (req, file, cb) => {
