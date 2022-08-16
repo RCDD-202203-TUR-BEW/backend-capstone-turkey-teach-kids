@@ -135,29 +135,6 @@ describe("Testing volunteer for routes doesn't require auth controls", () => {
         done();
       });
   });
-
-  it('GET /api/volunteers/:id/applied-events should retrieve all the applied events of specified volunteer', (done) => {
-    request(app)
-      .get(`/api/volunteers/1/applied-events`)
-      .send(volunteers[0])
-      .expect('Content-Type', /json/)
-      .expect(200, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-        if (!res.body) {
-          expect(res.statusCode).toBe(404);
-          done();
-          return res.json('No volunteer found');
-        }
-        expect(res.body.data).toEqual([]);
-        expect(res.body.data.appliedEvents).toBe(events[0]._id);
-        expect(Array.isArray(res.body.data)).toBe(true);
-        done();
-        return volunteers[0].appliedEvents;
-      });
-  });
 });
 
 describe('Testing volunteer for routes require auth controls', () => {

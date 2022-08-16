@@ -105,7 +105,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(new Date(response.body.data[0].launchDate)).toEqual(
       event.launchDate
     );
-    expect(response.body.data[0].ngoId).toEqual(event.ngoId);
+    expect(response.body.data[0].ngo).toEqual(event.ngo);
     expect(response.body.data[0].topic).toEqual(event.topic);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
@@ -132,7 +132,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.data.description).toEqual(event.description);
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
-    expect(response.body.data.ngoId).toEqual(event.ngoId);
+    expect(response.body.data.ngo).toEqual(event.ngo);
     expect(response.body.data.topic).toEqual(event.topic);
     expect(typeof response.body.data).toEqual('object');
   });
@@ -162,7 +162,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(new Date(response.body.data[0].launchDate)).toEqual(
       event.launchDate
     );
-    expect(response.body.data[0].ngoId).toEqual(event2.ngoId);
+    expect(response.body.data[0].ngo).toEqual(event2.ngo);
     expect(response.body.data[0].topic).toEqual(event2.topic);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
