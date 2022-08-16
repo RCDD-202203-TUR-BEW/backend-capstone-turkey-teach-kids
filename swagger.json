@@ -929,6 +929,64 @@
           }
         }
       }
+    },
+    "Volunteer": {
+      "type": "object",
+      "required": ["avatar", "description", "location", "launchDate", "topic"],
+      "properties": {
+        "_id": {
+          "type": "ObjectID",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "ObjectId",
+          "uniqueItems": true,
+          "required": true
+        },
+        "provider": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "integer"
+        },
+        "location": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "cv": {
+          "type": "string"
+        },
+        "appliedEvents": {
+          "type": "array",
+          "items": {
+            "type": "ObjectId"
+          }
+        },
+        "areaOfExp": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "providerId": {
+          "type": "string"
+        }
+      }
     }
   }
 }
