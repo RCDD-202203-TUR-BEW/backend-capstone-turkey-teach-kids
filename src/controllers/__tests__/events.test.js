@@ -32,6 +32,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
+    pendingApplicants: [],
   },
   {
     avatar:
@@ -42,6 +43,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'English',
+    pendingApplicants: [],
   },
   {
     avatar:
@@ -52,6 +54,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
+    pendingApplicants: [],
   },
 ];
 
@@ -183,7 +186,7 @@ describe('Testing events for routes require auth controls', () => {
   it('POST /api/events/:id/apply should add a new event', async () => {
     const volunteer = await createVolunteer();
     const volunteerCookie = createToken(volunteer);
-    events[0].pendingApplicants.pus(volunteer._id);
+    events[0].pendingApplicants.push(volunteer._id);
     const event = await createEvent(events[0]);
     volunteer.appliedEvents.push(event._id);
     await volunteer.save();
@@ -191,8 +194,16 @@ describe('Testing events for routes require auth controls', () => {
       .post(`/api/events/${event._id}/apply`)
       .set('Cookie', volunteerCookie)
       .send(events[0]);
+
+    console.log(response.body.data.pendingApplicants, event.pendingApplicants);
     expect(response.body.success).toEqual(true);
-    console.log(response.body.data);
+    expect(
+      response.body.data.pendingApplicants[
+        response.body.data.pendingApplicants.length - 1
+      ]
+    ).toEqual(
+      event.pendingApplicants[event.pendingApplicants.length - 1].toString()
+    );
   });
 
   it('POST /api/events/:id/apply should refuse to add event without authorization', async () => {
