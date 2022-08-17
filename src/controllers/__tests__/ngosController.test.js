@@ -1,73 +1,68 @@
+const mongoose = require('mongoose');
 const request = require('supertest');
+const Event = require('../../models/event');
+const { Volunteer, Ngo } = require('../../models/user');
 const app = require('../../app');
 
 jest.setTimeout(5000);
 
-const ngos = [
+const mNgos = [
   {
-    _id: '1',
-    name: ' NTT Eduacation',
-    username: 'Some Fancy Username',
-    website: 'https://www.womefanctwebsite.org',
-    email: 'info@ntt.edu.tr(1)',
+    username: 'SomeFancyUsername',
+    email: 'info@ntt.edu.tr',
     password: 'some passward',
-    phone: '0212123456789',
-    publishedEvents: ['objectId(1)', 'objectId(2)'],
-    avatar: 'https://www.womefncyavatar.png',
+    type: 'Ngo',
   },
   {
-    _id: '2',
-    name: ' NMN Eduacation',
-    username: 'Some Fancy Username',
-    website: 'https://www.womefanctwebsite.org',
-    email: 'info@nmn.edu.tr(1)',
+    username: 'SomeFancyUsername2',
+    email: 'info@nmn.edu.tr',
     password: 'some passward',
-    phone: '0216123456789',
-    publishedEvents: ['objectId(2)', 'objectId(3)'],
-    avatar: 'https://www.womefncyavatar.png',
+    type: 'Ngo',
   },
 ];
 
-beforeAll((done) => {
-  done();
+beforeEach(async () => {
+  await Event.deleteMany();
+  await Volunteer.deleteMany();
+  await Ngo.deleteMany();
+});
+afterEach(async () => {
+  await Event.deleteMany();
+  await Volunteer.deleteMany();
+  await Ngo.deleteMany();
+});
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
-afterAll((done) => {
-  done();
-});
-
-describe("Testing ngos for routes doesn't require auth controls", () => {
-  it('GET /api/ngos should retrieve all the ngos', (done) => {
-    request(app)
-      .get(`/api/ngos/`)
+describe("Testing Ngos for routes doesn't require auth controls", () => {
+  it('GET /api/ngos should retrieve all the registered Ngos', async () => {
+    const ngo1 = await Ngo.create(mNgos[0]);
+    const ngo2 = await Ngo.create(mNgos[1]);
+    const response = await request(app)
+      .get(`/api/ngos`)
       .expect('Content-Type', /json/)
-      .expect(200, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-
-        expect(res.body.data).toEqual([]);
-        expect(Array.isArray(res.body.data)).toBe(true);
-        done();
-        return ngos;
-      });
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data[0].username).toEqual(ngo1.username);
+    expect(response.body.data[1].username).toEqual(ngo2.username);
+    expect(response.body.data[0].email).toEqual(ngo1.email);
+    expect(response.body.data[1].email).toEqual(ngo2.email);
+    expect(response.body.data[0].type).toEqual('Ngo');
+    expect(response.body.data[1].type).toEqual('Ngo');
+    expect(Array.isArray(response.body.data)).toBe(true);
   });
-});
-
-describe("Testing ngo for routes doesn't require auth controls", () => {
-  it('GET /api/ngos/:id should retrieve one ngo that match the requested id', (done) => {
-    request(app)
-      .get(`/api/ngos/${ngos[1]._id}`)
+  it('GET /api/ngos/:id should retrieve single Ngo that match the requested id', async () => {
+    const ngo = await Ngo.create(mNgos[0]);
+    const response = await request(app)
+      .get(`/api/ngos/${ngo._id}`)
       .expect('Content-Type', /json/)
-      .expect(200, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-        expect(res.body).to.be.an('object');
-        expect(res.body.name).to.equal(ngos[1].name);
-        done();
-      });
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data.username).toEqual(ngo.username);
+    expect(response.body.data.email).toEqual(ngo.email);
+    expect(response.body.data.passward).toEqual(ngo.passward);
+    expect(response.body.data.type).toEqual('Ngo');
+    expect(Array.isArray(response.body.data)).toBe(true);
   });
 });
