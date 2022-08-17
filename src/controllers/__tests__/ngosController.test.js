@@ -63,6 +63,5 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
     expect(response.body.data.email).toEqual(ngo.email);
     expect(response.body.data.passward).toEqual(ngo.passward);
     expect(response.body.data.type).toEqual('Ngo');
-    expect(Array.isArray(response.body.data)).toBe(true);
   });
 });
