@@ -37,7 +37,12 @@ exports.deleteEvent = async (req, res, next) => {
     return next(new ErrorResponse('No event found', 404));
   }
   if (event.ngo.toString() !== req.user._id.toString()) {
-    return next(new ErrorResponse('It is not your event', 401));
+    return next(
+      new ErrorResponse(
+        "You don't have permissions to perform this operation",
+        401
+      )
+    );
   }
   await event.remove();
   return res.status(204).json({ success: true, data: event });
