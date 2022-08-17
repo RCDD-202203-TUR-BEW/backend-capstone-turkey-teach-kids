@@ -180,6 +180,28 @@ describe("Testing events for routes doesn't require auth controls", () => {
       success: false,
     });
   });
+
+  it('DELETE /api/events/:id should refuse to delete event without authorization', async () => {
+    const event = await createEvent(events[0]);
+    const response = await request(app)
+      .delete(`/api/events/${event._id}`)
+      .expect(401);
+    expect(response.text).toEqual('Unauthorized');
+  });
+
+  it('DELETE /api/events/:id should refuse to delete event without authentication', async () => {
+    const volunteer = await createVolunteer();
+    const event = await createEvent(events[0]);
+    const volunteerCookie = createToken(volunteer);
+    const response = await request(app)
+      .delete(`/api/events/${event._id}`)
+      .set('Cookie', volunteerCookie)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'Invalid user type',
+    });
+  });
 });
 
 describe('Testing events for routes require auth controls', () => {

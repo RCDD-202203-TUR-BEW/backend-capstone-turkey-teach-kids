@@ -615,6 +615,56 @@
           }
         }
       }
+    },
+    "/api/volunteers/{id}/applied-events": {
+      "get": {
+        "tags": ["Events", "Volunteers"],
+        "summary": "Retrieve all the applied events of the related volunteer",
+        "operationId": "getAppliedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of volunteer to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get applied events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessAppliedEvents"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

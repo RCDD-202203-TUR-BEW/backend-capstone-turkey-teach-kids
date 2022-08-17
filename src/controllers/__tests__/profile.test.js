@@ -54,7 +54,7 @@ const updatedNgo = {
 };
 
 const volunteerToken = jwt.sign(
-  { _id: volunteer._id, type: 'Volunteer' },
+  { _id: volunteer._id },
   process.env.SECRET_KEY,
   {
     expiresIn: '1h',
