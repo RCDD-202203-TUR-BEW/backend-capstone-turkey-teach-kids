@@ -126,4 +126,28 @@ const validateProfile = [
     .withMessage('Avatar should not include spaces'),
 ];
 
-module.exports = { validateSignup, validateSignin, validateProfile };
+const validateAddEvent = [
+  body('avatar').not().isEmpty().withMessage('Avatar should not be empty'),
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .isLength({ min: 120 })
+    .withMessage('Description must be at least 120 characters long'),
+  body('location').not().isEmpty().withMessage('Location should not be empty'),
+  body('launchDate')
+    .not()
+    .isEmpty()
+    .withMessage('Date should not be empty')
+    .isISO8601()
+    .toDate()
+    .withMessage('Wrong date format'),
+  body('topic').not().isEmpty().withMessage('Topic should not be empty'),
+];
+
+module.exports = {
+  validateSignup,
+  validateSignin,
+  validateProfile,
+  validateAddEvent,
+};
