@@ -154,7 +154,7 @@ describe('Testing volunteer for routes require auth controls', () => {
     console.log(response.body.data[0], volunteer.appliedEvents[0].toString());
     console.log(response.body.data[1], volunteer.appliedEvents[1].toString());
     expect(response.body.success).toEqual(true);
-    expect(response.body.data[0]).toEqual(
+    expect(response.body.data[0]._id).toEqual(
       volunteer.appliedEvents[0].toString()
     );
     expect(Array.isArray(response.body.data)).toBe(true);
