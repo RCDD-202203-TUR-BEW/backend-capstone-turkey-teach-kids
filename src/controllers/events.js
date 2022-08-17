@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Event = require('../models/event');
 const { Ngo } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
@@ -28,4 +29,21 @@ exports.getRelatedEvents = async (req, res, next) => {
     .select('-pendingApplicants -approvedApplicants -declinedApplicants')
     .populate('ngo', 'name');
   return res.status(200).json({ success: true, data: relatedEvents });
+};
+
+exports.deleteEvent = async (req, res, next) => {
+  const event = await Event.findOne({ _id: req.params.id });
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorResponse(
+        "You don't have permissions to perform this operation",
+        401
+      )
+    );
+  }
+  await event.remove();
+  return res.status(204).json({ success: true, data: event });
 };

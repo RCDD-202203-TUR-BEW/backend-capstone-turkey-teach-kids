@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+module.exports = router;
+
 const usersRoutes = require('./users');
 const authRoutes = require('./auth');
 const profileRoutes = require('./profile');
@@ -13,5 +15,3 @@ router.use('/events', eventsRoutes);
 router.use('/profile', profileRoutes);
 router.use('/ngos', ngoRoutes);
 router.use('/volunteers', volunteersRoutes);
-
-module.exports = router;
