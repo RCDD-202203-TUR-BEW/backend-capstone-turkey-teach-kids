@@ -20,7 +20,14 @@ exports.getVolunteers = async (req, res, next) => {
 exports.getAppliedEvents = async (req, res, next) => {
   const volunteer = await Volunteer.findById(req.params.id, {
     appliedEvents: 1,
-  });
+  }).populate('appliedEvents', [
+    'avatar',
+    'description',
+    'topic',
+    'location',
+    'launchDate',
+  ]);
+
   if (!volunteer) {
     return next(new ErrorResponse('No volunteer found to show events', 404));
   }
