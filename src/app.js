@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
@@ -16,7 +17,7 @@ require('./middlewares/passport');
 connectToMongo();
 
 const app = express();
-
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
