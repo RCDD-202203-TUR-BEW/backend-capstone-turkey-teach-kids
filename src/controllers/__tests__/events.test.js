@@ -183,6 +183,54 @@ describe("Testing events for routes doesn't require auth controls", () => {
 });
 
 describe('Testing events for routes require auth controls', () => {
+  it('DELETE /api/events/:id should delete the related event', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const event = await createEvent(events[0]);
+    event.ngo = ngo._id;
+    await event.save();
+    const response = await request(app)
+      .delete(`/api/events/${event._id}`)
+      .set('Cookie', ngoCookie)
+      .expect(204);
+  });
+
+  it('DELETE /api/events/:id should not return the event if the event is not found', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const response = await request(app)
+      .delete(`/api/events/${eventId}`)
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(404);
+    expect(response.body).toEqual({
+      error: 'No event found',
+      success: false,
+    });
+  });
+
+  it('DELETE /api/events/:id should refuse to delete event without authorization', async () => {
+    const event = await createEvent(events[0]);
+    const response = await request(app)
+      .delete(`/api/events/${event._id}`)
+      .expect(401);
+    expect(response.text).toEqual('Unauthorized');
+  });
+
+  it('DELETE /api/events/:id should refuse to delete event without authentication', async () => {
+    const volunteer = await createVolunteer();
+    const event = await createEvent(events[0]);
+    const volunteerCookie = createToken(volunteer);
+    const response = await request(app)
+      .delete(`/api/events/${event._id}`)
+      .set('Cookie', volunteerCookie)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'Invalid user type',
+    });
+  });
+
   it('POST /api/events/:id/apply should add a new event', async () => {
     const volunteer = await createVolunteer();
     const volunteerCookie = createToken(volunteer);
