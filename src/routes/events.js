@@ -1,12 +1,20 @@
 const router = require('express').Router();
-const { isAuth, isNgo } = require('../middlewares/auth');
+const { validate } = require('../middlewares/bodyValidator');
 const eventsControllers = require('../controllers/events');
-//  TODO: a middleware for ngo or volunteer check will be added .
+const { validateAddEvent } = require('../middlewares/validatorSchemas');
+const { isAuth, isNgo } = require('../middlewares/auth');
+
 router.get('/', eventsControllers.getEvents);
-router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
-
+router.post(
+  '/',
+  isAuth,
+  isNgo,
+  validateAddEvent,
+  validate,
+  eventsControllers.addEvent
+);
 router.get('/:id', eventsControllers.getEvent);
-
 router.get('/:id/related-events', eventsControllers.getRelatedEvents);
+router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
 
 module.exports = router;
