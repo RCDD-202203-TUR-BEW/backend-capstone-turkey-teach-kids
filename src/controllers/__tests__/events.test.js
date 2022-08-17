@@ -180,28 +180,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
       success: false,
     });
   });
-
-  it('DELETE /api/events/:id should refuse to delete event without authorization', async () => {
-    const event = await createEvent(events[0]);
-    const response = await request(app)
-      .delete(`/api/events/${event._id}`)
-      .expect(401);
-    expect(response.text).toEqual('Unauthorized');
-  });
-
-  it('DELETE /api/events/:id should refuse to delete event without authentication', async () => {
-    const volunteer = await createVolunteer();
-    const event = await createEvent(events[0]);
-    const volunteerCookie = createToken(volunteer);
-    const response = await request(app)
-      .delete(`/api/events/${event._id}`)
-      .set('Cookie', volunteerCookie)
-      .expect(400);
-    expect(response.body).toEqual({
-      success: false,
-      error: 'Invalid user type',
-    });
-  });
 });
 
 describe('Testing events for routes require auth controls', () => {
@@ -252,9 +230,7 @@ describe('Testing events for routes require auth controls', () => {
       error: 'Invalid user type',
     });
   });
-});
 
-describe('Testing events for routes require auth controls', () => {
   it('POST /api/events should add a new event', async () => {
     const ngo = await createNgo();
     const ngoCookie = createToken(ngo);
@@ -286,6 +262,51 @@ describe('Testing events for routes require auth controls', () => {
     const response = await request(app)
       .post(`/api/events`)
       .set('Cookie', volunteerCookie)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'Invalid user type',
+    });
+  });
+
+  it('POST /api/events/:id/apply should add a new event', async () => {
+    const volunteer = await createVolunteer();
+    const volunteerCookie = createToken(volunteer);
+    events[0].pendingApplicants.push(volunteer._id);
+    const event = await createEvent(events[0]);
+    volunteer.appliedEvents.push(event._id);
+    await volunteer.save();
+    const response = await request(app)
+      .post(`/api/events/${event._id}/apply`)
+      .set('Cookie', volunteerCookie)
+      .send(events[0]);
+
+    console.log(response.body.data.pendingApplicants, event.pendingApplicants);
+    expect(response.body.success).toEqual(true);
+    expect(
+      response.body.data.pendingApplicants[
+        response.body.data.pendingApplicants.length - 1
+      ]
+    ).toEqual(
+      event.pendingApplicants[event.pendingApplicants.length - 1].toString()
+    );
+  });
+
+  it('POST /api/events/:id/apply should refuse to add event without authorization', async () => {
+    const event = await createEvent(events[0]);
+    const response = await request(app)
+      .post(`/api/events/${event._id}/apply `)
+      .expect(401);
+    expect(response.text).toEqual('Unauthorized');
+  });
+
+  it('POST /api/events/:id/apply should refuse to add event without authentication', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const event = await createEvent(events[0]);
+    const response = await request(app)
+      .post(`/api/events/${event._id}/apply `)
+      .set('Cookie', ngoCookie)
       .expect(400);
     expect(response.body).toEqual({
       success: false,

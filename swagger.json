@@ -394,7 +394,7 @@
         }
       }
     },
-    "/api/events/{id}": {
+    "/api/eventss/{id}": {
       "get": {
         "tags": ["Events"],
         "description": "Retrieve single event item based on the id",
@@ -461,6 +461,74 @@
         "responses": {
           "204": {
             "description": "event deleted"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{id}/apply": {
+      "post": {
+        "tags": ["Events"],
+        "description": "Apply the event item based on the id",
+        "operationId": "applyEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to apply",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User id to apply for event",
+          "required": true,
+          "content": {
+            "text/plain; charset=utf-8": {
+              "schema": {
+                "type": "string",
+                "properties": {
+                  "req.user._id": {
+                    "type": "string",
+                    "description": "id of user",
+                    "example": "62fc0187771947b40ad31325"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Single event success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEvent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "default": {
             "description": "unexpected error",
