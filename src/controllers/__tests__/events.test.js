@@ -269,7 +269,7 @@ describe('Testing events for routes require auth controls', () => {
     });
   });
 
-  it('POST /api/events/:id/apply should add a new event', async () => {
+  it('POST /api/events/:id/apply should apply for volunteer a new event', async () => {
     const volunteer = await createVolunteer();
     const volunteerCookie = createToken(volunteer);
     events[0].pendingApplicants.push(volunteer._id);
@@ -292,7 +292,7 @@ describe('Testing events for routes require auth controls', () => {
     );
   });
 
-  it('POST /api/events/:id/apply should refuse to add event without authorization', async () => {
+  it('POST /api/events/:id/apply should refuse to apply for volunteer event without authorization', async () => {
     const event = await createEvent(events[0]);
     const response = await request(app)
       .post(`/api/events/${event._id}/apply `)
@@ -300,7 +300,7 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.text).toEqual('Unauthorized');
   });
 
-  it('POST /api/events/:id/apply should refuse to add event without authentication', async () => {
+  it('POST /api/events/:id/apply should refuse to apply for volunteer event without authentication', async () => {
     const ngo = await createNgo();
     const ngoCookie = createToken(ngo);
     const event = await createEvent(events[0]);
