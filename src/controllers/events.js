@@ -33,13 +33,12 @@ exports.getRelatedEvents = async (req, res, next) => {
 
 exports.addEvent = async (req, res, next) => {
   // Create new event
+  req.body.ngo = req.user._id;
   const newEvent = await Event.create(req.body);
-  newEvent.ngo = req.user._id;
-  await newEvent.save();
   //  Add event to the ngo
-  console.log(req.user.type);
-  const ngo = await Ngo.findById(req.user._id, {});
-  ngo.publishedEvents.push(newEvent._id);
-  await ngo.save();
+  await Ngo.updateOne(
+    { _id: req.user._id },
+    { $push: { publishedEvents: newEvent._id } }
+  );
   return res.status(201).json({ success: true, data: newEvent });
 };
