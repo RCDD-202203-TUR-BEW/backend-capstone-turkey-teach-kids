@@ -48,6 +48,18 @@ exports.deleteEvent = async (req, res, next) => {
   return res.status(204).json({ success: true, data: event });
 };
 
+exports.addEvent = async (req, res, next) => {
+  // Create new event
+  req.body.ngo = req.user._id;
+  const newEvent = await Event.create(req.body);
+  //  Add event to the ngo
+  await Ngo.updateOne(
+    { _id: req.user._id },
+    { $push: { publishedEvents: newEvent._id } }
+  );
+  return res.status(201).json({ success: true, data: newEvent });
+};
+
 exports.applyToEvent = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
   if (!event) {

@@ -231,6 +231,44 @@ describe('Testing events for routes require auth controls', () => {
     });
   });
 
+  it('POST /api/events should add a new event', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    events[0].ngo = ngo._id;
+    const event = await createEvent(events[0]);
+    ngo.publishedEvents.push(event._id);
+    await ngo.save();
+    const response = await request(app)
+      .post(`/api/events`)
+      .set('Cookie', ngoCookie)
+      .send(events[0]);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data.avatar).toEqual(event.avatar);
+    expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.location).toEqual(event.location);
+    expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
+    expect(response.body.data.ngo).toEqual(event.ngo.toString());
+    expect(response.body.data.topic).toEqual(event.topic);
+  });
+
+  it('POST /api/events should refuse to add event without authorization', async () => {
+    const response = await request(app).post(`/api/events`).expect(401);
+    expect(response.text).toEqual('Unauthorized');
+  });
+
+  it('POST /api/events should refuse to add event without authentication', async () => {
+    const volunteer = await createVolunteer();
+    const volunteerCookie = createToken(volunteer);
+    const response = await request(app)
+      .post(`/api/events`)
+      .set('Cookie', volunteerCookie)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'Invalid user type',
+    });
+  });
+
   it('POST /api/events/:id/apply should add a new event', async () => {
     const volunteer = await createVolunteer();
     const volunteerCookie = createToken(volunteer);
