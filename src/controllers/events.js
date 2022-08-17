@@ -31,6 +31,23 @@ exports.getRelatedEvents = async (req, res, next) => {
   return res.status(200).json({ success: true, data: relatedEvents });
 };
 
+exports.deleteEvent = async (req, res, next) => {
+  const event = await Event.findOne({ _id: req.params.id });
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorResponse(
+        "You don't have permissions to perform this operation",
+        401
+      )
+    );
+  }
+  await event.remove();
+  return res.status(204).json({ success: true, data: event });
+};
+
 exports.addEvent = async (req, res, next) => {
   // Create new event
   req.body.ngo = req.user._id;

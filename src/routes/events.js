@@ -13,9 +13,8 @@ router.post(
   validate,
   eventsControllers.addEvent
 );
-
 router.get('/:id', eventsControllers.getEvent);
-
 router.get('/:id/related-events', eventsControllers.getRelatedEvents);
+router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
 
 module.exports = router;
