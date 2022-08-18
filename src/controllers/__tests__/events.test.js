@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Event = require('../../models/event');
 const { Volunteer, Ngo } = require('../../models/user');
 const app = require('../../app');
+const { User } = require('../../models/user');
 
 jest.setTimeout(10000);
 
@@ -55,6 +56,18 @@ const events = [
     ngoId: '62e9008803b4427103cb4462',
     topic: 'Coding',
     pendingApplicants: [],
+  },
+  {
+    _id: '62e9008803b4427103cb4462',
+    avatar:
+      'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    location: 'Antalya',
+    launchDate: '2022-12-28T21:00:00.000Z',
+    ngoId: '62e9008803b4427103cb3462',
+    topic: 'Coding',
+    pendingApplicants: ['62e9004803b4427103cb4462'],
   },
 ];
 
@@ -311,6 +324,31 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body).toEqual({
       success: false,
       error: 'Invalid user type',
+    });
+  });
+
+  it('GET /api/events/:id/pending-applicants should retrieve all the pending applicants', async () => {
+    const evento = new Event(events[3]);
+    await evento.save();
+    const response = await request(app)
+      .get(`/api/events/${events[3]._id}/pending-applicants`)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body).toEqual({
+      data: ['62e9004803b4427103cb4462'],
+      success: true,
+    });
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
+
+  it('should not retrieve all the pending applicants if the event is not found', async () => {
+    const response = await request(app)
+      .get(`/api/events/${events[3]._id}/pending-applicants`)
+      .expect('Content-Type', /json/)
+      .expect(404);
+    expect(response.body).toEqual({
+      error: 'No event found',
+      success: false,
     });
   });
 });
