@@ -41,7 +41,6 @@ describe("Testing feedbacks for routes doesn't require auth controls", () => {
       .post('/api/feedbacks')
       .send(contactLoad)
       .expect('Content-Type', /json/);
-    console.log(response);
     expect(response.body.success).toEqual(true);
     expect(response.body.data.fullName).toEqual(contactLoad.fullName);
     expect(response.body.data.email).toEqual(contactLoad.email);
