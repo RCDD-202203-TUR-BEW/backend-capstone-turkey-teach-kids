@@ -69,3 +69,18 @@ exports.applyToEvent = async (req, res, next) => {
   await event.save();
   return res.status(200).json({ success: true, data: event });
 };
+
+exports.updateEvent = async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(new ErrorResponse('You can only edit your event', 401));
+  }
+  // Validate the request body
+  const { error } = Event.validateEvent(req.body);
+  if (error) {
+    return next(new ErrorResponse(error.details[0].message, 400));
+  }
+  event.set(req.body);
+  await event.save();
+  return res.status(200).json({ success: true, data: event });
+};

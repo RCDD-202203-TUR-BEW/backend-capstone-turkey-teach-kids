@@ -17,5 +17,6 @@ router.post(
 );
 router.post('/:id/apply', isAuth, isVolunteer, eventsControllers.applyToEvent);
 router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
+router.patch('/:id', isAuth, isNgo, eventsControllers.updateEvent);
 
 module.exports = router;
