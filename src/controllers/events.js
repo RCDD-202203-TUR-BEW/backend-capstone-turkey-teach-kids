@@ -71,9 +71,19 @@ exports.applyToEvent = async (req, res, next) => {
 };
 
 exports.getPendingApplicants = async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id });
+  const event = await Event.findOne({ _id: req.params.id }).populate(
+    'pendingApplicants'
+  );
   if (!event) {
     return next(new ErrorResponse('No event found', 404));
+  }
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorResponse(
+        "You don't have permissions to perform this operation",
+        401
+      )
+    );
   }
   return res.status(200).json({ success: true, data: event.pendingApplicants });
 };

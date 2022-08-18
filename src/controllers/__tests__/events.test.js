@@ -293,8 +293,6 @@ describe('Testing events for routes require auth controls', () => {
       .post(`/api/events/${event._id}/apply`)
       .set('Cookie', volunteerCookie)
       .send(events[0]);
-
-    console.log(response.body.data.pendingApplicants, event.pendingApplicants);
     expect(response.body.success).toEqual(true);
     expect(
       response.body.data.pendingApplicants[
@@ -335,7 +333,7 @@ describe('Testing events for routes require auth controls', () => {
       .expect('Content-Type', /json/)
       .expect(200);
     expect(response.body).toEqual({
-      data: ['62e9004803b4427103cb4462'],
+      data: [],
       success: true,
     });
     expect(Array.isArray(response.body.data)).toBe(true);
