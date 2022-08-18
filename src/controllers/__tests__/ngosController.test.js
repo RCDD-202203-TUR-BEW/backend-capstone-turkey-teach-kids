@@ -114,17 +114,15 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
       success: false,
     });
   });
-  it('GET /api/ngos/:id/events should give error message if the Ngo has not published and events ', async () => {
+  it('GET /api/ngos/:id/events should give an empty array if  the Ngo has not published and events ', async () => {
     const mNgo = await Ngo.create(mNgos[0]);
     const response = await request(app)
       .get(`/api/ngos/${mNgo._id}/events`)
       .expect('Content-Type', /json/)
-      .expect(404);
-    expect(response.body.success).toEqual(false);
-
+      .expect(200);
     expect(response.body).toEqual({
-      error: 'This Ngo has not published any events yet ',
-      success: false,
+      data: [],
+      success: true,
     });
   });
 });

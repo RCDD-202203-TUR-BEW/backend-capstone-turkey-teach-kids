@@ -25,11 +25,6 @@ exports.getNgoEvents = async (req, res, next) => {
       new ErrorResponse('This Id dose not match any registered NGO ', 404)
     );
   }
-  if (ngo.publishedEvents.length === 0) {
-    return next(
-      new ErrorResponse('This Ngo has not published any events yet ', 404)
-    );
-  }
 
   const events = await Event.find({ ngo: req.params.id });
   return res.status(200).json({ success: true, data: events });
