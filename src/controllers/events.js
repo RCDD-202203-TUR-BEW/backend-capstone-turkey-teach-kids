@@ -74,6 +74,7 @@ exports.getPendingApplicants = async (req, res, next) => {
   const event = await Event.findOne({ _id: req.params.id }).populate(
     'pendingApplicants'
   );
+
   if (!event) {
     return next(new ErrorResponse('No event found', 404));
   }
