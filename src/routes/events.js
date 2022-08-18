@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const { validate } = require('../middlewares/bodyValidator');
 const eventsControllers = require('../controllers/events');
-const { validateAddEvent } = require('../middlewares/validatorSchemas');
+const {
+  validateAddEvent,
+  validateUpdateEvent,
+} = require('../middlewares/validatorSchemas');
 const { isAuth, isNgo, isVolunteer } = require('../middlewares/auth');
 
 router.get('/', eventsControllers.getEvents);
@@ -17,6 +20,12 @@ router.post(
 );
 router.post('/:id/apply', isAuth, isVolunteer, eventsControllers.applyToEvent);
 router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
-router.patch('/:id', isAuth, isNgo, eventsControllers.updateEvent);
+router.patch(
+  '/:id',
+  isAuth,
+  isNgo,
+  validateUpdateEvent,
+  eventsControllers.updateEvent
+);
 
 module.exports = router;
