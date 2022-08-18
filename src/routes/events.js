@@ -17,5 +17,11 @@ router.post(
 );
 router.post('/:id/apply', isAuth, isVolunteer, eventsControllers.applyToEvent);
 router.delete('/:id', isAuth, isNgo, eventsControllers.deleteEvent);
+router.get(
+  '/:id/pending-applicants',
+  isAuth,
+  isNgo,
+  eventsControllers.getPendingApplicants
+);
 
 module.exports = router;
