@@ -145,9 +145,31 @@ const validateAddEvent = [
   body('topic').not().isEmpty().withMessage('Topic should not be empty'),
 ];
 
+const validateFeedback = [
+  body('fullName')
+    .not()
+    .isEmpty()
+    .withMessage('Full name should not be empty')
+    .isLength({ min: 5 })
+    .withMessage('Full name must be at least 5 characters long'),
+  body('email')
+    .isEmail()
+    .withMessage('not a valid email address')
+    .not()
+    .isEmpty()
+    .withMessage('Email should not be empty'),
+  body('message')
+    .not()
+    .isEmpty()
+    .withMessage('Message should not be empty')
+    .isLength({ min: 20 })
+    .withMessage('Message must be at least 20 characters long'),
+];
+
 module.exports = {
   validateSignup,
   validateSignin,
   validateProfile,
   validateAddEvent,
+  validateFeedback,
 };
