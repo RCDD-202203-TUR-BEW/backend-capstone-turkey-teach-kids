@@ -722,6 +722,56 @@
         }
       }
     },
+    "/api/ngos/{id}/events": {
+      "get": {
+        "tags": ["Events", "NGOs"],
+        "description": "Retrieve all the events published by NGO",
+        "operationId": "get Events",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of NGO to fetch their events",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Single or multiple events success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessNgoEvents"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No NGO Or Event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/volunteers/{id}": {
       "get": {
         "tags": ["Users", "Volunteers"],
@@ -1238,6 +1288,20 @@
         }
       },
       "SuccessEvents": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "code": {
+            "success": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "array",
+            "$ref": "#/components/schemas/Event"
+          }
+        }
+      },
+      "SuccessNgoEvents": {
         "type": "object",
         "required": ["success", "data"],
         "properties": {
