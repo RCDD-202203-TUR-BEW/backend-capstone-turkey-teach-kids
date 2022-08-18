@@ -9,12 +9,12 @@ const connectToMongo = () => {
   const db = mongoose.connection;
 
   db.once('open', () => {
-    logger.info(`Database connection established ${url}`);
+    logger.info(`Database connection established`);
   });
 
   db.on('error', (err) => {
     console.error('Database connection error: ', err);
-    logger.info(`Database connection established ${url}`);
+    logger.info(`Database connection established`);
   });
 
   db.on('error', (err) => {
