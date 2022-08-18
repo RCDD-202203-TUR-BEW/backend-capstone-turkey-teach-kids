@@ -2,6 +2,7 @@
 const Event = require('../models/event');
 const { Ngo, Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
+const { User } = require('../models/user');
 
 exports.getEvents = async (req, res) => {
   const events = await Event.find()
@@ -72,7 +73,8 @@ exports.applyToEvent = async (req, res, next) => {
 
 exports.getPendingApplicants = async (req, res, next) => {
   const event = await Event.findOne({ _id: req.params.id }).populate(
-    'pendingApplicants'
+    'pendingApplicants',
+    'phone email firstName lastName avatar appliedEvents cv'
   );
 
   if (!event) {
