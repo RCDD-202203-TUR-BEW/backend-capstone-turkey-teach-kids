@@ -74,7 +74,7 @@ exports.applyToEvent = async (req, res, next) => {
 exports.getPendingApplicants = async (req, res, next) => {
   const event = await Event.findOne({ _id: req.params.id }).populate(
     'pendingApplicants',
-    'phone email firstName lastName avatar appliedEvents cv'
+    'email firstName lastName avatar'
   );
 
   if (!event) {
