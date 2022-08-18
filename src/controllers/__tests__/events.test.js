@@ -313,4 +313,24 @@ describe('Testing events for routes require auth controls', () => {
       error: 'Invalid user type',
     });
   });
+
+  it('PATCH /events/:id should update the event', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    events[0].ngo = ngo._id;
+    const event = await createEvent(events[0]);
+    ngo.publishedEvents.push(event._id);
+    await ngo.save();
+    const response = await request(app)
+      .patch(`/api/events/${event._id}`)
+      .set('Cookie', ngoCookie)
+      .send(events[0]);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data.avatar).toEqual(event.avatar);
+    expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.location).toEqual(event.location);
+    expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
+    expect(response.body.data.ngo).toEqual(event.ngo.toString());
+    expect(response.body.data.topic).toEqual(event.topic);
+  });
 });
