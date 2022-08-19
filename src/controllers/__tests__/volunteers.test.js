@@ -145,14 +145,11 @@ describe('Testing volunteer for routes require auth controls', () => {
     const event2 = await createEvent(events[1]);
     volunteer.appliedEvents.push(event._id, event2._id);
     await volunteer.save();
-    console.log(volunteer);
     const response = await request(app)
       .get(`/api/volunteers/${volunteer._id}/applied-events`)
       .set('Cookie', volunteerCookie)
       .expect('Content-Type', /json/)
       .expect(200);
-    console.log(response.body.data[0], volunteer.appliedEvents[0].toString());
-    console.log(response.body.data[1], volunteer.appliedEvents[1].toString());
     expect(response.body.success).toEqual(true);
     expect(response.body.data[0]._id).toEqual(
       volunteer.appliedEvents[0].toString()

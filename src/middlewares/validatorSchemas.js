@@ -145,9 +145,19 @@ const validateAddEvent = [
   body('topic').not().isEmpty().withMessage('Topic should not be empty'),
 ];
 
+const validateSubscribe = [
+  body('email')
+    .isEmail()
+    .withMessage('not a valid email address')
+    .not()
+    .isEmpty()
+    .withMessage('Email should not be empty'),
+];
+
 module.exports = {
   validateSignup,
   validateSignin,
   validateProfile,
   validateAddEvent,
+  validateSubscribe,
 };
