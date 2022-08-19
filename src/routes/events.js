@@ -27,5 +27,11 @@ router.patch(
   validateUpdateEvent,
   eventsControllers.updateEvent
 );
+router.get(
+  '/:id/pending-applicants',
+  isAuth,
+  isNgo,
+  eventsControllers.getPendingApplicants
+);
 
 module.exports = router;
