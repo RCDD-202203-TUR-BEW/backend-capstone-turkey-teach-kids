@@ -32,7 +32,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
     pendingApplicants: [],
   },
   {
@@ -43,7 +42,6 @@ const events = [
     location: 'İstanbul',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'English',
     pendingApplicants: [],
   },
   {
@@ -54,7 +52,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
     pendingApplicants: [],
   },
   {
@@ -66,7 +63,6 @@ const events = [
     location: 'Antalya',
     launchDate: '2022-12-28T21:00:00.000Z',
     ngo: '62f92429222f8c86c4bf2bd7',
-    topic: 'Coding',
     pendingApplicants: [
       {
         _id: '62f92427222f8c86c4bf2bd7',
@@ -158,7 +154,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo);
-    expect(response.body.data.topic).toEqual(event.topic);
     expect(typeof response.body.data).toEqual('object');
   });
 
@@ -188,7 +183,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
       event.launchDate
     );
     expect(response.body.data[0].ngo).toEqual(event2.ngo);
-    expect(response.body.data[0].topic).toEqual(event2.topic);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
@@ -270,7 +264,6 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo.toString());
-    expect(response.body.data.topic).toEqual(event.topic);
   });
 
   it('POST /api/events should refuse to add event without authorization', async () => {

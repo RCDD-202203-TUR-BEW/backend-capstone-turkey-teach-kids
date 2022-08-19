@@ -142,7 +142,6 @@ const validateAddEvent = [
     .isISO8601()
     .toDate()
     .withMessage('Wrong date format'),
-  body('topic').not().isEmpty().withMessage('Topic should not be empty'),
 ];
 
 module.exports = {
