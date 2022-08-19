@@ -296,12 +296,8 @@ describe('Testing events for routes require auth controls', () => {
       .set('Cookie', volunteerCookie)
       .send(events[0]);
     expect(response.body.success).toEqual(true);
-    expect(
-      response.body.data.pendingApplicants[
-        response.body.data.pendingApplicants.length - 1
-      ]
-    ).toEqual(
-      event.pendingApplicants[event.pendingApplicants.length - 1].toString()
+    expect(response.body.data).toEqual(
+      'you have successfully applied to the event'
     );
   });
 
