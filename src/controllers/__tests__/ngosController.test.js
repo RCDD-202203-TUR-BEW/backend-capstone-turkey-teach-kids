@@ -29,7 +29,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngo: '62e9008803b4427103cb4462',
-    topic: 'Coding',
     pendingApplicants: [],
   },
   {
@@ -40,7 +39,6 @@ const events = [
     location: 'İstanbul',
     launchDate: new Date(),
     ngo: '62e9008803b4427103cb4462',
-    topic: 'English',
     pendingApplicants: [],
   },
 ];
@@ -88,7 +86,7 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
     expect(response.body.data.email).toEqual(ngo.email);
     expect(response.body.data.passward).toEqual(ngo.passward);
     expect(response.body.data.type).toEqual('Ngo');
-});
+  });
   it('GET /api/ngos/:id/events should retrieve all the events that are published by the specified NGO', async () => {
     const ngo = await Ngo.create(mNgos[0]);
 
@@ -125,7 +123,6 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
     const Events = await Event.find({ ngo: ngo._id });
     expect(response.body.data[0].avatar).toEqual(Events[0].avatar);
     expect(response.body.data[1].avatar).toEqual(Events[1].avatar);
-    expect(response.body.data[0].topic).toEqual(Events[0].topic);
     expect(response.body.data[1].topic).toEqual(Events[1].topic);
     expect(response.body.data[0].description).toEqual(Events[0].description);
     expect(response.body.data[1].description).toEqual(Events[1].description);
