@@ -654,7 +654,7 @@
         }
       }
     },
-     "/api/events/{id}/pending-applicants": {
+    "/api/events/{id}/pending-applicants": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve all the pending applicants",
