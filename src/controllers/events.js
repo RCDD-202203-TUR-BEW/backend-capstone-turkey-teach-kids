@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+const mongoose = require('mongoose');
 const Event = require('../models/event');
 const { Ngo, Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
@@ -68,4 +69,37 @@ exports.applyToEvent = async (req, res, next) => {
   event.pendingApplicants.addToSet(req.user._id);
   await event.save();
   return res.status(200).json({ success: true, data: event });
+};
+exports.approveApplicant = async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  const eventOwner = event.ngo.toString();
+  if (eventOwner !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        'you can only approve or decline applicants of your event',
+        400
+      )
+    );
+  }
+  const applicant = await Volunteer.findById(req.params.userId);
+  const applicantIndex = event.pendingApplicants.indexOf(applicant._id);
+  if (applicantIndex === -1) {
+    return next(
+      new ErrorResponse('This Volunteer did not apply for this event', 400)
+    );
+  }
+  await Event.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(req.params.id) },
+    {
+      $pull: { pendingApplicants: applicant._id },
+      $push: { approvedApplicants: applicant._id },
+    }
+  );
+
+  const updatedEvent = await Event.findById(req.params.id);
+
+  return res.status(200).json({ success: true, data: updatedEvent });
 };

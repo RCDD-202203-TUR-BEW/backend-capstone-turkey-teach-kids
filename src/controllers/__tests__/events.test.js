@@ -314,3 +314,102 @@ describe('Testing events for routes require auth controls', () => {
     });
   });
 });
+
+describe('Testing events for routes require auth controls', () => {
+  it('GET /api/events/:id/pending-applicants/:userid/approve  should accept the volunteer application and add it to the approved applicants', async () => {
+    const event = await createEvent(events[0]);
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo._id, $push: { pendingApplicants: volunteer._id } }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(
+      response.body.data.pendingApplicants.includes(volunteer._id.toString())
+    ).toBe(false);
+    expect(
+      response.body.data.approvedApplicants.includes(volunteer._id.toString())
+    ).toBe(true);
+    expect(response.body.data.avatar).toEqual(event.avatar);
+    expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.location).toEqual(event.location);
+    expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
+    expect(response.body.data.ngo).toEqual(ngo._id.toString());
+    expect(typeof response.body.data).toBe('object');
+  });
+  it('GET /api/events/:id/pending-applicants/:userid/approve should not allow ngos to approve applicants if they are not the event owner', async () => {
+    const event = await createEvent(events[0]);
+    const ngo1 = await createNgo();
+    const ngo2 = await Ngo.create({
+      username: 'JohnyDoe',
+      password: 'Pass123',
+      email: 'johny.doe@gmail.com',
+      type: 'Ngo',
+    });
+    const ngoCookie = createToken(ngo2);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo1._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo1._id, $push: { pendingApplicants: volunteer._id } }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'you can only approve or decline applicants of your event',
+    });
+  });
+  it('GET /api/events/:id/pending-applicants/:userid/approve should not allow ngos to approve applicants if they did not apply for the event', async () => {
+    const event = await createEvent(events[0]);
+    const ngo1 = await createNgo();
+    const ngoCookie = createToken(ngo1);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo1._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo1._id }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'This Volunteer did not apply for this event',
+    });
+  });
+});
