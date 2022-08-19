@@ -595,7 +595,66 @@
         }
       }
     },
-    "/api/events/{id}/pending-applicants": {
+    "/api/events/{id}/pending-applicants/{userId}/approve": {
+      "post": {
+        "tags": ["Events"],
+        "summary": "Approve one volunteer who applied to the event",
+        "operationId": "approve applicant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to find and operate to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of Volunteer to approve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "approved succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessApplicantApproval"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+     "/api/events/{id}/pending-applicants": {
       "get": {
         "tags": ["Events"],
         "summary": "Retrieve all the pending applicants",
@@ -1280,6 +1339,20 @@
           },
           "data": {
             "type": "array",
+            "$ref": "#/components/schemas/Event"
+          }
+        }
+      },
+      "SuccessApplicantApproval": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "code": {
+            "success": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
             "$ref": "#/components/schemas/Event"
           }
         }
