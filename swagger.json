@@ -289,7 +289,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": "#/components/schemas/ProfileUser"
+              "schema": {
+                "$ref": "#/components/schemas/SuccessVolunteer"
+              }
             }
           }
         },
