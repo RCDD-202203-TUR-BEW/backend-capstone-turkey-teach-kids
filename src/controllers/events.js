@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Event = require('../models/event');
 const { Ngo, Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
+const { User } = require('../models/user');
 
 exports.getEvents = async (req, res) => {
   const events = await Event.find()
@@ -70,6 +71,7 @@ exports.applyToEvent = async (req, res, next) => {
   await event.save();
   return res.status(200).json({ success: true, data: event });
 };
+
 exports.approveApplicant = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
   if (!event) {
@@ -102,4 +104,25 @@ exports.approveApplicant = async (req, res, next) => {
   const updatedEvent = await Event.findById(req.params.id);
 
   return res.status(200).json({ success: true, data: updatedEvent });
+};
+
+exports.getPendingApplicants = async (req, res, next) => {
+  const event = await Event.findOne({ _id: req.params.id }).populate(
+    'pendingApplicants',
+    'email firstName lastName avatar'
+  );
+
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorResponse(
+        "You don't have permissions to perform this operation",
+        401
+      )
+    );
+  }
+  return res.status(200).json({ success: true, data: event.pendingApplicants });
+
 };
