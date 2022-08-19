@@ -30,3 +30,7 @@ yarn-error.log*
 
 # logs folder of winston
 logs
+
+# google cloud storage
+google-cloud-key.json
+google-cloud-key.json.jsonZone.Identifier

@@ -59,6 +59,7 @@ const validateProfile = [
     .isLength({ min: 2 })
     .withMessage('Name must be at least 2 characters long'),
   body('username')
+    .optional()
     .isLength({ min: 4 })
     .withMessage('Username must be at least 4 characters long')
     .not()
@@ -67,12 +68,14 @@ const validateProfile = [
     .custom((value) => !/\s/.test(value))
     .withMessage('Username should not include spaces'),
   body('email')
+    .optional()
     .isEmail()
     .withMessage('not a valid email address')
     .not()
     .isEmpty()
     .withMessage('Email should not be empty'),
   body('phone')
+    .optional()
     .not()
     .isEmpty()
     .withMessage('Phone number should not be empty')
