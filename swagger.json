@@ -289,7 +289,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": "#/components/schemas/ProfileUser"
+              "schema": {
+                "$ref": "#/components/schemas/SuccessVolunteer"
+              }
             }
           }
         },
@@ -593,6 +595,115 @@
         }
       }
     },
+    "/api/events/{id}/pending-applicants/{userId}/approve": {
+      "post": {
+        "tags": ["Events"],
+        "summary": "Approve one volunteer who applied to the event",
+        "operationId": "approve applicant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to find and operate to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of Volunteer to approve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "approved succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessApplicantApproval"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{id}/pending-applicants": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Retrieve all the pending applicants",
+        "operationId": "getPendingApplicants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of event to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get pending applicants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessProfile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No event can be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ngos": {
       "get": {
         "tags": ["NGOs"],
@@ -811,6 +922,46 @@
           },
           "default": {
             "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/feedbacks": {
+      "post": {
+        "tags": ["Contact Us"],
+        "summary": "Post a new contact request info and send confirmation email",
+        "operationId": "addFeedback",
+        "requestBody": {
+          "description": "Feedbck to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewFeedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Event created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessFeedback"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1057,6 +1208,24 @@
           }
         }
       },
+      "NewFeedback": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john_doe@mail.com"
+          },
+          "message": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          }
+        }
+      },
       "Ngo": {
         "type": "object",
         "required": ["email"],
@@ -1222,6 +1391,20 @@
           }
         }
       },
+      "SuccessApplicantApproval": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "code": {
+            "success": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/Event"
+          }
+        }
+      },
       "SuccessNgoEvents": {
         "type": "object",
         "required": ["success", "data"],
@@ -1317,6 +1500,20 @@
           "data": {
             "type": "array",
             "$ref": "#/components/schemas/Volunteer"
+          }
+        }
+      },
+      "SuccessFeedback": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/NewFeedback"
           }
         }
       },

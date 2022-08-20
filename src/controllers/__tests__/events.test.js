@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Event = require('../../models/event');
 const { Volunteer, Ngo } = require('../../models/user');
 const app = require('../../app');
+const { User } = require('../../models/user');
 
 jest.setTimeout(10000);
 
@@ -31,7 +32,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
     pendingApplicants: [],
   },
   {
@@ -42,7 +42,6 @@ const events = [
     location: 'İstanbul',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'English',
     pendingApplicants: [],
   },
   {
@@ -53,8 +52,27 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
     pendingApplicants: [],
+  },
+  {
+    _id: '62f92429222f8c86c4bf1bd7',
+    avatar:
+      'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    location: 'Antalya',
+    launchDate: '2022-12-28T21:00:00.000Z',
+    ngo: '62f92429222f8c86c4bf2bd7',
+    pendingApplicants: [
+      {
+        _id: '62f92427222f8c86c4bf2bd7',
+        username: 'JaneDoe',
+        password: 'Pass123',
+        email: 'jane.doe@gmail.com',
+        appliedEvents: [],
+        type: 'Volunteer',
+      },
+    ],
   },
 ];
 
@@ -136,7 +154,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo);
-    expect(response.body.data.topic).toEqual(event.topic);
     expect(typeof response.body.data).toEqual('object');
   });
 
@@ -166,7 +183,6 @@ describe("Testing events for routes doesn't require auth controls", () => {
       event.launchDate
     );
     expect(response.body.data[0].ngo).toEqual(event2.ngo);
-    expect(response.body.data[0].topic).toEqual(event2.topic);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
@@ -248,7 +264,6 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo.toString());
-    expect(response.body.data.topic).toEqual(event.topic);
   });
 
   it('POST /api/events should refuse to add event without authorization', async () => {
@@ -309,6 +324,137 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body).toEqual({
       success: false,
       error: 'Invalid user type',
+    });
+  });
+
+  it('GET /api/events/:id/pending-applicants should retrieve all the pending applicants', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const event = await createEvent(events[3]);
+    event.ngo = ngo._id;
+    await event.save();
+    ngo.publishedEvents.push(event._id);
+    await ngo.save();
+    const response = await request(app)
+      .get(`/api/events/${event._id}/pending-applicants`)
+      .set('Cookie', ngoCookie)
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(response.body).toEqual({
+      success: true,
+      data: [],
+    });
+  });
+
+  it('should not retrieve all the pending applicants if the event is not found', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const response = await request(app)
+      .get(`/api/events/${events[3]._id}/pending-applicants`)
+      .set('Cookie', ngoCookie)
+      .expect(404);
+    expect(response.body).toEqual({
+      error: 'No event found',
+      success: false,
+    });
+  });
+});
+
+describe('Testing events for routes require auth controls', () => {
+  it('GET /api/events/:id/pending-applicants/:userid/approve  should accept the volunteer application and add it to the approved applicants', async () => {
+    const event = await createEvent(events[0]);
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo._id, $push: { pendingApplicants: volunteer._id } }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(
+      response.body.data.pendingApplicants.includes(volunteer._id.toString())
+    ).toBe(false);
+    expect(
+      response.body.data.approvedApplicants.includes(volunteer._id.toString())
+    ).toBe(true);
+    expect(response.body.data.avatar).toEqual(event.avatar);
+    expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.location).toEqual(event.location);
+    expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
+    expect(response.body.data.ngo).toEqual(ngo._id.toString());
+    expect(typeof response.body.data).toBe('object');
+  });
+  it('GET /api/events/:id/pending-applicants/:userid/approve should not allow ngos to approve applicants if they are not the event owner', async () => {
+    const event = await createEvent(events[0]);
+    const ngo1 = await createNgo();
+    const ngo2 = await Ngo.create({
+      username: 'JohnyDoe',
+      password: 'Pass123',
+      email: 'johny.doe@gmail.com',
+      type: 'Ngo',
+    });
+    const ngoCookie = createToken(ngo2);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo1._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo1._id, $push: { pendingApplicants: volunteer._id } }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'you can only approve or decline applicants of your event',
+    });
+  });
+  it('GET /api/events/:id/pending-applicants/:userid/approve should not allow ngos to approve applicants if they did not apply for the event', async () => {
+    const event = await createEvent(events[0]);
+    const ngo1 = await createNgo();
+    const ngoCookie = createToken(ngo1);
+    const volunteer = await createVolunteer();
+    await Ngo.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(ngo1._id) },
+
+      { $push: { publishedEvents: event._id } }
+    );
+    await Event.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(event._id) },
+
+      { ngo: ngo1._id }
+    );
+    const response = await request(app)
+      .post(
+        `/api/events/${event._id}/pending-applicants/${volunteer._id}/approve`
+      )
+      .set('Cookie', ngoCookie)
+      .expect('Content-Type', /json/)
+      .expect(400);
+    expect(response.body).toEqual({
+      success: false,
+      error: 'This Volunteer did not apply for this event',
     });
   });
 });

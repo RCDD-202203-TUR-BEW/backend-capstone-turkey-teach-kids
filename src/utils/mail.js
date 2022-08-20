@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 const htmlTemplate =
-  '<body><img src="https://img.freepik.com/free-vector/social-team-helping-charity-sharing-hope_74855-6660.jpg?w=740&t=st=1660832756~exp=1660833356~hmac=2bfd07cb5fac91f98af21b6034a0e23470b91a4e5006c6b392d7e58a02a5e3f" alt="" class="img"><h1>Thank you!</h1><p>You will hear from us soon!</p></body></html>';
+  '<div style="font-family: Verdana;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 100vh;margin: 0;background-color: #f4f4f4;padding: 20px;"><img src="https://img.freepik.com/free-vector/social-team-helping-charity-sharing-hope_74855-6660.jpg?w=740&t=st=1660832756~exp=1660833356~hmac=2bfd07cb5fac91f98af21b6034a0e23470b91a4e5006c6b392d7e58a02a5e3f" alt="" style="width: 50%;height: auto;"><h1>Thank you!</h1><p style="padding-bottom: 20px;">You will hear from us soon!</p></div></html>';
 
 const sendEmail = async (email, subjectText) => {
   const account = await nodemailer.createTestAccount();
