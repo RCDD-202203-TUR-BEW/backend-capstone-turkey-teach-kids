@@ -517,7 +517,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessEvent"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "message",
+                      "example": "You have successfully applied for this event"
+                    }
+                  }
                 }
               }
             }
