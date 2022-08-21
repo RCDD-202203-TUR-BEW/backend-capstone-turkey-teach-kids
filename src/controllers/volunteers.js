@@ -23,7 +23,6 @@ exports.getAppliedEvents = async (req, res, next) => {
   }).populate('appliedEvents', [
     'avatar',
     'description',
-    'topic',
     'location',
     'launchDate',
   ]);

@@ -29,6 +29,9 @@ const baseSchema = new mongoose.Schema(
     providerId: {
       type: String,
     },
+    avatar: {
+      type: String,
+    },
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   {
@@ -93,9 +96,6 @@ const ngoSchema = new mongoose.Schema(
         ref: 'Event',
       },
     ],
-    avatar: {
-      type: String,
-    },
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   { ...options }

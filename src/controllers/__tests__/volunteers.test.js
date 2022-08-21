@@ -31,7 +31,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
   },
   {
     avatar:
@@ -41,7 +40,6 @@ const events = [
     location: 'İstanbul',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'English',
   },
   {
     avatar:
@@ -51,7 +49,6 @@ const events = [
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
-    topic: 'Coding',
   },
 ];
 
