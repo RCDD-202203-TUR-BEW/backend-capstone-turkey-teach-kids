@@ -33,6 +33,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     pendingApplicants: [],
+    tags: ['Turkish', 'Bootcamp'],
   },
   {
     avatar:
@@ -43,6 +44,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     pendingApplicants: [],
+    tags: ['English', 'Bootcamp'],
   },
   {
     avatar:
@@ -53,6 +55,7 @@ const events = [
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
     pendingApplicants: [],
+    tags: ['Coding', 'Bootcamp'],
   },
   {
     _id: '62f92429222f8c86c4bf1bd7',
@@ -73,6 +76,7 @@ const events = [
         type: 'Volunteer',
       },
     ],
+    tags: ['Backend', 'Bootcamp'],
   },
 ];
 
@@ -127,7 +131,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
       event.launchDate
     );
     expect(response.body.data[0].ngo).toEqual(event.ngo);
-    expect(response.body.data[0].topic).toEqual(event.topic);
+    expect(response.body.data[0].tags[0]).toEqual(event.tags[0]);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
@@ -154,6 +158,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo);
+    expect(response.body.data.tags[0]).toEqual(event.tags[0]);
     expect(typeof response.body.data).toEqual('object');
   });
 
@@ -183,6 +188,14 @@ describe("Testing events for routes doesn't require auth controls", () => {
       event.launchDate
     );
     expect(response.body.data[0].ngo).toEqual(event2.ngo);
+    expect(
+      response.body.data[0].tags.includes(event2.tags[1]) ||
+        response.body.data[0].tags.includes(event2.tags[0])
+    ).toEqual(true);
+    // console.log(event2.tags[event2.tags.length - 1]);
+    // expect(
+    //   response.body.data[0].tags.includes(event2.tags[event2.tags.length - 1])
+    // ).toEqual(true);
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
@@ -264,6 +277,7 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo.toString());
+    expect(response.body.data.tags[0]).toEqual(event.tags[0]);
   });
 
   it('POST /api/events should refuse to add event without authorization', async () => {

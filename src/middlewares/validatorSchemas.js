@@ -142,6 +142,7 @@ const validateAddEvent = [
     .isISO8601()
     .toDate()
     .withMessage('Wrong date format'),
+  body('tags').not().isEmpty().withMessage('tags should not be empty'),
 ];
 
 const validateFeedback = [
