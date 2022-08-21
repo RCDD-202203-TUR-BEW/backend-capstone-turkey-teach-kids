@@ -69,7 +69,10 @@ exports.applyToEvent = async (req, res, next) => {
   }
   event.pendingApplicants.addToSet(req.user._id);
   await event.save();
-  return res.status(200).json({ success: true, data: event });
+  return res.status(200).json({
+    success: true,
+    data: 'you have successfully applied to the event',
+  });
 };
 
 exports.approveApplicant = async (req, res, next) => {
