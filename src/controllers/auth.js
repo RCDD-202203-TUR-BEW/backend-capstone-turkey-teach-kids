@@ -47,10 +47,11 @@ exports.login = async (req, res, next) => {
     }
   );
   res.cookie('token', token, {
-    maxAge: cookieAge,
     httpOnly: true,
-    secure: false,
-    sameSite: 'strict',
+    signed: true,
+    sameSite: 'none',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
   });
   return res.status(200).json({ success: true, data: user });
 };
@@ -66,7 +67,9 @@ exports.authenticationCookie = async (req, res) => {
   res.cookie('token', token, {
     httpOnly: true,
     signed: true,
-    maxAge: 14 * 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
   });
 
   return res.status(200).json({ success: true, data: req.user });
