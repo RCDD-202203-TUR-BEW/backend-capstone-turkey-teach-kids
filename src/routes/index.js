@@ -18,4 +18,4 @@ router.use('/profile', profileRoutes);
 router.use('/ngos', ngoRoutes);
 router.use('/volunteers', volunteersRoutes);
 router.use('/feedbacks', feedbackRoutes);
-router.use('/subscribe', subscribeRoutes);
+router.use('/newsletter', subscribeRoutes);

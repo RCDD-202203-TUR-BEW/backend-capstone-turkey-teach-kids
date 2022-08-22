@@ -4,7 +4,7 @@ const { validateSubscribe } = require('../middlewares/validatorSchemas');
 const { validate } = require('../middlewares/bodyValidator');
 
 router.post(
-  '/',
+  '/subscribe',
   validateSubscribe,
   validate,
   subscribeController.confirmSubscription

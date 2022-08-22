@@ -517,7 +517,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessEvent"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "message",
+                      "example": "You have successfully applied for this event"
+                    }
+                  }
                 }
               }
             }
@@ -1126,13 +1133,7 @@
       },
       "Event": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "_id": {
             "type": "string",
@@ -1171,20 +1172,14 @@
               "type": "ObjectId"
             }
           },
-          "topic": {
-            "type": "string"
+          "tags": {
+            "type": ["string"]
           }
         }
       },
       "NewEvent": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "avatar": {
             "type": "string",
@@ -1202,9 +1197,9 @@
             "type": "date",
             "example": "2022-12-28T21:00:00.000Z"
           },
-          "topic": {
-            "type": "string",
-            "example": "Maths"
+          "tags": {
+            "type": ["string"],
+            "example": ["Maths", "Bootcamp"]
           }
         }
       },
