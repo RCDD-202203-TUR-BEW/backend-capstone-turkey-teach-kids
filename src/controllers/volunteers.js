@@ -2,7 +2,10 @@ const ErrorResponse = require('../utils/errorResponse');
 const { Volunteer } = require('../models/user');
 
 exports.getVolunteer = async (req, res, next) => {
-  const volunteer = await Volunteer.findById(req.params.id);
+  const volunteer = await Volunteer.findById(req.params.id, {
+    password: 0,
+    cv: 0,
+  });
   if (!volunteer) {
     return next(new ErrorResponse('volunteer not found', 404));
   }
