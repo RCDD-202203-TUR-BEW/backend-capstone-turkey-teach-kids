@@ -29,6 +29,9 @@ exports.getNgoEvents = async (req, res, next) => {
   if (tag) {
     query.tags = tag;
   }
-  const events = await Event.find(query);
+  const events = await Event.find(query).select(
+    '-pendingApplicants -approvedApplicants -declinedApplicants'
+  );
+
   return res.status(200).json({ success: true, data: events });
 };

@@ -807,7 +807,7 @@
           },
           {
             "name": "tag",
-            "in": "path",
+            "in": "query",
             "description": "a tag keyword to query in the tags of all the events published by specific NGO",
             "required": false,
             "schema": {
