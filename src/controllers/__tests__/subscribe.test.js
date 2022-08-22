@@ -30,7 +30,7 @@ describe("Testing subscribe for routes doesn't require auth controls", () => {
     };
     sendEmail(requestBody.email, subject);
     const response = await request(app)
-      .post('/api/subscribe')
+      .post('/api/newsletter/subscribe')
       .expect('Content-Type', /json/)
       .expect(400);
     expect(Array.isArray(response.body.errors)).toBe(true);
