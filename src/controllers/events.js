@@ -28,7 +28,7 @@ exports.getRelatedEvents = async (req, res, next) => {
     return next(new ErrorResponse('No event found', 404));
   }
   const relatedEvents = await Event.find({
-    tags: { $in: [event.tags[0], event.tags[event.tags.length - 1]] },
+    tags: { $in: event.tags },
   })
     .select('-pendingApplicants -approvedApplicants -declinedApplicants')
     .populate('ngo', 'name');
@@ -71,7 +71,10 @@ exports.applyToEvent = async (req, res, next) => {
   }
   event.pendingApplicants.addToSet(req.user._id);
   await event.save();
-  return res.status(200).json({ success: true, data: event });
+  return res.status(200).json({
+    success: true,
+    data: 'you have successfully applied to the event',
+  });
 };
 
 exports.approveApplicant = async (req, res, next) => {
