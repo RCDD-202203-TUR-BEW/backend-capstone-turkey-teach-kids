@@ -28,7 +28,7 @@ exports.getRelatedEvents = async (req, res, next) => {
     return next(new ErrorResponse('No event found', 404));
   }
   const relatedEvents = await Event.find({
-    tags: { $in: [event.tags[0], event.tags[event.tags.length - 1]] },
+    tags: { $in: event.tags },
   })
     .select('-pendingApplicants -approvedApplicants -declinedApplicants')
     .populate('ngo', 'name');

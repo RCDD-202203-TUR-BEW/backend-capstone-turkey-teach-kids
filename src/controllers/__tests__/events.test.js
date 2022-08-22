@@ -189,13 +189,11 @@ describe("Testing events for routes doesn't require auth controls", () => {
     );
     expect(response.body.data[0].ngo).toEqual(event2.ngo);
     expect(
-      response.body.data[0].tags.includes(event2.tags[1]) ||
-        response.body.data[0].tags.includes(event2.tags[0])
+      response.body.data[0].tags.some((el) => event2.tags.includes(el))
+      // response.body.data[0].tags.includes(event2.tags[1]) ||
+      //   response.body.data[0].tags.includes(event2.tags[0])
     ).toEqual(true);
-    // console.log(event2.tags[event2.tags.length - 1]);
-    // expect(
-    //   response.body.data[0].tags.includes(event2.tags[event2.tags.length - 1])
-    // ).toEqual(true);
+
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
