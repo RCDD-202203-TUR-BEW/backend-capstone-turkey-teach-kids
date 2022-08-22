@@ -118,22 +118,27 @@ const volunteers = [
   },
 ];
 describe("Testing volunteer for routes doesn't require auth controls", () => {
-  it('GET /api/volunteers/:id should retrieve one volunteer that match the requested id', (done) => {
-    request(app)
-      .get(`/api/volunteers/${volunteers[0]._id}`)
+  it('GET /api/volunteers/:id should retrieve single Volunteeer that match the requested id', async () => {
+    const volunteer = await Volunteer.create(volunteers[0]);
+    const response = await request(app)
+      .get(`/api/volunteers/${volunteer._id}`)
       .expect('Content-Type', /json/)
-      .expect(200, (err, res) => {
-        if (err) {
-          done();
-          return err;
-        }
-        expect(res.body).to.be.an('object');
-        expect(res.body.name).to.equal(volunteers[0].name);
-        done();
-      });
+      .expect(200);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data._id).toEqual(volunteer._id);
+    expect(response.body.data.firstName).toEqual(volunteer.firstName);
+    expect(response.body.data.lastName).toEqual(volunteer.lastName);
+    expect(response.body.data.email).toEqual(volunteer.email);
+    expect(response.body.data.passward).toEqual(volunteer.passward);
+    expect(response.body.data.phone).toEqual(volunteer.phone);
+    expect(response.body.data.cv).toEqual(volunteer.cv);
+    expect(response.body.data.location).toEqual(volunteer.location);
+    expect(response.body.data.description).toEqual(volunteer.description);
+    expect(response.body.data.areaOfExp).toEqual(volunteer.areaOfExp);
+    expect(response.body.data.firstName).toEqual(volunteer.firstName);
+    expect(response.body.data.type).toEqual('Volunteer');
   });
-});
-
+})
 describe('Testing volunteer for routes require auth controls', () => {
   it('GET /api/volunteers/:id/applied-events should retrieve all the applied events of the volunteer', async () => {
     const volunteer = await createVolunteer();
