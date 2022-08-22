@@ -130,3 +130,16 @@ exports.getPendingApplicants = async (req, res, next) => {
   }
   return res.status(200).json({ success: true, data: event.pendingApplicants });
 };
+
+exports.updateEvent = async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+  if (!event) {
+    return next(new ErrorResponse('No event found', 404));
+  }
+  if (event.ngo.toString() !== req.user._id.toString()) {
+    return next(new ErrorResponse('You can only edit your event', 401));
+  }
+  event.set(req.body);
+  await event.save();
+  return res.status(200).json({ success: true, data: event });
+};
