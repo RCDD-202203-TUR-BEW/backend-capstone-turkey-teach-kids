@@ -57,24 +57,6 @@
         }
       }
     },
-    "/api/auth/me": {
-      "get": {
-        "tags": ["Google authentication"],
-        "summary": "responds with a user object as specified in the user schema",
-        "responses": {
-          "200": {
-            "description": "Auth success user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessGoogleUser"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/auth/logout": {
       "get": {
         "tags": ["Google authentication"],
