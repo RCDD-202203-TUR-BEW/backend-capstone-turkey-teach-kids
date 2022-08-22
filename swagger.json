@@ -980,7 +980,7 @@
         }
       }
     },
-    "/api/subscribe": {
+    "/api/newsletter/subscribe": {
       "post": {
         "tags": ["Newsletter Subscription"],
         "summary": "Post a new confirmation email for successful subscription",
