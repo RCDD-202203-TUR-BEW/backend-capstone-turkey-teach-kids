@@ -979,6 +979,46 @@
           }
         }
       }
+    },
+    "/api/newsletter/subscribe": {
+      "post": {
+        "tags": ["Newsletter Subscription"],
+        "summary": "Post a new confirmation email for successful subscription",
+        "operationId": "confirmFeedback",
+        "requestBody": {
+          "description": "Send a confirmation email for subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscribe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSubscribe"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1284,6 +1324,14 @@
           }
         }
       },
+      "Subscribe": {
+        "required": ["email"],
+        "email": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "required": ["success", "error"],
@@ -1461,6 +1509,20 @@
           "data": {
             "type": "object",
             "$ref": "#/components/schemas/NewFeedback"
+          }
+        }
+      },
+      "SuccessSubscribe": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/Subscribe"
           }
         }
       }

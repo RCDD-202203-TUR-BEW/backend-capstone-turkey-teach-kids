@@ -171,10 +171,20 @@ const validateFeedback = [
     .withMessage('Message must be at least 20 characters long'),
 ];
 
+const validateSubscribe = [
+  body('email')
+    .isEmail()
+    .withMessage('not a valid email address')
+    .not()
+    .isEmpty()
+    .withMessage('Email should not be empty'),
+];
+
 module.exports = {
   validateSignup,
   validateSignin,
   validateProfile,
   validateAddEvent,
   validateFeedback,
+  validateSubscribe,
 };

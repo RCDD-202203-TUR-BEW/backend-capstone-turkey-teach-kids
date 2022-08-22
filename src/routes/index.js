@@ -9,6 +9,7 @@ const eventsRoutes = require('./events');
 const ngoRoutes = require('./ngo');
 const volunteersRoutes = require('./volunteers');
 const feedbackRoutes = require('./feedbacks');
+const subscribeRoutes = require('./subscribe');
 
 router.use('/users', usersRoutes);
 router.use('/auth', authRoutes);
@@ -17,3 +18,4 @@ router.use('/profile', profileRoutes);
 router.use('/ngos', ngoRoutes);
 router.use('/volunteers', volunteersRoutes);
 router.use('/feedbacks', feedbackRoutes);
+router.use('/newsletter', subscribeRoutes);
