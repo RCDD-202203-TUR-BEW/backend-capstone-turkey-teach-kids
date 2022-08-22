@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const ngosControllers = require('../controllers/ngosController');
+const ngosControllers = require('../controllers/ngos');
 
 router.get('/', ngosControllers.getNgos);
 
