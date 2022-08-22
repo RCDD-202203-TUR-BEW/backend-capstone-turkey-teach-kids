@@ -12,10 +12,6 @@ exports.getVolunteer = async (req, res, next) => {
     data: volunteer,
   });
 };
-exports.getVolunteers = async (req, res, next) => {
-  const volunteers = await Volunteer.find();
-  return res.status(200).json({ success: true, data: volunteers });
-};
 
 exports.getAppliedEvents = async (req, res, next) => {
   const volunteer = await Volunteer.findById(req.params.id, {
