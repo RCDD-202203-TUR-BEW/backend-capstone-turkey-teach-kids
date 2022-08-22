@@ -11,6 +11,10 @@ const eventSchema = new mongoose.Schema(
       required: true,
       min: [120, 'Description should be longer'],
     },
+    title: {
+      type: String,
+      required: true,
+    },
     location: {
       type: String,
       required: true,

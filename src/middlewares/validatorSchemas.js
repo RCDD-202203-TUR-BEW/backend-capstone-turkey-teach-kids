@@ -134,6 +134,12 @@ const validateAddEvent = [
     .withMessage('Avatar should not be empty')
     .isLength({ min: 120 })
     .withMessage('Description must be at least 120 characters long'),
+  body('title')
+    .not()
+    .isEmpty()
+    .withMessage('title should not be empty')
+    .isLength({ min: 4 })
+    .withMessage('title must be at least 4 characters long'),
   body('location').not().isEmpty().withMessage('Location should not be empty'),
   body('launchDate')
     .not()

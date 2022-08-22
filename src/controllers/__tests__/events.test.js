@@ -29,6 +29,7 @@ const events = [
       'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    title: 'sometitle',
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
@@ -40,6 +41,7 @@ const events = [
       'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    title: 'sometitle2',
     location: 'İstanbul',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
@@ -51,6 +53,7 @@ const events = [
       'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    title: 'sometitle',
     location: 'Antalya',
     launchDate: new Date(),
     ngoId: '62e9008803b4427103cb4462',
@@ -63,6 +66,7 @@ const events = [
       'https://www.estidia.eu/wp-content/uploads/2018/04/free-png-upcoming-events-clipart-icons-for-calendar-of-events-800.png',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    title: 'sometitle',
     location: 'Antalya',
     launchDate: '2022-12-28T21:00:00.000Z',
     ngo: '62f92429222f8c86c4bf2bd7',
@@ -126,6 +130,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.success).toEqual(true);
     expect(response.body.data[0].avatar).toEqual(event.avatar);
     expect(response.body.data[0].description).toEqual(event.description);
+    expect(response.body.data[0].title).toEqual(event.title);
     expect(response.body.data[0].location).toEqual(event.location);
     expect(new Date(response.body.data[0].launchDate)).toEqual(
       event.launchDate
@@ -155,6 +160,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.success).toEqual(true);
     expect(response.body.data.avatar).toEqual(event.avatar);
     expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.title).toEqual(event.title);
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo);
@@ -183,6 +189,7 @@ describe("Testing events for routes doesn't require auth controls", () => {
     expect(response.body.success).toEqual(true);
     expect(response.body.data[0].avatar).toEqual(event2.avatar);
     expect(response.body.data[0].description).toEqual(event2.description);
+    expect(response.body.data[0].title).toEqual(event2.title);
     expect(response.body.data[0].location).toEqual(event2.location);
     expect(new Date(response.body.data[0].launchDate)).toEqual(
       event.launchDate
@@ -267,6 +274,7 @@ describe('Testing events for routes require auth controls', () => {
     expect(response.body.success).toEqual(true);
     expect(response.body.data.avatar).toEqual(event.avatar);
     expect(response.body.data.description).toEqual(event.description);
+    expect(response.body.data.title).toEqual(event.title);
     expect(response.body.data.location).toEqual(event.location);
     expect(new Date(response.body.data.launchDate)).toEqual(event.launchDate);
     expect(response.body.data.ngo).toEqual(event.ngo.toString());
