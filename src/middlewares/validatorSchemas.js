@@ -142,6 +142,12 @@ const validateAddEvent = [
     .isISO8601()
     .toDate()
     .withMessage('Wrong date format'),
+  body('tags')
+    .isArray()
+    .withMessage('tags should be entered as an array')
+    .not()
+    .isEmpty()
+    .withMessage('tags should not be empty'),
 ];
 
 const validateFeedback = [
@@ -165,10 +171,20 @@ const validateFeedback = [
     .withMessage('Message must be at least 20 characters long'),
 ];
 
+const validateSubscribe = [
+  body('email')
+    .isEmail()
+    .withMessage('not a valid email address')
+    .not()
+    .isEmpty()
+    .withMessage('Email should not be empty'),
+];
+
 module.exports = {
   validateSignup,
   validateSignin,
   validateProfile,
   validateAddEvent,
   validateFeedback,
+  validateSubscribe,
 };

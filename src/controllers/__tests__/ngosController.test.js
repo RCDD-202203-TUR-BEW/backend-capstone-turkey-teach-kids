@@ -30,6 +30,7 @@ const events = [
     launchDate: new Date(),
     ngo: '62e9008803b4427103cb4462',
     pendingApplicants: [],
+    tags: ['Turkish', 'Bootcamp'],
   },
   {
     avatar:
@@ -40,6 +41,7 @@ const events = [
     launchDate: new Date(),
     ngo: '62e9008803b4427103cb4462',
     pendingApplicants: [],
+    tags: ['English', 'Bootcamp'],
   },
 ];
 const ngoId = '62e9008803b4427103cb4462';
@@ -123,9 +125,27 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
     const Events = await Event.find({ ngo: ngo._id });
     expect(response.body.data[0].avatar).toEqual(Events[0].avatar);
     expect(response.body.data[1].avatar).toEqual(Events[1].avatar);
-    expect(response.body.data[1].topic).toEqual(Events[1].topic);
+    expect(response.body.data[0].tags[0]).toEqual(Events[0].tags[0]);
+    expect(response.body.data[1].tags[0]).toEqual(Events[1].tags[0]);
     expect(response.body.data[0].description).toEqual(Events[0].description);
     expect(response.body.data[1].description).toEqual(Events[1].description);
+    const responsefilterd = await request(app)
+      .get(`/api/ngos/${ngo._id}/events?tag=${events[0].tags[1]}`)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(responsefilterd.body.success).toEqual(true);
+    const EventsFiltered = await Event.find({ ngo: ngo._id, tags: 'Bootcamp' });
+    expect(responsefilterd.body.data[0].avatar).toEqual(
+      EventsFiltered[0].avatar
+    );
+    expect(
+      responsefilterd.body.data[0].tags.some((el) =>
+        EventsFiltered[0].tags.includes(el)
+      )
+    ).toEqual(true);
+    expect(responsefilterd.body.data[0].description).toEqual(
+      EventsFiltered[0].description
+    );
   });
   it('GET /api/ngos/:id/events should give error message if the Ngo was not found ', async () => {
     const response = await request(app)

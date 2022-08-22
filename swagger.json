@@ -804,6 +804,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "a tag keyword to query in the tags of all the events published by specific NGO",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -979,6 +988,46 @@
           }
         }
       }
+    },
+    "/api/newsletter/subscribe": {
+      "post": {
+        "tags": ["Newsletter Subscription"],
+        "summary": "Post a new confirmation email for successful subscription",
+        "operationId": "confirmFeedback",
+        "requestBody": {
+          "description": "Send a confirmation email for subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscribe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSubscribe"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1093,13 +1142,7 @@
       },
       "Event": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "_id": {
             "type": "string",
@@ -1138,20 +1181,14 @@
               "type": "ObjectId"
             }
           },
-          "topic": {
-            "type": "string"
+          "tags": {
+            "type": ["string"]
           }
         }
       },
       "NewEvent": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "avatar": {
             "type": "string",
@@ -1169,9 +1206,9 @@
             "type": "date",
             "example": "2022-12-28T21:00:00.000Z"
           },
-          "topic": {
-            "type": "string",
-            "example": "Maths"
+          "tags": {
+            "type": ["string"],
+            "example": ["Maths", "Bootcamp"]
           }
         }
       },
@@ -1293,6 +1330,14 @@
           "areaOfExp": {
             "type": "array",
             "default": []
+          }
+        }
+      },
+      "Subscribe": {
+        "required": ["email"],
+        "email": {
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -1473,6 +1518,20 @@
           "data": {
             "type": "object",
             "$ref": "#/components/schemas/NewFeedback"
+          }
+        }
+      },
+      "SuccessSubscribe": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/Subscribe"
           }
         }
       }

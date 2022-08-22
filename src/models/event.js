@@ -41,6 +41,10 @@ const eventSchema = new mongoose.Schema(
         ref: 'Volunteer',
       },
     ],
+    tags: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
