@@ -19,13 +19,16 @@ exports.getNgos = async (req, res, next) => {
 };
 exports.getNgoEvents = async (req, res, next) => {
   const ngo = await Ngo.findById(req.params.id);
-
+  const { tag } = req.query;
   if (!ngo) {
     return next(
       new ErrorResponse('This Id dose not match any registered NGO ', 404)
     );
   }
-
-  const events = await Event.find({ ngo: req.params.id });
+  const query = { ngo: req.params.id };
+  if (tag) {
+    query.tags = tag;
+  }
+  const events = await Event.find(query);
   return res.status(200).json({ success: true, data: events });
 };

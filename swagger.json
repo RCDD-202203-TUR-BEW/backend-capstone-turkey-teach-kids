@@ -804,6 +804,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "tag",
+            "in": "path",
+            "description": "a tag keyword to query in the tags of all the events published by specific NGO",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
