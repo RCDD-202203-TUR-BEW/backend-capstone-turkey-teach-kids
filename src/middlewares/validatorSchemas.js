@@ -150,6 +150,41 @@ const validateAddEvent = [
     .withMessage('tags should not be empty'),
 ];
 
+const validateUpdateEvent = [
+  body('avatar')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .optional(),
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .isLength({ min: 120 })
+    .withMessage('Description must be at least 120 characters long')
+    .optional(),
+  body('location')
+    .not()
+    .isEmpty()
+    .withMessage('Location should not be empty')
+    .optional(),
+  body('launchDate')
+    .not()
+    .isEmpty()
+    .withMessage('Date should not be empty')
+    .isISO8601()
+    .toDate()
+    .withMessage('Wrong date format')
+    .optional(),
+  body('tags')
+    .isArray()
+    .withMessage('tags should be entered as an array')
+    .not()
+    .isEmpty()
+    .withMessage('tags should not be empty')
+    .optional(),
+];
+
 const validateFeedback = [
   body('fullName')
     .not()
@@ -187,4 +222,5 @@ module.exports = {
   validateAddEvent,
   validateFeedback,
   validateSubscribe,
+  validateUpdateEvent,
 };

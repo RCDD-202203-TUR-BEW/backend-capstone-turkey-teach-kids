@@ -463,4 +463,25 @@ describe('Testing events for routes require auth controls', () => {
       error: 'This Volunteer did not apply for this event',
     });
   });
+
+  it('PATCH /events/:id should update the event', async () => {
+    const ngo = await createNgo();
+    const ngoCookie = createToken(ngo);
+    events[0].ngo = ngo._id;
+    const event = await createEvent(events[0]);
+    ngo.publishedEvents.push(event._id);
+    await ngo.save();
+    const response = await request(app)
+      .patch(`/api/events/${event._id}`)
+      .set('Cookie', ngoCookie)
+      .send(events[1]);
+    expect(response.body.success).toEqual(true);
+    expect(response.body.data.avatar).toEqual(events[1].avatar);
+    expect(response.body.data.description).toEqual(events[1].description);
+    expect(response.body.data.location).toEqual(events[1].location);
+    expect(new Date(response.body.data.launchDate)).toEqual(
+      events[1].launchDate
+    );
+    expect(response.body.data.tags).toEqual(events[1].tags);
+  });
 });

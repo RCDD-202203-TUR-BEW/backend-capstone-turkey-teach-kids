@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const { validate } = require('../middlewares/bodyValidator');
 const eventsControllers = require('../controllers/events');
-const { validateAddEvent } = require('../middlewares/validatorSchemas');
+const {
+  validateAddEvent,
+  validateUpdateEvent,
+} = require('../middlewares/validatorSchemas');
 const { isAuth, isNgo, isVolunteer } = require('../middlewares/auth');
 
 router.get('/', eventsControllers.getEvents);
@@ -29,6 +32,13 @@ router.get(
   isAuth,
   isNgo,
   eventsControllers.getPendingApplicants
+);
+router.patch(
+  '/:id',
+  isAuth,
+  isNgo,
+  validateUpdateEvent,
+  eventsControllers.updateEvent
 );
 
 module.exports = router;
