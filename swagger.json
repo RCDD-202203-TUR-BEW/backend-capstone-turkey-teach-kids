@@ -804,53 +804,12 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Single or multiple events success response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessNgoEvents"
-                }
-              }
-            }
           },
-          "404": {
-            "description": "No NGO Or Event can be found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ngos/{id}/events/filter": {
-      "get": {
-        "tags": ["Events", "NGOs"],
-        "description": "filters all the events published by NGO with respect to a tag query",
-        "operationId": "get  filtered Events with respect to tag",
-        "parameters": [
           {
-            "name": "id",
+            "name": "tag",
             "in": "path",
-            "description": "ID of NGO to fetch their events",
-            "required": true,
+            "description": "a tag keyword to query in the tags of all the events published by specific NGO",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -862,7 +821,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessFilteredNgoEvents"
+                  "$ref": "#/components/schemas/SuccessNgoEvents"
                 }
               }
             }
@@ -1403,20 +1362,6 @@
         }
       },
       "SuccessNgoEvents": {
-        "type": "object",
-        "required": ["success", "data"],
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "default": true
-          },
-          "data": {
-            "type": "array",
-            "$ref": "#/components/schemas/Event"
-          }
-        }
-      },
-      "SuccessFilteredNgoEvents": {
         "type": "object",
         "required": ["success", "data"],
         "properties": {

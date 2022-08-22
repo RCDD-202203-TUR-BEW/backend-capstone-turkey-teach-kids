@@ -129,6 +129,23 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
     expect(response.body.data[1].tags[0]).toEqual(Events[1].tags[0]);
     expect(response.body.data[0].description).toEqual(Events[0].description);
     expect(response.body.data[1].description).toEqual(Events[1].description);
+    const responsefilterd = await request(app)
+      .get(`/api/ngos/${ngo._id}/events?tag=${events[0].tags[1]}`)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(responsefilterd.body.success).toEqual(true);
+    const EventsFiltered = await Event.find({ ngo: ngo._id, tags: 'Bootcamp' });
+    expect(responsefilterd.body.data[0].avatar).toEqual(
+      EventsFiltered[0].avatar
+    );
+    expect(
+      responsefilterd.body.data[0].tags.some((el) =>
+        EventsFiltered[0].tags.includes(el)
+      )
+    ).toEqual(true);
+    expect(responsefilterd.body.data[0].description).toEqual(
+      EventsFiltered[0].description
+    );
   });
   it('GET /api/ngos/:id/events should give error message if the Ngo was not found ', async () => {
     const response = await request(app)
@@ -152,44 +169,5 @@ describe("Testing Ngos for routes doesn't require auth controls", () => {
       data: [],
       success: true,
     });
-  });
-  it('GET /api/ngos/:id/events/filter should retrieve events filtered by tags that are published by the specified NGO', async () => {
-    const ngo = await Ngo.create(mNgos[0]);
-
-    const mEvent1 = await Event.create(events[0]);
-    const mEvent2 = await Event.create(events[1]);
-
-    await Ngo.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(ngo._id) },
-
-      { $push: { publishedEvents: mEvent1._id } }
-    );
-    await Ngo.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(ngo._id) },
-
-      { $push: { publishedEvents: mEvent2._id } }
-    );
-    await Event.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(mEvent1._id) },
-
-      { ngo: ngo._id }
-    );
-    await Event.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(mEvent2._id) },
-
-      { ngo: ngo._id }
-    );
-
-    const response = await request(app)
-      .get(`/api/ngos/${ngo._id}/events/filter?tag=Bootcamp`)
-      .expect('Content-Type', /json/)
-      .expect(200);
-    expect(response.body.success).toEqual(true);
-    const Events = await Event.find({ ngo: ngo._id, tags: 'Bootcamp' });
-    expect(response.body.data[0].avatar).toEqual(Events[0].avatar);
-    expect(
-      response.body.data[0].tags.some((el) => Events[0].tags.includes(el))
-    ).toEqual(true);
-    expect(response.body.data[0].description).toEqual(Events[0].description);
   });
 });
