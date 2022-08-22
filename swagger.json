@@ -396,7 +396,7 @@
         }
       }
     },
-    "/api/eventss/{id}": {
+    "/api/events/{id}": {
       "get": {
         "tags": ["Events"],
         "description": "Retrieve single event item based on the id",
@@ -470,6 +470,62 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Events"],
+        "summary": "Update an event",
+        "description": "Update an event",
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "ID of event to update",
+            "required": true,
+            "type": "ObjectId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of success",
+                  "example": "updated event successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message of error",
+                  "example": "incorrect credentials"
+                },
+                "400": {
+                  "description": "bad request",
+                  "example": "bad request"
                 }
               }
             }
@@ -804,6 +860,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "a tag keyword to query in the tags of all the events published by specific NGO",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -979,6 +1044,46 @@
           }
         }
       }
+    },
+    "/api/newsletter/subscribe": {
+      "post": {
+        "tags": ["Newsletter Subscription"],
+        "summary": "Post a new confirmation email for successful subscription",
+        "operationId": "confirmFeedback",
+        "requestBody": {
+          "description": "Send a confirmation email for subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscribe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSubscribe"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1093,14 +1198,7 @@
       },
       "Event": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "title",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "_id": {
             "type": "string",
@@ -1111,9 +1209,6 @@
           },
           "description": {
             "type": "string"
-          },
-          "title": {
-            "type": "tring"
           },
           "location": {
             "type": "string"
@@ -1142,21 +1237,14 @@
               "type": "ObjectId"
             }
           },
-          "topic": {
-            "type": "string"
+          "tags": {
+            "type": ["string"]
           }
         }
       },
       "NewEvent": {
         "type": "object",
-        "required": [
-          "avatar",
-          "description",
-          "title",
-          "location",
-          "launchDate",
-          "topic"
-        ],
+        "required": ["avatar", "description", "location", "launchDate", "tags"],
         "properties": {
           "avatar": {
             "type": "string",
@@ -1166,10 +1254,6 @@
             "type": "string",
             "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
-          "title": {
-            "type": "string",
-            "example": "sometite"
-          },
           "location": {
             "type": "string",
             "example": "Antalya"
@@ -1178,9 +1262,9 @@
             "type": "date",
             "example": "2022-12-28T21:00:00.000Z"
           },
-          "topic": {
-            "type": "string",
-            "example": "Maths"
+          "tags": {
+            "type": ["string"],
+            "example": ["Maths", "Bootcamp"]
           }
         }
       },
@@ -1302,6 +1386,14 @@
           "areaOfExp": {
             "type": "array",
             "default": []
+          }
+        }
+      },
+      "Subscribe": {
+        "required": ["email"],
+        "email": {
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -1482,6 +1574,20 @@
           "data": {
             "type": "object",
             "$ref": "#/components/schemas/NewFeedback"
+          }
+        }
+      },
+      "SuccessSubscribe": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": true
+          },
+          "data": {
+            "type": "object",
+            "$ref": "#/components/schemas/Subscribe"
           }
         }
       }
