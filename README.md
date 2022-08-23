@@ -27,17 +27,27 @@ On this website, you can find a platform for both volunteers and NGOs to sign in
 
 ## Features
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
+- List events
+- List NGOs
+- List Volunteers
+- CRUD operations for events
+- CRUD operations for NGOs
+- CRUD operations for volunteers
+- Filter users by type
+- Filter events by tags
+- Apply events 
+- Approve / decline volunteers
+- Register/Login
+  - Allow Google, Classic
+- Middleware for NGOs, volunteers
+- Contact us 
+- Subscribe for newsletter
 
 ## Built With
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
+- ![NodeJs](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+- ![Mongo](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+- ![express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 
 ## Demo
 
