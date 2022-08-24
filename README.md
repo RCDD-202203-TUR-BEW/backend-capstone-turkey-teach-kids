@@ -79,7 +79,7 @@ On this website, you can find a platform for both volunteers and NGOs to sign in
 ## Screenshots
 
 #### Database Diagram
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2Fhu2oVZwkmycLuqlkBqN92Y%2FDatabase-(Copy)%3Fnode-id%3D0%253A1" allowfullscreen></iframe>
+<div><iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2Fhu2oVZwkmycLuqlkBqN92Y%2FDatabase-(Copy)%3Fnode-id%3D0%253A1" allowfullscreen></iframe></div>
 
 #### System Design Flowchart
 ![System Design Flowchart](https://i.ibb.co/wgfS90j/system.png)
