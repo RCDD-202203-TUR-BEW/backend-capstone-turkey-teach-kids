@@ -127,7 +127,12 @@ const validateProfile = [
 ];
 
 const validateAddEvent = [
-  body('avatar').not().isEmpty().withMessage('Avatar should not be empty'),
+  body('avatar')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .custom((value) => !/\s/.test(value))
+    .withMessage('Avatar should not include spaces'),
   body('description')
     .not()
     .isEmpty()

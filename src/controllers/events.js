@@ -55,7 +55,10 @@ exports.deleteEvent = async (req, res, next) => {
 exports.addEvent = async (req, res, next) => {
   // Create new event
   req.body.ngo = req.user._id;
-  const newEvent = await Event.create(req.body);
+  const newEvent = await Event.create({
+    avatar: req.files ? req.files[0].path : req.body.avatar,
+    ...req.body,
+  });
   //  Add event to the ngo
   await Ngo.updateOne(
     { _id: req.user._id },
@@ -139,7 +142,10 @@ exports.updateEvent = async (req, res, next) => {
   if (event.ngo.toString() !== req.user._id.toString()) {
     return next(new ErrorResponse('You can only edit your event', 401));
   }
-  event.set(req.body);
+  event.set({
+    avatar: req.files ? req.files[0].path : req.body.avatar,
+    ...req.body,
+  });
   await event.save();
   return res.status(200).json({ success: true, data: event });
 };

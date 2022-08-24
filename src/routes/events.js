@@ -6,6 +6,7 @@ const {
   validateUpdateEvent,
 } = require('../middlewares/validatorSchemas');
 const { isAuth, isNgo, isVolunteer } = require('../middlewares/auth');
+const uploadHandler = require('../middlewares/google-upload');
 
 router.get('/', eventsControllers.getEvents);
 router.get('/:id', eventsControllers.getEvent);
@@ -16,6 +17,7 @@ router.post(
   isNgo,
   validateAddEvent,
   validate,
+  uploadHandler.any('avatar'),
   eventsControllers.addEvent
 );
 router.post('/:id/apply', isAuth, isVolunteer, eventsControllers.applyToEvent);
@@ -38,6 +40,7 @@ router.patch(
   isAuth,
   isNgo,
   validateUpdateEvent,
+  uploadHandler.any('avatar'),
   eventsControllers.updateEvent
 );
 
