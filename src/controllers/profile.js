@@ -30,12 +30,14 @@ exports.updateProfile = async (req, res, next) => {
     { _id: req.user._id, type: req.user.type },
     {
       $set: {
-        avatar: req.files ? req.files[0].path : req.body.avatar,
         ...req.body,
+        avatar: req.files ? req.files.avatar?.[0].path : req.body.avatar,
+        cv: req.files ? req.files.cv?.[0].path : req.body.cv,
       },
     },
     { new: true }
   );
+  console.log(req.files);
   return res.status(200).json({
     success: true,
     data: user,

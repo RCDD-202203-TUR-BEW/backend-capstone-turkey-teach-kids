@@ -7,6 +7,8 @@ const uploadHandler = multer({
     bucket: process.env.GOOGLE_CLOUD_STORAGE_BUCKET,
     projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
     keyFilename: process.env.GOOGLE_CLOUD_KEYFILE,
+    clientEmail: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+    privateKey: process.env.GOOGLE_CLOUD_PRIVATE_KEY,
     filename: (req, file, cb) => {
       cb(null, `${uuidv4()}.${file.mimetype.split('/')[1]}`);
     },
@@ -15,7 +17,8 @@ const uploadHandler = multer({
     if (
       file.mimetype === 'image/jpeg' ||
       file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg'
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'application/pdf'
     ) {
       cb(null, true);
     } else {

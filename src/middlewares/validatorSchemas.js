@@ -124,6 +124,15 @@ const validateProfile = [
     .withMessage('Avatar should not be empty')
     .custom((value) => !/\s/.test(value))
     .withMessage('Avatar should not include spaces'),
+  body('bio')
+    .optional()
+    .isLength({ min: 4 })
+    .withMessage('Bio must be at least 4 characters long')
+    .not()
+    .isEmpty()
+    .withMessage('Bio should not be empty')
+    .isLength({ max: 120 })
+    .withMessage('Bio must be at most 120 characters long'),
 ];
 
 const validateAddEvent = [
