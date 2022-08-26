@@ -11,15 +11,15 @@ const {
 } = require('../middlewares/validatorSchemas');
 
 require('../middlewares/passport');
-// It handle redirecting the user to google OAuth consent page.
 
-router.get(
-  '/google',
+// It handle redirecting the user to google OAuth consent page.
+router.get('/google', (req, res) => {
   passport.authenticate('google', {
     session: false,
     scope: ['profile', 'email', 'openid'],
-  })
-);
+    state: req.query.type,
+  })(req, res);
+});
 // It  sets an authentication cookie that holds the user JWT.
 router.get(
   '/google/callback',

@@ -102,7 +102,6 @@ if (you have brew installed){
   } else {
     download the installer from the offical website => https://git-scm.com/downloads
   }
-}
 ```
 
 - node
@@ -113,7 +112,6 @@ if (you have brew installed){
   } else {
     download the installer from the offical website => https://nodejs.org/en/
   }
-}
 ```
 
 What is brew? (See: [Homebrew Package Manager](https://brew.sh/index_tr))
