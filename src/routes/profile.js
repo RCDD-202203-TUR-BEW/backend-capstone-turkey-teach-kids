@@ -4,7 +4,7 @@ const { validate } = require('../middlewares/bodyValidator');
 const { isAuth } = require('../middlewares/auth');
 const { validateProfile } = require('../middlewares/validatorSchemas');
 const profileController = require('../controllers/profile');
-const uploadHandler = require('../middlewares/google-upload');
+const { upload } = require('../middlewares/google-upload');
 
 router.get('/', isAuth, profileController.getProfile);
 router.patch(
@@ -12,7 +12,7 @@ router.patch(
   isAuth,
   validateProfile,
   validate,
-  uploadHandler.any('avatar'),
+  upload,
   profileController.updateProfile
 );
 

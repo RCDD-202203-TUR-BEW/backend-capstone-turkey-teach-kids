@@ -29,10 +29,7 @@ exports.updateProfile = async (req, res, next) => {
   const user = await User.findOneAndUpdate(
     { _id: req.user._id, type: req.user.type },
     {
-      $set: {
-        avatar: req.files ? req.files[0].path : req.body.avatar,
-        ...req.body,
-      },
+      $set: req.body,
     },
     { new: true }
   );

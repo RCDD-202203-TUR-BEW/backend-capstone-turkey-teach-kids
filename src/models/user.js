@@ -32,6 +32,12 @@ const baseSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    location: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   {
@@ -54,12 +60,6 @@ const volunteerSchema = new mongoose.Schema(
       type: String,
     },
     lastName: {
-      type: String,
-    },
-    location: {
-      type: String,
-    },
-    description: {
       type: String,
     },
     cv: {
@@ -96,6 +96,9 @@ const ngoSchema = new mongoose.Schema(
         ref: 'Event',
       },
     ],
+    bio: {
+      type: String,
+    },
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   { ...options }
