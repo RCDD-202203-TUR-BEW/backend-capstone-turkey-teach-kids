@@ -1,5 +1,6 @@
 const ErrorResponse = require('../utils/errorResponse');
 const { User } = require('../models/user');
+const { uploadFileToGCS } = require('../services/google-cloud');
 
 exports.getProfile = async (req, res, next) => {
   const user = await User.findOne(
@@ -14,6 +15,12 @@ exports.getProfile = async (req, res, next) => {
 };
 
 exports.updateProfile = async (req, res, next) => {
+  const avatarPath = await uploadFileToGCS(req.files.avatar?.[0]);
+  req.body.avatar = avatarPath;
+
+  const cvPath = await uploadFileToGCS(req.files.cv?.[0]);
+  req.body.cv = cvPath;
+
   if ('email' in req.body) {
     const checkMail = await User.find({ email: req.body.email });
     if (checkMail.length > 0) {
@@ -29,10 +36,7 @@ exports.updateProfile = async (req, res, next) => {
   const user = await User.findOneAndUpdate(
     { _id: req.user._id, type: req.user.type },
     {
-      $set: {
-        avatar: req.files ? req.files[0].path : req.body.avatar,
-        ...req.body,
-      },
+      $set: req.body,
     },
     { new: true }
   );

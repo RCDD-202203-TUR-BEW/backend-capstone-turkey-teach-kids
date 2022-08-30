@@ -90,15 +90,6 @@ const validateProfile = [
     .withMessage('Location should not be empty')
     .custom((value) => !/\s/.test(value))
     .withMessage('Location should not include spaces'),
-  body('cv')
-    .optional()
-    .isLength({ min: 4 })
-    .withMessage('CV must be at least 4 characters long')
-    .not()
-    .isEmpty()
-    .withMessage('CV should not be empty')
-    .custom((value) => !/\s/.test(value))
-    .withMessage('CV should not include spaces'),
   body('description')
     .optional()
     .isLength({ min: 4 })
@@ -115,15 +106,13 @@ const validateProfile = [
     .not()
     .isEmpty()
     .withMessage('Area of exp should not be empty'),
-  body('avatar')
+  body('bio')
     .optional()
     .isLength({ min: 4 })
-    .withMessage('Avatar must be at least 4 characters long')
+    .withMessage('Bio must be at least 4 characters long')
     .not()
     .isEmpty()
-    .withMessage('Avatar should not be empty')
-    .custom((value) => !/\s/.test(value))
-    .withMessage('Avatar should not include spaces'),
+    .withMessage('Bio should not be empty'),
 ];
 
 const validateAddEvent = [
