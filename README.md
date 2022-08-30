@@ -79,10 +79,20 @@ On this website, you can find a platform for both volunteers and NGOs to sign in
 ## Screenshots
 
 #### Database Diagram
-![Database Diagram](https://i.ibb.co/KWh2bKy/database.png)
+![capture 7](https://user-images.githubusercontent.com/102862314/187435460-ba04961c-ffda-479e-8366-992de12d114e.PNG)
+
 
 #### System Design Flowchart
-![System Design Flowchart](https://i.ibb.co/wgfS90j/system.png)
+![Capture1](https://user-images.githubusercontent.com/102862314/187435534-a9b0fbd6-daa8-41a1-be36-ad26bcfe25ac.PNG)
+![capture 2](https://user-images.githubusercontent.com/102862314/187436330-7948f74e-060a-4ee6-a97f-4983d340489a.PNG)
+
+![capture 3](https://user-images.githubusercontent.com/102862314/187435659-3653dcb8-e6ec-4701-a2dd-6eaddd00dc52.PNG)
+![capture 4](https://user-images.githubusercontent.com/102862314/187435677-8721ac6a-7b81-4c54-972b-917ac8cba4e4.PNG)
+![capture 5](https://user-images.githubusercontent.com/102862314/187435682-0e7f2dc3-3bc3-4112-949e-fe9b3773207f.PNG)
+![capture 6](https://user-images.githubusercontent.com/102862314/187435717-d43e1849-1108-41e5-9dd7-db9ecbbaa3ec.PNG)
+
+
+
 
 #### OpenAPI Docs
 ![OpenAPI Docs](https://i.ibb.co/6BBm6Qx/swagger.png)
