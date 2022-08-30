@@ -105,6 +105,12 @@ exports.approveApplicant = async (req, res, next) => {
       $push: { approvedApplicants: applicant._id },
     }
   );
+  await Volunteer.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(req.params.userId) },
+    {
+      $push: { appliedEvents: event._id },
+    }
+  );
 
   const updatedEvent = await Event.findById(req.params.id);
 
