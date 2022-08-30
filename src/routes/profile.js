@@ -12,7 +12,10 @@ router.patch(
   isAuth,
   validateProfile,
   validate,
-  upload,
+  upload.fields([
+    { name: 'avatar', maxCount: 1 },
+    { name: 'cv', maxCount: 1 },
+  ]),
   profileController.updateProfile
 );
 
