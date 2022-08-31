@@ -61,7 +61,7 @@ exports.addEvent = async (req, res, next) => {
   const avatarPath = await uploadFileToGCS(req.files.avatar?.[0]);
   req.body.avatar = avatarPath;
   console.log(req.body);
-  const newEvent = await Event.create({ ...req.body });
+  const newEvent = await Event.create(...req.body);
   //  Add event to the ngo
   await Ngo.updateOne(
     { _id: req.user._id },
