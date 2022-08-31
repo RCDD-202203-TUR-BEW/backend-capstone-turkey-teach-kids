@@ -18,7 +18,11 @@ connectToMongo();
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://3000-recodedorg-teachkidscap-3lpmv1hggzp.ws-eu63.gitpod.io',
+  'https://reach-teach-kids.netlify.app',
+];
 
 const corsOptions = {
   credentials: true,

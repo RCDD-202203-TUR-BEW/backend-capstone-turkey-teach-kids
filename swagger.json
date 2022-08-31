@@ -25,6 +25,18 @@
       "get": {
         "tags": ["Google authentication"],
         "summary": "redirect the user to google OAuth consent page",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type of user",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["volunteer", "ngo"]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Redirect success",
