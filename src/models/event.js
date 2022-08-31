@@ -4,7 +4,6 @@ const eventSchema = new mongoose.Schema(
   {
     avatar: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
