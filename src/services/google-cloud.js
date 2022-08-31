@@ -2,6 +2,7 @@ const { Storage } = require('@google-cloud/storage');
 const { v4: uuidv4 } = require('uuid');
 
 console.log(process.env.GOOGLE_CLOUD_PRIVATE_KEY);
+console.log(JSON.parse(process.env.GOOGLE_CLOUD_PRIVATE_KEY || '{}')?.key);
 
 const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
