@@ -54,14 +54,11 @@ exports.deleteEvent = async (req, res, next) => {
 };
 
 exports.addEvent = async (req, res, next) => {
-  console.log(req.files);
   // Create new event
   req.body.ngo = req.user._id;
-  console.log(req.files);
-  const avatarPath = await uploadFileToGCS(req.files.avatar?.[0]);
+  const avatarPath = await uploadFileToGCS(req.files?.avatar?.[0]);
   req.body.avatar = avatarPath;
-  console.log(req.body);
-  const newEvent = await Event.create(...req.body);
+  const newEvent = await Event.create(req.body);
   //  Add event to the ngo
   await Ngo.updateOne(
     { _id: req.user._id },
@@ -151,7 +148,7 @@ exports.updateEvent = async (req, res, next) => {
   if (event.ngo.toString() !== req.user._id.toString()) {
     return next(new ErrorResponse('You can only edit your event', 401));
   }
-  const avatarPath = await uploadFileToGCS(req.files.avatar?.[0]);
+  const avatarPath = await uploadFileToGCS(req.files?.avatar?.[0]);
   req.body.avatar = avatarPath;
   event.set(
     {
