@@ -1,6 +1,8 @@
 const { Storage } = require('@google-cloud/storage');
 const { v4: uuidv4 } = require('uuid');
 
+console.log(process.env.GOOGLE_CLOUD_PRIVATE_KEY);
+
 const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
   credentials: {
