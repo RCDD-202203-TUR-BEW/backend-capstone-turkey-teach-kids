@@ -4,6 +4,7 @@ const Event = require('../models/event');
 const { Ngo, Volunteer } = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 const { User } = require('../models/user');
+const { uploadFileToGCS } = require('../services/google-cloud');
 
 exports.getEvents = async (req, res) => {
   const events = await Event.find()
@@ -55,6 +56,8 @@ exports.deleteEvent = async (req, res, next) => {
 exports.addEvent = async (req, res, next) => {
   // Create new event
   req.body.ngo = req.user._id;
+  const avatarPath = await uploadFileToGCS(req.files?.avatar?.[0]);
+  req.body.avatar = avatarPath;
   const newEvent = await Event.create(req.body);
   //  Add event to the ngo
   await Ngo.updateOne(
@@ -145,7 +148,14 @@ exports.updateEvent = async (req, res, next) => {
   if (event.ngo.toString() !== req.user._id.toString()) {
     return next(new ErrorResponse('You can only edit your event', 401));
   }
-  event.set(req.body);
+  const avatarPath = await uploadFileToGCS(req.files?.avatar?.[0]);
+  req.body.avatar = avatarPath;
+  event.set(
+    {
+      ...req.body,
+    },
+    { new: true }
+  );
   await event.save();
   return res.status(200).json({ success: true, data: event });
 };

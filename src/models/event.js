@@ -4,24 +4,19 @@ const eventSchema = new mongoose.Schema(
   {
     avatar: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
-      required: true,
       min: [120, 'Description should be longer'],
     },
     title: {
       type: String,
-      required: true,
     },
     location: {
       type: String,
-      required: true,
     },
     launchDate: {
       type: Date,
-      required: true,
     },
     ngo: {
       type: mongoose.Schema.Types.ObjectId,

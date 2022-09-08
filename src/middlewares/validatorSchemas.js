@@ -116,33 +116,47 @@ const validateProfile = [
 ];
 
 const validateAddEvent = [
-  body('avatar').not().isEmpty().withMessage('Avatar should not be empty'),
+  body('avatar')
+    .not()
+    .isEmpty()
+    .withMessage('Avatar should not be empty')
+    .custom((value) => !/\s/.test(value))
+    .withMessage('Avatar should not include spaces')
+    .optional(),
   body('description')
     .not()
     .isEmpty()
     .withMessage('Avatar should not be empty')
     .isLength({ min: 120 })
-    .withMessage('Description must be at least 120 characters long'),
+    .withMessage('Description must be at least 120 characters long')
+    .optional(),
   body('title')
     .not()
     .isEmpty()
     .withMessage('title should not be empty')
     .isLength({ min: 4 })
-    .withMessage('title must be at least 4 characters long'),
-  body('location').not().isEmpty().withMessage('Location should not be empty'),
+    .withMessage('title must be at least 4 characters long')
+    .optional(),
+  body('location')
+    .not()
+    .isEmpty()
+    .withMessage('Location should not be empty')
+    .optional(),
   body('launchDate')
     .not()
     .isEmpty()
     .withMessage('Date should not be empty')
     .isISO8601()
     .toDate()
-    .withMessage('Wrong date format'),
+    .withMessage('Wrong date format')
+    .optional(),
   body('tags')
     .isArray()
     .withMessage('tags should be entered as an array')
     .not()
     .isEmpty()
-    .withMessage('tags should not be empty'),
+    .withMessage('tags should not be empty')
+    .optional(),
 ];
 
 const validateUpdateEvent = [
